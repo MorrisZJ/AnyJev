@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "anyjev"
-version = "0.0.1"
+version = "0.0.2"
 description = "Turn any LLM into a Jev-style decision model: typed decisions with calibrated probabilities, training-free by default. Not affiliated with TypeSafe AI."
 readme = "README.md"
 license = "Apache-2.0"
