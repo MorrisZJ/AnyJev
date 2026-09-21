@@ -1,0 +1,5 @@
+anyjev>=0.0.1
+gradio>=4.0
+torch>=2.3
+transformers>=4.51
+accelerate

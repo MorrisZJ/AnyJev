@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anyjev"
+version = "0.0.1"
+description = "Turn any LLM into a Jev-style decision model: typed decisions with calibrated probabilities, training-free by default. Not affiliated with TypeSafe AI."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Jiamu (Morris) Zhang" }]
+keywords = ["llm", "decision", "calibration", "jev", "system-one"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+hf = ["torch>=2.3", "transformers>=4.45"]
+bench = ["datasets>=2.20", "scikit-learn>=1.4"]
+dev = ["pytest>=8", "ruff"]
+
+[project.urls]
+Homepage = "https://github.com/MorrisZJ/AnyJev"
+Repository = "https://github.com/MorrisZJ/AnyJev"
+Changelog = "https://github.com/MorrisZJ/AnyJev/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+include = ["anyjev*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E731"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

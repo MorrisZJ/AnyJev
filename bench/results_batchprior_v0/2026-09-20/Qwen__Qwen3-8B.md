@@ -1,0 +1,20 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| Qwen/Qwen3-8B | banking20 | 20 | raw | 0.750 | 0.751 | 0.490 | 0.235 | 0.227 | 0.077 |
+| Qwen/Qwen3-8B | banking20 | 20 | L0-perm | 0.800 | 0.806 | 0.382 | 0.189 | 0.077 | 0.337 |
+| Qwen/Qwen3-8B | banking20 | 20 | L0-perm+cf | 0.803 | 0.811 | 0.383 | 0.185 | 0.080 | 0.167 |
+| Qwen/Qwen3-8B | banking20 | 20 | L0-bc | 0.753 | 0.753 | 0.485 | 0.234 | 0.220 | 0.437 |
+| Qwen/Qwen3-8B | banking20 | 20 | L0 | 0.807 | 0.813 | 0.373 | 0.180 | 0.077 | 0.477 |
+| Qwen/Qwen3-8B | banking20 | 20 | L1 | 0.807 | 0.813 | 0.315 | 0.100 | 0.077 | 0.543 |
+| Qwen/Qwen3-8B | injection | 2 | raw | 0.693 | 0.598 | 0.577 | 0.287 | 0.060 | 0.297 |
+| Qwen/Qwen3-8B | injection | 2 | L0-perm | 0.670 | 0.550 | 0.624 | 0.311 | 0.000 | 0.303 |
+| Qwen/Qwen3-8B | injection | 2 | L0-perm+cf | 0.813 | 0.811 | 0.331 | 0.140 | 0.000 | 0.460 |
+| Qwen/Qwen3-8B | injection | 2 | L0-bc | 0.730 | 0.661 | 0.521 | 0.250 | 0.057 | 0.013 |
+| Qwen/Qwen3-8B | injection | 2 | L0 | 0.710 | 0.625 | 0.568 | 0.272 | 0.000 | 0.160 |
+| Qwen/Qwen3-8B | injection | 2 | L1 | 0.707 | 0.619 | 0.384 | 0.162 | 0.000 | 0.303 |
+| Qwen/Qwen3-8B | newsgroups | 20 | raw | 0.640 | 0.646 | 0.683 | 0.331 | 0.237 | 0.013 |
+| Qwen/Qwen3-8B | newsgroups | 20 | L0-perm | 0.657 | 0.669 | 0.641 | 0.315 | 0.177 | 0.347 |
+| Qwen/Qwen3-8B | newsgroups | 20 | L0-perm+cf | 0.653 | 0.666 | 0.642 | 0.317 | 0.173 | 0.347 |
+| Qwen/Qwen3-8B | newsgroups | 20 | L0-bc | 0.640 | 0.646 | 0.675 | 0.332 | 0.220 | 0.220 |
+| Qwen/Qwen3-8B | newsgroups | 20 | L0 | 0.660 | 0.674 | 0.632 | 0.308 | 0.173 | 0.427 |
+| Qwen/Qwen3-8B | newsgroups | 20 | L1 | 0.660 | 0.674 | 0.479 | 0.157 | 0.170 | 0.417 |

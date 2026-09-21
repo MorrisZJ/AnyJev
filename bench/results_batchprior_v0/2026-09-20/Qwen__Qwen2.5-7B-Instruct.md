@@ -1,0 +1,20 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | raw | 0.723 | 0.738 | 0.500 | 0.236 | 0.197 | 0.187 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0-perm | 0.750 | 0.768 | 0.445 | 0.216 | 0.073 | 0.150 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0-perm+cf | 0.753 | 0.772 | 0.441 | 0.207 | 0.083 | 0.070 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0-bc | 0.740 | 0.755 | 0.476 | 0.221 | 0.153 | 0.203 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0 | 0.767 | 0.781 | 0.420 | 0.197 | 0.067 | 0.173 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L1 | 0.767 | 0.781 | 0.341 | 0.072 | 0.067 | 0.220 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | raw | 0.737 | 0.675 | 0.412 | 0.189 | 0.053 | 0.367 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0-perm | 0.720 | 0.645 | 0.450 | 0.208 | 0.000 | 0.343 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0-perm+cf | 0.853 | 0.843 | 0.214 | 0.053 | 0.000 | 0.567 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0-bc | 0.827 | 0.804 | 0.278 | 0.091 | 0.053 | 0.423 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0 | 0.813 | 0.787 | 0.292 | 0.097 | 0.000 | 0.353 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L1 | 0.807 | 0.778 | 0.271 | 0.037 | 0.000 | 0.353 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | raw | 0.660 | 0.670 | 0.621 | 0.276 | 0.233 | 0.047 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0-perm | 0.703 | 0.711 | 0.556 | 0.254 | 0.133 | 0.337 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0-perm+cf | 0.687 | 0.694 | 0.562 | 0.264 | 0.127 | 0.420 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0-bc | 0.667 | 0.676 | 0.598 | 0.268 | 0.230 | 0.060 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0 | 0.707 | 0.714 | 0.549 | 0.250 | 0.123 | 0.350 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L1 | 0.707 | 0.714 | 0.436 | 0.082 | 0.123 | 0.410 |
