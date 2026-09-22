@@ -20,7 +20,8 @@ permutation marginalization only; the cf rows stay in the table as ablations.
 **One temperature for the task, not per question.** L1 fits a single
 temperature on the pooled calibration items. Per-question artifacts are
 meaningless when a question is seen once, and the pooled artifact is recorded
-as such.
+as such. As in `bench.run`, the reversed-option layout behind the L1 flip is
+its own deployment with its own temperature, fit on the same labeled items.
 
 Every item is its own `decide_batch` call, so the backend sees K prompts at a
 time (plus probes) rather than a full batch. That is correct but underfills
@@ -83,11 +84,16 @@ def run_task(decider: Decider, task_name: str, n_test: int, n_calib: int, seed: 
         out["levels"][name] = metrics.summarize(P, labels, rows_r.get(name))
 
     if "L1" in levels and calib:
-        cal_rows, _ = _readouts(decider, calib, decider.combine)
-        scaler = TemperatureScaler.fit(cal_rows["L0"], [y for _, _, y in calib])
+        cal_rows, cal_rows_r = _readouts(decider, calib, decider.combine)
+        cal_labels = [y for _, _, y in calib]
+        scaler = TemperatureScaler.fit(cal_rows["L0"], cal_labels)
+        # the reversed layout is its own deployment, calibrated on the same labeled set, as
+        # bench.run does; its readouts are already mapped back to the original option order
+        scaler_r = TemperatureScaler.fit(cal_rows_r["L0"], cal_labels)
         l1 = scaler.apply(rows["L0"])
-        l1_r = scaler.apply(rows_r["L0"]) if "L0" in rows_r else None
-        out["levels"]["L1"] = {**metrics.summarize(l1, labels, l1_r), "temperature": scaler.temperature}
+        l1_r = scaler_r.apply(rows_r["L0"])
+        out["levels"]["L1"] = {**metrics.summarize(l1, labels, l1_r), "temperature": scaler.temperature,
+                               "temperature_reversed": scaler_r.temperature}
         out["artifact"] = {"model": decider.backend.name, "scope": f"task:{task_name}",
                            **scaler.to_dict()}
 

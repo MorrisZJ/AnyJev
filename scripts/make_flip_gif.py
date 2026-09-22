@@ -72,6 +72,7 @@ def main():
         fig.text(0.02, 0.06, caption, fontsize=12, weight="bold", color="#222")
         if hidden:
             fig.text(0.02, 0.02, f"{len(all_opts)} options in the prompt; showing the {len(opts)} that get probability mass. "
+                    
                      f"Order shown = order in the prompt. Red = the answer.", fontsize=8.5, color="#555")
         for ax in axes.flat:
             ax.axis("off")

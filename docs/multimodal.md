@@ -88,8 +88,8 @@ opting in. Position debiasing helped on every task; the content-free prior
 did not behave like something you can switch on blind:
 
 - **POPE** (is this object in the image?): the content-free prior is the
-  largest win in the whole multimodal bench — 8B accuracy 0.843 → 0.903, ECE
-  0.143 → 0.060. The batch prior does almost nothing, because the true Yes
+  largest win in the whole multimodal bench — 8B accuracy 0.840 → 0.900, ECE
+  0.147 → 0.065. The batch prior does almost nothing, because the true Yes
   rate is exactly 0.5 and the model's *mean* prediction sits close to it: the
   Yes-lean only shows when the picture is blanked.
 - **pets20** (which breed?): the batch prior helps and the content-free prior
@@ -104,11 +104,12 @@ text half of the prompt carries no answer on its own, and only useful when
 there is a label prior to remove. It is a per-task choice — the bench prints
 the row for free, so measure it rather than assume it.
 
-**L1 has a limit here too.** Temperature scaling minimizes NLL. On POPE the
-4B and 8B errors are confident hallucinations ("yes, there is a snowboard", at
+**L1 has a limit here too.** Temperature scaling minimizes NLL. On POPE with
+the content-free prior as L0, the remaining 4B and 8B errors are confident
+hallucinations ("yes, there is a snowboard", at
 0.999), which dominate the NLL, so the fitted temperature flattens every
-answer to shrink them: test NLL falls (8B 0.653 → 0.376) while ECE *rises*
-(0.060 → 0.150). One scalar cannot fix confident wrong answers, which is the
+answer to shrink them: test NLL falls (8B 0.637 → 0.371) while ECE *rises*
+(0.065 → 0.147). One scalar cannot fix confident wrong answers, which is the
 README's "calibration cannot fix a model that cannot answer" in a new form.
 
 ## Backends
@@ -129,6 +130,11 @@ Vision models keep their chat template on the processor rather than the
 tokenizer, because only the processor knows how many tokens a picture expands
 to. A backend can point at it with `chat_renderer`; the decider falls back to
 the tokenizer.
+
+The shared-prefix fast path (`score_shared`, one prefix forward per state and
+K short suffixes) carries text only, so prompts with pictures always go
+through `next_token_logprobs`; text prompts in the same call still share.
+Content-free probes get their own forward call on either path.
 
 `anyjev.backends.hf_vlm.VLMBackend` is the transformers implementation
 (`AutoModelForImageTextToText`, so Qwen2.5-VL / Qwen3-VL, Gemma 3, LLaVA and

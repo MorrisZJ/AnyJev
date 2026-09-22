@@ -71,6 +71,8 @@ class FakeBackend:
         self.accepts_images = accepts_images or image_content is not None
         self.calls = 0
         self.prompts_seen = 0
+        self.shared_calls = 0
+        self.shared_groups = 0
         self.images_seen: List[tuple] = []
 
     def _parse(self, prompt: str):
@@ -115,6 +117,13 @@ class FakeBackend:
         if not images or any(im.key != _blank_key() for im in images):
             return False
         return MARKER_RE.sub("", state).strip() in DEFAULT_PROBES
+
+    def score_shared(self, groups, token_ids):
+        """Same answers as the flat path; exists so the Decider's grouping is testable."""
+        self.shared_calls += 1
+        self.shared_groups += len(groups)
+        return [self.next_token_logprobs([pre + suf for suf in sfx], [ids] * len(sfx))
+                for (pre, sfx), ids in zip(groups, token_ids)]
 
     def next_token_logprobs(self, prompts: Sequence[str],
                             token_ids: Sequence[Sequence[int]],

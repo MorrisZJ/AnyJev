@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import string
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Sequence, Tuple
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from anyjev.media import Image
 from anyjev.question import Question
@@ -35,6 +35,22 @@ def answer_labels(q: Question) -> List[str]:
     if q.kind == "score":
         return [str(i + 1) for i in range(q.k)]
     return list(LETTERS[: q.k])
+
+
+def resolve_labels(tokenizer, q: Question):
+    """Pick the label strings this tokenizer can emit as single tokens, and their ids.
+
+    Letters for choice, Yes/No for noul, digits for score. If the digits are not
+    single tokens (sentencepiece tokenizers split "1" into a space piece plus "1"),
+    score falls back to letters. Raises LabelTokenError if nothing works."""
+    labels = answer_labels(q)
+    try:
+        return labels, map_label_tokens(tokenizer, labels)
+    except LabelTokenError:
+        if q.kind != "score":
+            raise
+        letters = list(LETTERS[: q.k])
+        return letters, map_label_tokens(tokenizer, letters)
 
 
 def labels_are_positional(q: Question) -> bool:
@@ -74,42 +90,54 @@ def map_label_tokens(tokenizer, labels: Sequence[str]) -> List[int]:
     return ids
 
 
+SPLIT_SENTINEL = "\u2063ANYJEV_SPLIT\u2063"   # invisible separator; chat templates pass content through
+
+
 @dataclass
 class PromptSpec:
     system: str
     user: str
+    split: int = -1   # index into `user` where the permutation-specific suffix begins (-1: no split)
     images: tuple = field(default_factory=tuple)
 
 
 def build_prompt(state_text: str, q: Question, perm: Sequence[int],
-                 system: str = DEFAULT_SYSTEM,
+                 system: str = DEFAULT_SYSTEM, labels: Optional[Sequence[str]] = None,
                  images: Sequence[Image] = ()) -> PromptSpec:
-    """perm[j] = index (into q.options) of the option shown at position j."""
-    labels = answer_labels(q)
-    lines = ["State:", state_text if state_text else "(empty)", "", f"Question: {q.text}"]
+    """perm[j] = index (into q.options) of the option shown at position j.
+    labels: the answer strings to show (default answer_labels(q)); pass the
+    tokenizer-resolved set from resolve_labels so prompt and readout agree.
+    images: the pictures behind the `<image i>` markers in state_text."""
+    labels = list(labels) if labels is not None else answer_labels(q)
+    # everything before `suffix` is identical across the permutations of one state,
+    # so a backend that can reuse a prefix KV cache computes it once per state
+    prefix = ["State:", state_text if state_text else "(empty)", "", f"Question: {q.text}"]
+    suffix = []
     if q.kind == "noul":
         # perm over ("Yes","No") only changes the phrasing order
         order = [labels[i] for i in perm]
-        lines.append(f"Answer {order[0]} or {order[1]}.")
+        suffix.append(f"Answer {order[0]} or {order[1]}.")
     elif q.kind == "score":
         if q.centers is not None:
-            lines.append("Pick the level that applies (the levels are ordered):")
+            prefix.append("Pick the level that applies (the levels are ordered):")
         else:
             lo, hi = q.scale
-            lines.append(f"Answer on a scale from {lo:g} to {hi:g} by picking the closest bin:")
+            prefix.append(f"Answer on a scale from {lo:g} to {hi:g} by picking the closest bin:")
         for j, i in enumerate(perm):
-            lines.append(f"{labels[j]}. {q.options[i]}")
-        lines.append("Answer with the number only.")
+            suffix.append(f"{labels[j]}. {q.options[i]}")
+        suffix.append("Answer with the number only." if labels[0].isdigit() else "Answer with the letter only.")
     else:
-        lines.append("Options:")
+        prefix.append("Options:")
         for j, i in enumerate(perm):
-            lines.append(f"{labels[j]}. {q.options[i]}")
-        lines.append("Answer with the letter only.")
-    return PromptSpec(system=system, user="\n".join(lines), images=tuple(images))
+            suffix.append(f"{labels[j]}. {q.options[i]}")
+        suffix.append("Answer with the letter only.")
+    user_prefix = "\n".join(prefix) + "\n"
+    return PromptSpec(system=system, user=user_prefix + "\n".join(suffix), split=len(user_prefix),
+                      images=tuple(images))
 
 
-def _interleave(spec: PromptSpec) -> Tuple[List[Dict[str, Any]], tuple]:
-    """Split the user turn at its `<image i>` markers. Returns the content parts
+def _interleave(user: str, images: Sequence[Image]) -> Tuple[List[Dict[str, Any]], tuple]:
+    """Split a user turn at its `<image i>` markers. Returns the content parts
     and the images in the order their placeholders appear, which is the order
     a processor will consume them in. Each image is placed once, at its first
     marker; a repeat, or a literal "<image 9>" with no such image (MMMU-style
@@ -119,18 +147,18 @@ def _interleave(spec: PromptSpec) -> Tuple[List[Dict[str, Any]], tuple]:
     order: List[Image] = []
     used = set()
     cursor = 0
-    for match in MARKER_RE.finditer(spec.user):
+    for match in MARKER_RE.finditer(user):
         index = int(match.group(1)) - 1
-        if not 0 <= index < len(spec.images) or index in used:
+        if not 0 <= index < len(images) or index in used:
             continue
-        lead = spec.user[cursor:match.start()]
+        lead = user[cursor:match.start()]
         if lead:
             parts.append({"type": "text", "text": lead})
         parts.append({"type": "image"})
         used.add(index)
-        order.append(spec.images[index])
+        order.append(images[index])
         cursor = match.end()
-    tail = spec.user[cursor:]
+    tail = user[cursor:]
     if tail:
         parts.append({"type": "text", "text": tail})
     return parts, tuple(order)
@@ -139,26 +167,47 @@ def _interleave(spec: PromptSpec) -> Tuple[List[Dict[str, Any]], tuple]:
 def user_content(spec: PromptSpec) -> Any:
     """The user turn: a plain string when there are no images, otherwise the
     text split at its markers with an image part in each gap."""
-    return _interleave(spec)[0] if spec.images else spec.user
+    return _interleave(spec.user, spec.images)[0] if spec.images else spec.user
 
 
 def prompt_images(spec: PromptSpec) -> tuple:
     """The images to hand the backend with this prompt, in placeholder order."""
-    return _interleave(spec)[1] if spec.images else ()
+    return _interleave(spec.user, spec.images)[1] if spec.images else ()
+
+
+def _render(renderer, system: str, user: str, images: Sequence[Image] = ()) -> str:
+    content = _interleave(user, images)[0] if images else user
+    messages = [{"role": "system", "content": system}, {"role": "user", "content": content}]
+    template = getattr(renderer, "chat_template", None)
+    if not template:
+        return f"{system}\n\n{user}\nAnswer:"
+    kwargs = dict(tokenize=False, add_generation_prompt=True)
+    try:
+        return renderer.apply_chat_template(messages, enable_thinking=False, **kwargs)
+    except TypeError:
+        return renderer.apply_chat_template(messages, **kwargs)
 
 
 def render_chat(renderer, spec: PromptSpec) -> str:
     """Render through the chat template with the generation prompt appended,
     so the next token is the model's first answer token. `renderer` is the
     tokenizer for a text model and the processor for a multimodal one; the
-    processor expands the image placeholder to the right token count later."""
-    messages = [{"role": "system", "content": spec.system},
-                {"role": "user", "content": user_content(spec)}]
-    template = getattr(renderer, "chat_template", None)
-    if not template:
-        return f"{spec.system}\n\n{spec.user}\nAnswer:"
-    kwargs = dict(tokenize=False, add_generation_prompt=True)
-    try:
-        return renderer.apply_chat_template(messages, enable_thinking=False, **kwargs)
-    except TypeError:
-        return renderer.apply_chat_template(messages, **kwargs)
+    processor expands each image placeholder to the right token count later."""
+    return _render(renderer, spec.system, spec.user, spec.images)
+
+
+def render_chat_parts(renderer, spec: PromptSpec):
+    """(prefix_text, suffix_text) whose concatenation equals render_chat(spec).
+    The split is placed inside the user content by a sentinel that the chat
+    template passes through untouched; the template's own tail (end-of-turn,
+    assistant header) lands in the suffix. Falls back to (whole, "") when the
+    spec has no split or a template alters the sentinel. Image markers all sit
+    in the state, before the split, so the sentinel always lands in text."""
+    if spec.split < 0:
+        return _render(renderer, spec.system, spec.user, spec.images), ""
+    marked = _render(renderer, spec.system, spec.user[:spec.split] + SPLIT_SENTINEL + spec.user[spec.split:],
+                     spec.images)
+    if marked.count(SPLIT_SENTINEL) != 1:
+        return _render(renderer, spec.system, spec.user, spec.images), ""
+    prefix, suffix = marked.split(SPLIT_SENTINEL)
+    return prefix, suffix

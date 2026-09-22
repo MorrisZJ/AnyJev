@@ -1,0 +1,6615 @@
+{
+ "model": "Qwen/Qwen3-8B",
+ "layers": [
+  -1,
+  -5,
+  -9,
+  -13,
+  -17
+ ],
+ "kinds": [
+  "diff_means",
+  "lda",
+  "ridge",
+  "rrr"
+ ],
+ "labels": [
+  "gold",
+  "self"
+ ],
+ "seed": 0,
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T12:03:38.722660",
+  "anyjev": "0.0.2",
+  "batch_size": 16,
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ },
+ "date": "2026-09-22T12:03:44.891876",
+ "typed": {
+  "questions": {
+   "typed.agent_trace_observability.action": {
+    "kind": "choice",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.51,
+      "ece": 0.42026263953395876,
+      "brier": 0.8742307771902235,
+      "nll": 3.195699572385515,
+      "flip": 0.23
+     },
+     "L1": {
+      "acc": 0.51,
+      "ece": 0.16600640668531252,
+      "brier": 0.5571057773010631,
+      "nll": 1.0099817224122303,
+      "flip": 0.23
+     },
+     "L1@self": {
+      "acc": 0.51,
+      "ece": 0.18469793675459328,
+      "brier": 0.5890567663999522,
+      "nll": 1.012643226113893,
+      "flip": 0.23
+     },
+     "L0-perm": {
+      "acc": 0.62,
+      "ece": 0.27278534280721417,
+      "brier": 0.6229806964771079,
+      "nll": 1.7864155057420876,
+      "flip": 0.14
+     },
+     "L0-perm+T": {
+      "acc": 0.62,
+      "ece": 0.12401975684203967,
+      "brier": 0.4729734286153831,
+      "nll": 0.8444306645999642,
+      "flip": 0.14
+     },
+     "L0-perm+T@self": {
+      "acc": 0.62,
+      "ece": 0.37835437428766405,
+      "brier": 0.7585771905487597,
+      "nll": 9.683659792339128,
+      "flip": 0.14
+     },
+     "head:diff_means": {
+      "acc": 0.49,
+      "ece": 0.5045789194082942,
+      "brier": 1.0090615875706883,
+      "nll": 12.206416933942927,
+      "flip": 0.71
+     },
+     "head:lda": {
+      "acc": 0.67,
+      "ece": 0.155221582557072,
+      "brier": 0.5194104067055988,
+      "nll": 1.248126419356924,
+      "flip": 0.73
+     },
+     "head:ridge": {
+      "acc": 0.64,
+      "ece": 0.1684961256780608,
+      "brier": 0.5357891422024812,
+      "nll": 0.9788940024087992,
+      "flip": 0.64
+     },
+     "head:rrr": {
+      "acc": 0.63,
+      "ece": 0.2139679899257169,
+      "brier": 0.5531636122374253,
+      "nll": 1.0234362945458486,
+      "flip": 0.58
+     },
+     "head:diff_means/avg": {
+      "acc": 0.48,
+      "ece": 0.5142935656960728,
+      "brier": 1.0353881648745369,
+      "nll": 12.966931721459968,
+      "flip": 0.05
+     },
+     "head:lda/avg": {
+      "acc": 0.67,
+      "ece": 0.1754434589914285,
+      "brier": 0.5240430979126395,
+      "nll": 1.3186612955744288,
+      "flip": 0.12
+     },
+     "head:ridge/avg": {
+      "acc": 0.62,
+      "ece": 0.20442374239990382,
+      "brier": 0.5458411940846024,
+      "nll": 1.01578147580151,
+      "flip": 0.15
+     },
+     "head:rrr/avg": {
+      "acc": 0.65,
+      "ece": 0.18134522238638023,
+      "brier": 0.5515500933025853,
+      "nll": 1.0625690091058317,
+      "flip": 0.14
+     },
+     "head:diff_means@self": {
+      "acc": 0.63,
+      "ece": 0.34961718656950375,
+      "brier": 0.7059840497954123,
+      "nll": 7.587293033996168,
+      "flip": 0.05
+     },
+     "head:lda@self": {
+      "acc": 0.59,
+      "ece": 0.24789703414989553,
+      "brier": 0.6714802391866991,
+      "nll": 2.441571409028831,
+      "flip": 0.79
+     },
+     "head:ridge@self": {
+      "acc": 0.6,
+      "ece": 0.32884309097563036,
+      "brier": 0.7128342335158961,
+      "nll": 1.8439082140853407,
+      "flip": 0.64
+     },
+     "head:rrr@self": {
+      "acc": 0.57,
+      "ece": 0.33376770424655866,
+      "brier": 0.7138106516975088,
+      "nll": 1.8015151793170026,
+      "flip": 0.67
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.64,
+      "ece": 0.3551047358623252,
+      "brier": 0.711205840502421,
+      "nll": 7.631035188086728,
+      "flip": 0.04
+     },
+     "head:lda/avg@self": {
+      "acc": 0.61,
+      "ece": 0.22989939072160406,
+      "brier": 0.6728031208412429,
+      "nll": 2.691175069385576,
+      "flip": 0.23
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.6,
+      "ece": 0.336501870957704,
+      "brier": 0.7190582637064924,
+      "nll": 1.9023856870056672,
+      "flip": 0.06
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.61,
+      "ece": 0.3016571789729097,
+      "brier": 0.7142078562515148,
+      "nll": 1.8669188137071007,
+      "flip": 0.33
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 2,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.273084695071803,
+      "oof_acc": 0.48
+     },
+     "head:lda": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 9.287398551347254,
+      "n_labels": 200,
+      "oof_nll": 0.7498318756332665,
+      "oof_acc": 0.68
+     },
+     "head:ridge": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.30712030149901154,
+      "n_labels": 200,
+      "oof_nll": 0.794606084167174,
+      "oof_acc": 0.695
+     },
+     "head:rrr": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.38388827259290287,
+      "n_labels": 200,
+      "oof_nll": 0.8885069578958206,
+      "oof_acc": 0.68
+     },
+     "head:diff_means/avg": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.2907413565695884,
+      "oof_acc": 0.47
+     },
+     "head:lda/avg": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 9.496678420679006,
+      "n_labels": 200,
+      "oof_nll": 0.7510749668453162,
+      "oof_acc": 0.71
+     },
+     "head:ridge/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.3090373949986501,
+      "n_labels": 200,
+      "oof_nll": 0.7998832749832248,
+      "oof_acc": 0.68
+     },
+     "head:rrr/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.3712952974166536,
+      "n_labels": 200,
+      "oof_nll": 0.8779721217773264,
+      "oof_acc": 0.655
+     },
+     "head:diff_means@self": {
+      "layer": 3,
+      "params": {},
+      "temperature": 14.759908685759829,
+      "n_labels": 200,
+      "oof_nll": 0.9730507633620408,
+      "oof_acc": 0.68
+     },
+     "head:lda@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.774436224814441,
+      "n_labels": 200,
+      "oof_nll": 0.5359638752991491,
+      "oof_acc": 0.82
+     },
+     "head:ridge@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1677310209152923,
+      "n_labels": 200,
+      "oof_nll": 0.271878280684102,
+      "oof_acc": 0.89
+     },
+     "head:rrr@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.18733164710842917,
+      "n_labels": 200,
+      "oof_nll": 0.3217183459030992,
+      "oof_acc": 0.87
+     },
+     "head:diff_means/avg@self": {
+      "layer": 3,
+      "params": {},
+      "temperature": 12.518431945390981,
+      "n_labels": 200,
+      "oof_nll": 0.836901479670263,
+      "oof_acc": 0.745
+     },
+     "head:lda/avg@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 7.191562402812605,
+      "n_labels": 200,
+      "oof_nll": 0.5382285729170659,
+      "oof_acc": 0.835
+     },
+     "head:ridge/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1656868109838054,
+      "n_labels": 200,
+      "oof_nll": 0.2583390695610037,
+      "oof_acc": 0.91
+     },
+     "head:rrr/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.18443891013553923,
+      "n_labels": 200,
+      "oof_nll": 0.30427601455034187,
+      "oof_acc": 0.89
+     }
+    }
+   },
+   "typed.agent_trace_observability.needs_review": {
+    "kind": "noul",
+    "k": 2,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.84,
+      "ece": 0.13324711203885967,
+      "brier": 0.2498118598081313,
+      "nll": 0.7201973861714648,
+      "flip": 0.18
+     },
+     "L1": {
+      "acc": 0.84,
+      "ece": 0.1218227421783362,
+      "brier": 0.21814223299963145,
+      "nll": 0.3568599157966766,
+      "flip": 0.18
+     },
+     "L1@self": {
+      "acc": 0.84,
+      "ece": 0.10089967820758149,
+      "brier": 0.20592161875114293,
+      "nll": 0.3396450991661462,
+      "flip": 0.18
+     },
+     "L0-perm": {
+      "acc": 0.8,
+      "ece": 0.17227875461839717,
+      "brier": 0.3538072545740723,
+      "nll": 1.3177185971020262,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.8,
+      "ece": 0.08832837575405858,
+      "brier": 0.25258412242645834,
+      "nll": 0.40017059515152587,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.8,
+      "ece": 0.19492869570378746,
+      "brier": 0.3847387886178523,
+      "nll": 4.955345783476782,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.87,
+      "ece": 0.12979078352610982,
+      "brier": 0.2599529319480775,
+      "nll": 3.160471828700702,
+      "flip": 0.2
+     },
+     "head:lda": {
+      "acc": 0.89,
+      "ece": 0.11032787022080992,
+      "brier": 0.17478489562609006,
+      "nll": 0.29996518980162296,
+      "flip": 0.23
+     },
+     "head:ridge": {
+      "acc": 0.85,
+      "ece": 0.08163198415460597,
+      "brier": 0.19228838458929265,
+      "nll": 0.3114276019884561,
+      "flip": 0.38
+     },
+     "head:rrr": {
+      "acc": 0.85,
+      "ece": 0.10688170568803465,
+      "brier": 0.23714224070273265,
+      "nll": 0.36929444069009437,
+      "flip": 0.35
+     },
+     "head:diff_means/avg": {
+      "acc": 0.87,
+      "ece": 0.12962909675222484,
+      "brier": 0.26001800565316063,
+      "nll": 3.0738527119561767,
+      "flip": 0.15
+     },
+     "head:lda/avg": {
+      "acc": 0.9,
+      "ece": 0.10254043889523821,
+      "brier": 0.1782921836230459,
+      "nll": 0.3004517793959875,
+      "flip": 0.11
+     },
+     "head:ridge/avg": {
+      "acc": 0.84,
+      "ece": 0.12326730761475475,
+      "brier": 0.1852697760745178,
+      "nll": 0.30011904255459365,
+      "flip": 0.1
+     },
+     "head:rrr/avg": {
+      "acc": 0.79,
+      "ece": 0.11779206524862927,
+      "brier": 0.23837980313211304,
+      "nll": 0.36919714641349055,
+      "flip": 0.09
+     },
+     "head:diff_means@self": {
+      "acc": 0.84,
+      "ece": 0.15948081489749494,
+      "brier": 0.3179697002515096,
+      "nll": 3.7688427608380666,
+      "flip": 0.19
+     },
+     "head:lda@self": {
+      "acc": 0.81,
+      "ece": 0.18555363197723296,
+      "brier": 0.38058018468118826,
+      "nll": 3.810575849684997,
+      "flip": 0.11
+     },
+     "head:ridge@self": {
+      "acc": 0.8,
+      "ece": 0.17647162810564243,
+      "brier": 0.3472444024416868,
+      "nll": 0.9663888917760096,
+      "flip": 0.1
+     },
+     "head:rrr@self": {
+      "acc": 0.81,
+      "ece": 0.1619859720664069,
+      "brier": 0.3471375391013796,
+      "nll": 0.8716773115399771,
+      "flip": 0.56
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.85,
+      "ece": 0.14997215943188344,
+      "brier": 0.30000008873703565,
+      "nll": 3.8773445506047364,
+      "flip": 0.1
+     },
+     "head:lda/avg@self": {
+      "acc": 0.8,
+      "ece": 0.19645774524900328,
+      "brier": 0.3888577135715437,
+      "nll": 3.8455206958130708,
+      "flip": 0.04
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.8,
+      "ece": 0.1741524009140514,
+      "brier": 0.35716447276200536,
+      "nll": 0.8719637935538515,
+      "flip": 0.02
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.78,
+      "ece": 0.18274609218725743,
+      "brier": 0.35173183051743573,
+      "nll": 0.7730244323764193,
+      "flip": 0.04
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 1,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.5327054167875077,
+      "oof_acc": 0.775
+     },
+     "head:lda": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.714177387301488,
+      "n_labels": 200,
+      "oof_nll": 0.4426664913230033,
+      "oof_acc": 0.79
+     },
+     "head:ridge": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.4161325785999652,
+      "n_labels": 200,
+      "oof_nll": 0.4428613869461418,
+      "oof_acc": 0.795
+     },
+     "head:rrr": {
+      "layer": 4,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.45646589662952053,
+      "n_labels": 200,
+      "oof_nll": 0.45746619941156397,
+      "oof_acc": 0.78
+     },
+     "head:diff_means/avg": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.5279248278408899,
+      "oof_acc": 0.78
+     },
+     "head:lda/avg": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.353998266235212,
+      "n_labels": 200,
+      "oof_nll": 0.4360980591724395,
+      "oof_acc": 0.79
+     },
+     "head:ridge/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.4073182246534038,
+      "n_labels": 200,
+      "oof_nll": 0.4373799255203334,
+      "oof_acc": 0.795
+     },
+     "head:rrr/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.4949558586780882,
+      "n_labels": 200,
+      "oof_nll": 0.46611741699088105,
+      "oof_acc": 0.745
+     },
+     "head:diff_means@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 13.540267567153153,
+      "n_labels": 200,
+      "oof_nll": 0.3568430183883456,
+      "oof_acc": 0.885
+     },
+     "head:lda@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 6.5003424598608355,
+      "n_labels": 200,
+      "oof_nll": 0.08088243796170495,
+      "oof_acc": 0.985
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1570938254312291,
+      "n_labels": 200,
+      "oof_nll": 0.07175261701679835,
+      "oof_acc": 0.97
+     },
+     "head:rrr@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.18559719114872655,
+      "n_labels": 200,
+      "oof_nll": 0.08677303343365246,
+      "oof_acc": 0.965
+     },
+     "head:diff_means/avg@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 12.894439117843618,
+      "n_labels": 200,
+      "oof_nll": 0.3359322143596017,
+      "oof_acc": 0.895
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 7.00402984568991,
+      "n_labels": 200,
+      "oof_nll": 0.1035834242598895,
+      "oof_acc": 0.97
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.17790554589528873,
+      "n_labels": 200,
+      "oof_nll": 0.07853695049394231,
+      "oof_acc": 0.965
+     },
+     "head:rrr/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.2054906037394786,
+      "n_labels": 200,
+      "oof_nll": 0.10041037648771735,
+      "oof_acc": 0.96
+     }
+    }
+   },
+   "typed.agent_trace_observability.outcome": {
+    "kind": "choice",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.49,
+      "ece": 0.4582761301512638,
+      "brier": 0.9241098651423081,
+      "nll": 4.43648097477074,
+      "flip": 0.33
+     },
+     "L1": {
+      "acc": 0.49,
+      "ece": 0.1326171783013124,
+      "brier": 0.5971164330285373,
+      "nll": 1.0930855757014286,
+      "flip": 0.33
+     },
+     "L1@self": {
+      "acc": 0.49,
+      "ece": 0.2256285622940248,
+      "brier": 0.6587236716005066,
+      "nll": 1.24210582630623,
+      "flip": 0.33
+     },
+     "L0-perm": {
+      "acc": 0.66,
+      "ece": 0.29681217070036126,
+      "brier": 0.6060049985101131,
+      "nll": 2.9524320839192844,
+      "flip": 0.18
+     },
+     "L0-perm+T": {
+      "acc": 0.66,
+      "ece": 0.16303980045055225,
+      "brier": 0.4483210440995199,
+      "nll": 0.8857385806252072,
+      "flip": 0.18
+     },
+     "L0-perm+T@self": {
+      "acc": 0.66,
+      "ece": 0.3399157081322114,
+      "brier": 0.6796638018200984,
+      "nll": 8.803814620526337,
+      "flip": 0.18
+     },
+     "head:diff_means": {
+      "acc": 0.57,
+      "ece": 0.4088433313914868,
+      "brier": 0.8226035344801139,
+      "nll": 9.812528095604508,
+      "flip": 0.76
+     },
+     "head:lda": {
+      "acc": 0.69,
+      "ece": 0.17147693264558453,
+      "brier": 0.41349382676834046,
+      "nll": 0.9925779237696696,
+      "flip": 0.36
+     },
+     "head:ridge": {
+      "acc": 0.68,
+      "ece": 0.1493932289890735,
+      "brier": 0.438944430284588,
+      "nll": 0.840242014208595,
+      "flip": 0.33
+     },
+     "head:rrr": {
+      "acc": 0.67,
+      "ece": 0.1828624138466661,
+      "brier": 0.4785128522665672,
+      "nll": 0.9056074132402817,
+      "flip": 0.34
+     },
+     "head:diff_means/avg": {
+      "acc": 0.64,
+      "ece": 0.34414019433703885,
+      "brier": 0.7076732935811865,
+      "nll": 8.905319531313262,
+      "flip": 0.07
+     },
+     "head:lda/avg": {
+      "acc": 0.73,
+      "ece": 0.12450085510584993,
+      "brier": 0.38305761528383064,
+      "nll": 0.9580669079682929,
+      "flip": 0.11
+     },
+     "head:ridge/avg": {
+      "acc": 0.73,
+      "ece": 0.19378411795036238,
+      "brier": 0.4111183679356803,
+      "nll": 0.8337031501325408,
+      "flip": 0.08
+     },
+     "head:rrr/avg": {
+      "acc": 0.7,
+      "ece": 0.12716801261203783,
+      "brier": 0.41661853242507374,
+      "nll": 0.7996642262412378,
+      "flip": 0.09
+     },
+     "head:diff_means@self": {
+      "acc": 0.65,
+      "ece": 0.3499870653561079,
+      "brier": 0.700000012460595,
+      "nll": 9.448239771474011,
+      "flip": 0.25
+     },
+     "head:lda@self": {
+      "acc": 0.65,
+      "ece": 0.3499529063041845,
+      "brier": 0.6998271774117428,
+      "nll": 9.21867119644806,
+      "flip": 0.18
+     },
+     "head:ridge@self": {
+      "acc": 0.65,
+      "ece": 0.34270121169888634,
+      "brier": 0.6858246999889184,
+      "nll": 2.504060704436557,
+      "flip": 0.2
+     },
+     "head:rrr@self": {
+      "acc": 0.65,
+      "ece": 0.3427012116849061,
+      "brier": 0.6858246999710842,
+      "nll": 2.504060703010054,
+      "flip": 0.2
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.64,
+      "ece": 0.35601204007317655,
+      "brier": 0.7216876528463507,
+      "nll": 9.95165343961344,
+      "flip": 0.05
+     },
+     "head:lda/avg@self": {
+      "acc": 0.66,
+      "ece": 0.3357218389333654,
+      "brier": 0.6825628813993875,
+      "nll": 9.055892574104066,
+      "flip": 0.04
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.66,
+      "ece": 0.3305443659589049,
+      "brier": 0.6644257169596502,
+      "nll": 2.477820474621847,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.66,
+      "ece": 0.33051568804923703,
+      "brier": 0.6644019762447564,
+      "nll": 2.473146798496601,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 2,
+      "params": {},
+      "temperature": 15.573607847820737,
+      "n_labels": 200,
+      "oof_nll": 1.0121605785012837,
+      "oof_acc": 0.66
+     },
+     "head:lda": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 9.113726107457438,
+      "n_labels": 200,
+      "oof_nll": 0.6545062183362511,
+      "oof_acc": 0.78
+     },
+     "head:ridge": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.2759629334495127,
+      "n_labels": 200,
+      "oof_nll": 0.6608131316633318,
+      "oof_acc": 0.785
+     },
+     "head:rrr": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.3024549449139558,
+      "n_labels": 200,
+      "oof_nll": 0.699017979034707,
+      "oof_acc": 0.785
+     },
+     "head:diff_means/avg": {
+      "layer": 1,
+      "params": {},
+      "temperature": 15.700244984140898,
+      "n_labels": 200,
+      "oof_nll": 1.020066577628125,
+      "oof_acc": 0.655
+     },
+     "head:lda/avg": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 9.336450504878913,
+      "n_labels": 200,
+      "oof_nll": 0.6871888980358648,
+      "oof_acc": 0.77
+     },
+     "head:ridge/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.3131614644362436,
+      "n_labels": 200,
+      "oof_nll": 0.7231897352556242,
+      "oof_acc": 0.76
+     },
+     "head:rrr/avg": {
+      "layer": 4,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.31975511714804783,
+      "n_labels": 200,
+      "oof_nll": 0.7788688885683824,
+      "oof_acc": 0.755
+     },
+     "head:diff_means@self": {
+      "layer": 3,
+      "params": {},
+      "temperature": 8.758317365331898,
+      "n_labels": 200,
+      "oof_nll": 0.47976144924346725,
+      "oof_acc": 0.885
+     },
+     "head:lda@self": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 5.47030282200718,
+      "n_labels": 200,
+      "oof_nll": 0.11751579456408219,
+      "oof_acc": 0.98
+     },
+     "head:ridge@self": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0
+      },
+      "temperature": 0.13070604816008702,
+      "n_labels": 200,
+      "oof_nll": 0.05417076667300286,
+      "oof_acc": 0.97
+     },
+     "head:rrr@self": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.13070604823569215,
+      "n_labels": 200,
+      "oof_nll": 0.05417076667300286,
+      "oof_acc": 0.97
+     },
+     "head:diff_means/avg@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 7.006526326216489,
+      "n_labels": 200,
+      "oof_nll": 0.2735092866580768,
+      "oof_acc": 0.945
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.3
+      },
+      "temperature": 5.536798758929449,
+      "n_labels": 200,
+      "oof_nll": 0.12001135905309407,
+      "oof_acc": 0.98
+     },
+     "head:ridge/avg@self": {
+      "layer": 3,
+      "params": {
+       "lam": 0.1
+      },
+      "temperature": 0.12729565228385956,
+      "n_labels": 200,
+      "oof_nll": 0.0476504480843434,
+      "oof_acc": 0.98
+     },
+     "head:rrr/avg@self": {
+      "layer": 3,
+      "params": {
+       "lam": 1.0,
+       "rank": 4
+      },
+      "temperature": 0.12745059984344706,
+      "n_labels": 200,
+      "oof_nll": 0.047673069645936685,
+      "oof_acc": 0.98
+     }
+    }
+   },
+   "typed.agent_trace_observability.risk": {
+    "kind": "score",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.47,
+      "ece": 0.47132747636399275,
+      "brier": 0.979499749838209,
+      "nll": 4.271407486314906,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.47,
+      "ece": 0.18231751128922252,
+      "brier": 0.6533488608882227,
+      "nll": 1.2501036404840598,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.47,
+      "ece": 0.5298012541001114,
+      "brier": 1.0598680583246671,
+      "nll": 14.16720685280664,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.47,
+      "ece": 0.47132747636399275,
+      "brier": 0.979499749838209,
+      "nll": 4.271407486314906,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.47,
+      "ece": 0.18231751128922252,
+      "brier": 0.6533488608882227,
+      "nll": 1.2501036404840598,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.47,
+      "ece": 0.5298012541001114,
+      "brier": 1.0598680583246671,
+      "nll": 14.16720685280664,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.63,
+      "ece": 0.35641793745347106,
+      "brier": 0.7078258876504723,
+      "nll": 8.277490507353583,
+      "flip": 0.0
+     },
+     "head:lda": {
+      "acc": 0.78,
+      "ece": 0.13699313757957352,
+      "brier": 0.3470644973480331,
+      "nll": 1.0033400635669392,
+      "flip": 0.0
+     },
+     "head:ridge": {
+      "acc": 0.76,
+      "ece": 0.09715893290218292,
+      "brier": 0.3509468282684115,
+      "nll": 0.663240770856205,
+      "flip": 0.0
+     },
+     "head:rrr": {
+      "acc": 0.81,
+      "ece": 0.1144842191794153,
+      "brier": 0.3194426975392281,
+      "nll": 0.6592977742950894,
+      "flip": 0.0
+     },
+     "head:diff_means/avg": {
+      "acc": 0.63,
+      "ece": 0.35641793745347106,
+      "brier": 0.7078258876504723,
+      "nll": 8.277490507353583,
+      "flip": 0.0
+     },
+     "head:lda/avg": {
+      "acc": 0.78,
+      "ece": 0.13699313757957352,
+      "brier": 0.3470644973480331,
+      "nll": 1.0033400635669392,
+      "flip": 0.0
+     },
+     "head:ridge/avg": {
+      "acc": 0.76,
+      "ece": 0.09715893290218292,
+      "brier": 0.3509468282684115,
+      "nll": 0.663240770856205,
+      "flip": 0.0
+     },
+     "head:rrr/avg": {
+      "acc": 0.81,
+      "ece": 0.1144842191794153,
+      "brier": 0.3194426975392281,
+      "nll": 0.6592977742950894,
+      "flip": 0.0
+     },
+     "head:diff_means@self": {
+      "acc": 0.57,
+      "ece": 0.4225832290332664,
+      "brier": 0.8557577198325136,
+      "nll": 11.591801512231955,
+      "flip": 0.0
+     },
+     "head:lda@self": {
+      "acc": 0.41,
+      "ece": 0.5815313134406112,
+      "brier": 1.173194101469893,
+      "nll": 13.018029077027492,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.4,
+      "ece": 0.5770224187055278,
+      "brier": 1.1548736015977523,
+      "nll": 4.569944052707857,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.4,
+      "ece": 0.5760892771012701,
+      "brier": 1.1628357042659938,
+      "nll": 4.8003314571312465,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.57,
+      "ece": 0.4225832290332664,
+      "brier": 0.8557577198325136,
+      "nll": 11.591801512231955,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.41,
+      "ece": 0.5815313134406112,
+      "brier": 1.173194101469893,
+      "nll": 13.018029077027492,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.4,
+      "ece": 0.5770224187055278,
+      "brier": 1.1548736015977523,
+      "nll": 4.569944052707857,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.4,
+      "ece": 0.5760892771012701,
+      "brier": 1.1628357042659938,
+      "nll": 4.8003314571312465,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 0,
+      "params": {},
+      "temperature": 18.250565185950652,
+      "n_labels": 200,
+      "oof_nll": 1.1102553892724232,
+      "oof_acc": 0.6
+     },
+     "head:lda": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.235967579787937,
+      "n_labels": 200,
+      "oof_nll": 0.5636893998406604,
+      "oof_acc": 0.785
+     },
+     "head:ridge": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.2550970332870278,
+      "n_labels": 200,
+      "oof_nll": 0.6358705239756148,
+      "oof_acc": 0.77
+     },
+     "head:rrr": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.2901343710252791,
+      "n_labels": 200,
+      "oof_nll": 0.6802572451668152,
+      "oof_acc": 0.78
+     },
+     "head:diff_means/avg": {
+      "layer": 0,
+      "params": {},
+      "temperature": 18.250565185950652,
+      "n_labels": 200,
+      "oof_nll": 1.1102553892724232,
+      "oof_acc": 0.6
+     },
+     "head:lda/avg": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.235967579787937,
+      "n_labels": 200,
+      "oof_nll": 0.5636893998406604,
+      "oof_acc": 0.785
+     },
+     "head:ridge/avg": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.2550970332870278,
+      "n_labels": 200,
+      "oof_nll": 0.6358705239756148,
+      "oof_acc": 0.77
+     },
+     "head:rrr/avg": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.2901343710252791,
+      "n_labels": 200,
+      "oof_nll": 0.6802572451668152,
+      "oof_acc": 0.78
+     },
+     "head:diff_means@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 14.108890343883472,
+      "n_labels": 200,
+      "oof_nll": 0.9383566976150931,
+      "oof_acc": 0.69
+     },
+     "head:lda@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.055911235754082,
+      "n_labels": 200,
+      "oof_nll": 0.1870157564366594,
+      "oof_acc": 0.96
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.11323967837129145,
+      "n_labels": 200,
+      "oof_nll": 0.12217770693016103,
+      "oof_acc": 0.96
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.11053735478073091,
+      "n_labels": 200,
+      "oof_nll": 0.12323174968573947,
+      "oof_acc": 0.95
+     },
+     "head:diff_means/avg@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 14.108890343883472,
+      "n_labels": 200,
+      "oof_nll": 0.9383566976150931,
+      "oof_acc": 0.69
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.055911235754082,
+      "n_labels": 200,
+      "oof_nll": 0.1870157564366594,
+      "oof_acc": 0.96
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.11323967837129145,
+      "n_labels": 200,
+      "oof_nll": 0.12217770693016103,
+      "oof_acc": 0.96
+     },
+     "head:rrr/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.11053735478073091,
+      "n_labels": 200,
+      "oof_nll": 0.12323174968573947,
+      "oof_acc": 0.95
+     }
+    }
+   },
+   "typed.agent_trace_observability.urgency": {
+    "kind": "score",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.5,
+      "ece": 0.42499474279286104,
+      "brier": 0.9282595975097313,
+      "nll": 4.623115866749237,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.5,
+      "ece": 0.22596593975997187,
+      "brier": 0.7066619999159193,
+      "nll": 1.321367943663766,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.5,
+      "ece": 0.4898021204370016,
+      "brier": 0.9994766447339875,
+      "nll": 13.194296724653881,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.5,
+      "ece": 0.42499474279286104,
+      "brier": 0.9282595975097313,
+      "nll": 4.623115866749237,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.5,
+      "ece": 0.22596593975997187,
+      "brier": 0.7066619999159193,
+      "nll": 1.321367943663766,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.5,
+      "ece": 0.4898021204370016,
+      "brier": 0.9994766447339875,
+      "nll": 13.194296724653881,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.58,
+      "ece": 0.3967290732524831,
+      "brier": 0.7855734612255576,
+      "nll": 7.841424907792535,
+      "flip": 0.0
+     },
+     "head:lda": {
+      "acc": 0.61,
+      "ece": 0.1524245159848221,
+      "brier": 0.5208106833280859,
+      "nll": 0.8492415820286934,
+      "flip": 0.0
+     },
+     "head:ridge": {
+      "acc": 0.61,
+      "ece": 0.20320372714693177,
+      "brier": 0.5713393910946383,
+      "nll": 1.0761539007418652,
+      "flip": 0.0
+     },
+     "head:rrr": {
+      "acc": 0.61,
+      "ece": 0.16154064832898243,
+      "brier": 0.5844207952130984,
+      "nll": 1.1038484254185112,
+      "flip": 0.0
+     },
+     "head:diff_means/avg": {
+      "acc": 0.58,
+      "ece": 0.3967290732524831,
+      "brier": 0.7855734612255576,
+      "nll": 7.841424907792535,
+      "flip": 0.0
+     },
+     "head:lda/avg": {
+      "acc": 0.61,
+      "ece": 0.1524245159848221,
+      "brier": 0.5208106833280859,
+      "nll": 0.8492415820286934,
+      "flip": 0.0
+     },
+     "head:ridge/avg": {
+      "acc": 0.61,
+      "ece": 0.20320372714693177,
+      "brier": 0.5713393910946383,
+      "nll": 1.0761539007418652,
+      "flip": 0.0
+     },
+     "head:rrr/avg": {
+      "acc": 0.61,
+      "ece": 0.16154064832898243,
+      "brier": 0.5844207952130984,
+      "nll": 1.1038484254185112,
+      "flip": 0.0
+     },
+     "head:diff_means@self": {
+      "acc": 0.42,
+      "ece": 0.579797635755838,
+      "brier": 1.159599445091623,
+      "nll": 15.779700030709671,
+      "flip": 0.0
+     },
+     "head:lda@self": {
+      "acc": 0.51,
+      "ece": 0.4368155391892859,
+      "brier": 0.8880924628220991,
+      "nll": 4.516419979855127,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.48,
+      "ece": 0.5079847961340133,
+      "brier": 1.018505083391627,
+      "nll": 5.327202900604668,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.48,
+      "ece": 0.5079847961340133,
+      "brier": 1.018505083391627,
+      "nll": 5.327202900604671,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.42,
+      "ece": 0.579797635755838,
+      "brier": 1.159599445091623,
+      "nll": 15.779700030709671,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.51,
+      "ece": 0.4368155391892859,
+      "brier": 0.8880924628220991,
+      "nll": 4.516419979855127,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.48,
+      "ece": 0.5079847961340133,
+      "brier": 1.018505083391627,
+      "nll": 5.327202900604668,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.48,
+      "ece": 0.5079847961340133,
+      "brier": 1.018505083391627,
+      "nll": 5.327202900604671,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.2134092461457373,
+      "oof_acc": 0.525
+     },
+     "head:lda": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 11.176956639919592,
+      "n_labels": 200,
+      "oof_nll": 0.8838425735560317,
+      "oof_acc": 0.62
+     },
+     "head:ridge": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.4281711905926589,
+      "n_labels": 200,
+      "oof_nll": 1.0359713548793408,
+      "oof_acc": 0.59
+     },
+     "head:rrr": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.596064737000798,
+      "n_labels": 200,
+      "oof_nll": 1.1293310480656287,
+      "oof_acc": 0.57
+     },
+     "head:diff_means/avg": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.2134092461457373,
+      "oof_acc": 0.525
+     },
+     "head:lda/avg": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 11.176956639919592,
+      "n_labels": 200,
+      "oof_nll": 0.8838425735560317,
+      "oof_acc": 0.62
+     },
+     "head:ridge/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.4281711905926589,
+      "n_labels": 200,
+      "oof_nll": 1.0359713548793408,
+      "oof_acc": 0.59
+     },
+     "head:rrr/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.596064737000798,
+      "n_labels": 200,
+      "oof_nll": 1.1293310480656287,
+      "oof_acc": 0.57
+     },
+     "head:diff_means@self": {
+      "layer": 2,
+      "params": {},
+      "temperature": 10.157853400310406,
+      "n_labels": 200,
+      "oof_nll": 0.6305312283201254,
+      "oof_acc": 0.835
+     },
+     "head:lda@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.138661260842794,
+      "n_labels": 200,
+      "oof_nll": 0.2692057592749044,
+      "oof_acc": 0.925
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 1.0
+      },
+      "temperature": 0.09026840653894255,
+      "n_labels": 200,
+      "oof_nll": 0.027404183435480758,
+      "oof_acc": 0.99
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 1.0,
+       "rank": 4
+      },
+      "temperature": 0.09026840653894255,
+      "n_labels": 200,
+      "oof_nll": 0.027404183435480754,
+      "oof_acc": 0.99
+     },
+     "head:diff_means/avg@self": {
+      "layer": 2,
+      "params": {},
+      "temperature": 10.157853400310406,
+      "n_labels": 200,
+      "oof_nll": 0.6305312283201254,
+      "oof_acc": 0.835
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.138661260842794,
+      "n_labels": 200,
+      "oof_nll": 0.2692057592749044,
+      "oof_acc": 0.925
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 1.0
+      },
+      "temperature": 0.09026840653894255,
+      "n_labels": 200,
+      "oof_nll": 0.027404183435480758,
+      "oof_acc": 0.99
+     },
+     "head:rrr/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 1.0,
+       "rank": 4
+      },
+      "temperature": 0.09026840653894255,
+      "n_labels": 200,
+      "oof_nll": 0.027404183435480754,
+      "oof_acc": 0.99
+     }
+    }
+   },
+   "typed.customer_service.action": {
+    "kind": "choice",
+    "k": 5,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.51,
+      "ece": 0.44264275731933134,
+      "brier": 0.890482308179392,
+      "nll": 6.294447286253232,
+      "flip": 0.15
+     },
+     "L1": {
+      "acc": 0.51,
+      "ece": 0.1500602040749551,
+      "brier": 0.6254706060237353,
+      "nll": 1.2240713407008936,
+      "flip": 0.15
+     },
+     "L1@self": {
+      "acc": 0.51,
+      "ece": 0.4080704266474378,
+      "brier": 0.8444376053883553,
+      "nll": 3.583751304783192,
+      "flip": 0.15
+     },
+     "L0-perm": {
+      "acc": 0.54,
+      "ece": 0.4334040122074883,
+      "brier": 0.8790281661886454,
+      "nll": 6.252930534961413,
+      "flip": 0.09
+     },
+     "L0-perm+T": {
+      "acc": 0.54,
+      "ece": 0.11488045556290961,
+      "brier": 0.6072810114785442,
+      "nll": 1.1806855857843346,
+      "flip": 0.09
+     },
+     "L0-perm+T@self": {
+      "acc": 0.54,
+      "ece": 0.4573189833070633,
+      "brier": 0.9160755370846891,
+      "nll": 12.549317233945766,
+      "flip": 0.09
+     },
+     "head:diff_means": {
+      "acc": 0.61,
+      "ece": 0.3450758425939075,
+      "brier": 0.7198973019239707,
+      "nll": 4.105274094989954,
+      "flip": 0.3
+     },
+     "head:lda": {
+      "acc": 0.63,
+      "ece": 0.13294370664256425,
+      "brier": 0.5500364991867233,
+      "nll": 1.1808151839811285,
+      "flip": 0.71
+     },
+     "head:ridge": {
+      "acc": 0.66,
+      "ece": 0.15727494292188007,
+      "brier": 0.5316517234887677,
+      "nll": 1.06401869169318,
+      "flip": 0.2
+     },
+     "head:rrr": {
+      "acc": 0.66,
+      "ece": 0.17317067617244214,
+      "brier": 0.556145616708613,
+      "nll": 1.1301711739832847,
+      "flip": 0.2
+     },
+     "head:diff_means/avg": {
+      "acc": 0.66,
+      "ece": 0.3097466393363278,
+      "brier": 0.6477999052299332,
+      "nll": 4.0292813964969865,
+      "flip": 0.13
+     },
+     "head:lda/avg": {
+      "acc": 0.58,
+      "ece": 0.1683850431324072,
+      "brier": 0.5824030968041187,
+      "nll": 1.3298301975921023,
+      "flip": 0.32
+     },
+     "head:ridge/avg": {
+      "acc": 0.58,
+      "ece": 0.12852605086447025,
+      "brier": 0.5665295484533199,
+      "nll": 1.1386739143502933,
+      "flip": 0.1
+     },
+     "head:rrr/avg": {
+      "acc": 0.59,
+      "ece": 0.1527522652654904,
+      "brier": 0.5806756316971624,
+      "nll": 1.168370335737999,
+      "flip": 0.57
+     },
+     "head:diff_means@self": {
+      "acc": 0.47,
+      "ece": 0.4968073661210836,
+      "brier": 1.0393860615426131,
+      "nll": 11.793135938681303,
+      "flip": 0.67
+     },
+     "head:lda@self": {
+      "acc": 0.53,
+      "ece": 0.25265041068097355,
+      "brier": 0.7390321586113935,
+      "nll": 6.714576948457854,
+      "flip": 0.4
+     },
+     "head:ridge@self": {
+      "acc": 0.54,
+      "ece": 0.448817621919932,
+      "brier": 0.912859871611125,
+      "nll": 3.358546733120079,
+      "flip": 0.24
+     },
+     "head:rrr@self": {
+      "acc": 0.54,
+      "ece": 0.4471315710035452,
+      "brier": 0.909083192341187,
+      "nll": 3.3450293327436196,
+      "flip": 0.26
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.43,
+      "ece": 0.5232187082508292,
+      "brier": 1.0713824218822479,
+      "nll": 12.522144543254287,
+      "flip": 0.15
+     },
+     "head:lda/avg@self": {
+      "acc": 0.56,
+      "ece": 0.2545579793684978,
+      "brier": 0.7144675418190544,
+      "nll": 6.754646427236209,
+      "flip": 0.47
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.53,
+      "ece": 0.4578891615582571,
+      "brier": 0.9166074432056458,
+      "nll": 3.435724232112247,
+      "flip": 0.04
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.53,
+      "ece": 0.45622575194813936,
+      "brier": 0.914697715422103,
+      "nll": 3.427849919766231,
+      "flip": 0.07
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.397464519324298,
+      "oof_acc": 0.485
+     },
+     "head:lda": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 13.51141975588631,
+      "n_labels": 200,
+      "oof_nll": 1.2489701507845954,
+      "oof_acc": 0.605
+     },
+     "head:ridge": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.3141777217999466,
+      "n_labels": 200,
+      "oof_nll": 1.0410771111515154,
+      "oof_acc": 0.6
+     },
+     "head:rrr": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.34290884706082825,
+      "n_labels": 200,
+      "oof_nll": 1.0768776612163515,
+      "oof_acc": 0.605
+     },
+     "head:diff_means/avg": {
+      "layer": 3,
+      "params": {},
+      "temperature": 17.881521558104374,
+      "n_labels": 200,
+      "oof_nll": 1.329606762970092,
+      "oof_acc": 0.535
+     },
+     "head:lda/avg": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 13.983896572481322,
+      "n_labels": 200,
+      "oof_nll": 1.2662424189429355,
+      "oof_acc": 0.56
+     },
+     "head:ridge/avg": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.31954244699838175,
+      "n_labels": 200,
+      "oof_nll": 1.053293876858452,
+      "oof_acc": 0.585
+     },
+     "head:rrr/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.35312060978863846,
+      "n_labels": 200,
+      "oof_nll": 1.081648043848453,
+      "oof_acc": 0.6
+     },
+     "head:diff_means@self": {
+      "layer": 2,
+      "params": {},
+      "temperature": 15.92873058497434,
+      "n_labels": 200,
+      "oof_nll": 1.259239110865492,
+      "oof_acc": 0.59
+     },
+     "head:lda@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 2.8698515308952297,
+      "n_labels": 200,
+      "oof_nll": 0.6673519616084527,
+      "oof_acc": 0.905
+     },
+     "head:ridge@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.13241310753845537,
+      "n_labels": 200,
+      "oof_nll": 0.10628233207922162,
+      "oof_acc": 0.96
+     },
+     "head:rrr@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.13457350939787457,
+      "n_labels": 200,
+      "oof_nll": 0.10747550684520885,
+      "oof_acc": 0.965
+     },
+     "head:diff_means/avg@self": {
+      "layer": 2,
+      "params": {},
+      "temperature": 18.48904178550571,
+      "n_labels": 200,
+      "oof_nll": 1.3535939776296475,
+      "oof_acc": 0.53
+     },
+     "head:lda/avg@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 3.2817251901861773,
+      "n_labels": 200,
+      "oof_nll": 0.6222448432691493,
+      "oof_acc": 0.86
+     },
+     "head:ridge/avg@self": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.12180208451562927,
+      "n_labels": 200,
+      "oof_nll": 0.07873452150579215,
+      "oof_acc": 0.965
+     },
+     "head:rrr/avg@self": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.12293816499621957,
+      "n_labels": 200,
+      "oof_nll": 0.07993702343716214,
+      "oof_acc": 0.965
+     }
+    }
+   },
+   "typed.customer_service.category": {
+    "kind": "choice",
+    "k": 5,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.87,
+      "ece": 0.12329585297385401,
+      "brier": 0.2549217393253646,
+      "nll": 1.472552189065628,
+      "flip": 0.11
+     },
+     "L1": {
+      "acc": 0.87,
+      "ece": 0.0861960419616095,
+      "brier": 0.19302050502747342,
+      "nll": 0.3683182179399956,
+      "flip": 0.11
+     },
+     "L1@self": {
+      "acc": 0.87,
+      "ece": 0.09242039772475759,
+      "brier": 0.21602733187845946,
+      "nll": 0.4367717752634157,
+      "flip": 0.11
+     },
+     "L0-perm": {
+      "acc": 0.89,
+      "ece": 0.09539015568972782,
+      "brier": 0.17364842317147403,
+      "nll": 0.9058732463556458,
+      "flip": 0.06
+     },
+     "L0-perm+T": {
+      "acc": 0.89,
+      "ece": 0.06337033972353799,
+      "brier": 0.14262713845236116,
+      "nll": 0.27035202628758676,
+      "flip": 0.06
+     },
+     "L0-perm+T@self": {
+      "acc": 0.89,
+      "ece": 0.10982194720256995,
+      "brier": 0.2192940453687975,
+      "nll": 2.5268744331595343,
+      "flip": 0.06
+     },
+     "head:diff_means": {
+      "acc": 0.93,
+      "ece": 0.07003612705202744,
+      "brier": 0.14000026099530852,
+      "nll": 1.9342076705734184,
+      "flip": 0.55
+     },
+     "head:lda": {
+      "acc": 0.98,
+      "ece": 0.020006874975236445,
+      "brier": 0.04000000794221066,
+      "nll": 0.5526272992815369,
+      "flip": 0.72
+     },
+     "head:ridge": {
+      "acc": 0.99,
+      "ece": 0.027644330195394473,
+      "brier": 0.02909178577987424,
+      "nll": 0.05880841623668221,
+      "flip": 0.71
+     },
+     "head:rrr": {
+      "acc": 0.98,
+      "ece": 0.019131103887162257,
+      "brier": 0.026971158733401633,
+      "nll": 0.058858527402500416,
+      "flip": 0.71
+     },
+     "head:diff_means/avg": {
+      "acc": 0.86,
+      "ece": 0.13726027072752836,
+      "brier": 0.2808968519952021,
+      "nll": 3.4632457292875536,
+      "flip": 0.15
+     },
+     "head:lda/avg": {
+      "acc": 0.98,
+      "ece": 0.01731706539097371,
+      "brier": 0.040932702767935106,
+      "nll": 0.4292103502667189,
+      "flip": 0.1
+     },
+     "head:ridge/avg": {
+      "acc": 0.97,
+      "ece": 0.024990109595948377,
+      "brier": 0.041961329973148824,
+      "nll": 0.07872553753883098,
+      "flip": 0.07
+     },
+     "head:rrr/avg": {
+      "acc": 0.96,
+      "ece": 0.03639818181282743,
+      "brier": 0.04356822996995101,
+      "nll": 0.08201725394052872,
+      "flip": 0.07
+     },
+     "head:diff_means@self": {
+      "acc": 0.89,
+      "ece": 0.11000000000000001,
+      "brier": 0.22,
+      "nll": 3.03941232275214,
+      "flip": 0.82
+     },
+     "head:lda@self": {
+      "acc": 0.88,
+      "ece": 0.11967716580357307,
+      "brier": 0.2388272792434759,
+      "nll": 2.8690205585546327,
+      "flip": 0.86
+     },
+     "head:ridge@self": {
+      "acc": 0.88,
+      "ece": 0.10191154251777157,
+      "brier": 0.20860020154737366,
+      "nll": 0.5682268869955038,
+      "flip": 0.83
+     },
+     "head:rrr@self": {
+      "acc": 0.87,
+      "ece": 0.1103503579581747,
+      "brier": 0.20574429536007158,
+      "nll": 0.5852779310626176,
+      "flip": 0.83
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.85,
+      "ece": 0.1493818283873795,
+      "brier": 0.2975865618185107,
+      "nll": 3.0881107465848707,
+      "flip": 0.1
+     },
+     "head:lda/avg@self": {
+      "acc": 0.89,
+      "ece": 0.10800772397102447,
+      "brier": 0.21563150306606654,
+      "nll": 2.480273034469784,
+      "flip": 0.06
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.89,
+      "ece": 0.0857503259354394,
+      "brier": 0.17930330696400687,
+      "nll": 0.456758622697414,
+      "flip": 0.08
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.89,
+      "ece": 0.08838561446536812,
+      "brier": 0.1815673943902113,
+      "nll": 0.4752623049352082,
+      "flip": 0.08
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 3,
+      "params": {},
+      "temperature": 7.251842320909469,
+      "n_labels": 200,
+      "oof_nll": 0.3967492587615841,
+      "oof_acc": 0.915
+     },
+     "head:lda": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 6.373925206475141,
+      "n_labels": 200,
+      "oof_nll": 0.2691469866392195,
+      "oof_acc": 0.95
+     },
+     "head:ridge": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1553973921425261,
+      "n_labels": 200,
+      "oof_nll": 0.13640656267138537,
+      "oof_acc": 0.95
+     },
+     "head:rrr": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.15837853432165783,
+      "n_labels": 200,
+      "oof_nll": 0.1473159450878525,
+      "oof_acc": 0.955
+     },
+     "head:diff_means/avg": {
+      "layer": 1,
+      "params": {},
+      "temperature": 8.287014084708996,
+      "n_labels": 200,
+      "oof_nll": 0.5493766827913164,
+      "oof_acc": 0.875
+     },
+     "head:lda/avg": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 6.047746139577282,
+      "n_labels": 200,
+      "oof_nll": 0.22637907142438984,
+      "oof_acc": 0.96
+     },
+     "head:ridge/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.15325644099382224,
+      "n_labels": 200,
+      "oof_nll": 0.1582966042081445,
+      "oof_acc": 0.95
+     },
+     "head:rrr/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.1559311989217579,
+      "n_labels": 200,
+      "oof_nll": 0.16622498833588803,
+      "oof_acc": 0.95
+     },
+     "head:diff_means@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 6.373000175481423,
+      "n_labels": 200,
+      "oof_nll": 0.2691458455893001,
+      "oof_acc": 0.95
+     },
+     "head:lda@self": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.086149263998198,
+      "n_labels": 200,
+      "oof_nll": 0.23451450501731308,
+      "oof_acc": 0.95
+     },
+     "head:ridge@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.135393599461902,
+      "n_labels": 200,
+      "oof_nll": 0.110821485167685,
+      "oof_acc": 0.955
+     },
+     "head:rrr@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.1424339408880147,
+      "n_labels": 200,
+      "oof_nll": 0.12023968802025152,
+      "oof_acc": 0.955
+     },
+     "head:diff_means/avg@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 8.740432852740401,
+      "n_labels": 200,
+      "oof_nll": 0.6151435791009222,
+      "oof_acc": 0.855
+     },
+     "head:lda/avg@self": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.3
+      },
+      "temperature": 5.895350926379746,
+      "n_labels": 200,
+      "oof_nll": 0.2123263872513941,
+      "oof_acc": 0.96
+     },
+     "head:ridge/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.13585775909179412,
+      "n_labels": 200,
+      "oof_nll": 0.12218034198937013,
+      "oof_acc": 0.955
+     },
+     "head:rrr/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.13984971258812684,
+      "n_labels": 200,
+      "oof_nll": 0.12698387202178632,
+      "oof_acc": 0.955
+     }
+    }
+   },
+   "typed.customer_service.churn_risk": {
+    "kind": "score",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.74,
+      "ece": 0.22005064926311102,
+      "brier": 0.48291237407089915,
+      "nll": 1.7088377883680395,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.74,
+      "ece": 0.13307167954102755,
+      "brier": 0.3577550970369613,
+      "nll": 0.6290196738602305,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.74,
+      "ece": 0.2548034318114063,
+      "brier": 0.524740488717327,
+      "nll": 6.839160960923502,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.74,
+      "ece": 0.22005064926311216,
+      "brier": 0.48291237407089915,
+      "nll": 1.7088377883680406,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.74,
+      "ece": 0.13307167954102755,
+      "brier": 0.3577550970369614,
+      "nll": 0.6290196738602305,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.74,
+      "ece": 0.2548034318114063,
+      "brier": 0.524740488717327,
+      "nll": 6.839160960923502,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.75,
+      "ece": 0.24536707918858688,
+      "brier": 0.4983466027516393,
+      "nll": 5.502450243120398,
+      "flip": 0.0
+     },
+     "head:lda": {
+      "acc": 0.9,
+      "ece": 0.07343067704405173,
+      "brier": 0.18111413789231073,
+      "nll": 0.7487674513171433,
+      "flip": 0.0
+     },
+     "head:ridge": {
+      "acc": 0.86,
+      "ece": 0.09925336943708216,
+      "brier": 0.23628156134473347,
+      "nll": 0.48760991100904777,
+      "flip": 0.0
+     },
+     "head:rrr": {
+      "acc": 0.83,
+      "ece": 0.12243897673184802,
+      "brier": 0.2563437802172412,
+      "nll": 0.5279338833796703,
+      "flip": 0.0
+     },
+     "head:diff_means/avg": {
+      "acc": 0.75,
+      "ece": 0.24536707918858688,
+      "brier": 0.4983466027516393,
+      "nll": 5.502450243120398,
+      "flip": 0.0
+     },
+     "head:lda/avg": {
+      "acc": 0.9,
+      "ece": 0.07343067704405173,
+      "brier": 0.18111413789231073,
+      "nll": 0.7487674513171433,
+      "flip": 0.0
+     },
+     "head:ridge/avg": {
+      "acc": 0.86,
+      "ece": 0.09925336943708216,
+      "brier": 0.23628156134473347,
+      "nll": 0.48760991100904777,
+      "flip": 0.0
+     },
+     "head:rrr/avg": {
+      "acc": 0.83,
+      "ece": 0.12243897673184802,
+      "brier": 0.2563437802172412,
+      "nll": 0.5279338833796703,
+      "flip": 0.0
+     },
+     "head:diff_means@self": {
+      "acc": 0.77,
+      "ece": 0.22983168699016793,
+      "brier": 0.46000566100138834,
+      "nll": 6.301853966179951,
+      "flip": 0.0
+     },
+     "head:lda@self": {
+      "acc": 0.76,
+      "ece": 0.23271803756085055,
+      "brier": 0.474146471694439,
+      "nll": 5.786341147169885,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.73,
+      "ece": 0.22173219059042057,
+      "brier": 0.460222565376206,
+      "nll": 1.1747845596792592,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.72,
+      "ece": 0.23001343079914482,
+      "brier": 0.4607358391734984,
+      "nll": 1.1245433615792768,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.77,
+      "ece": 0.22983168699016793,
+      "brier": 0.46000566100138834,
+      "nll": 6.301853966179951,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.76,
+      "ece": 0.23271803756085055,
+      "brier": 0.474146471694439,
+      "nll": 5.786341147169885,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.73,
+      "ece": 0.22173219059042057,
+      "brier": 0.460222565376206,
+      "nll": 1.1747845596792592,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.72,
+      "ece": 0.23001343079914482,
+      "brier": 0.4607358391734984,
+      "nll": 1.1245433615792768,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 0,
+      "params": {},
+      "temperature": 17.63316978680513,
+      "n_labels": 200,
+      "oof_nll": 1.0894246317175544,
+      "oof_acc": 0.615
+     },
+     "head:lda": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 9.665283212604708,
+      "n_labels": 200,
+      "oof_nll": 0.6253397296186475,
+      "oof_acc": 0.8
+     },
+     "head:ridge": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.28004754631228634,
+      "n_labels": 200,
+      "oof_nll": 0.6452885869049745,
+      "oof_acc": 0.74
+     },
+     "head:rrr": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.30048931912227855,
+      "n_labels": 200,
+      "oof_nll": 0.683234705050332,
+      "oof_acc": 0.73
+     },
+     "head:diff_means/avg": {
+      "layer": 0,
+      "params": {},
+      "temperature": 17.63316978680513,
+      "n_labels": 200,
+      "oof_nll": 1.0894246317175544,
+      "oof_acc": 0.615
+     },
+     "head:lda/avg": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 9.665283212604708,
+      "n_labels": 200,
+      "oof_nll": 0.6253397296186475,
+      "oof_acc": 0.8
+     },
+     "head:ridge/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.28004754631228634,
+      "n_labels": 200,
+      "oof_nll": 0.6452885869049745,
+      "oof_acc": 0.74
+     },
+     "head:rrr/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.30048931912227855,
+      "n_labels": 200,
+      "oof_nll": 0.683234705050332,
+      "oof_acc": 0.73
+     },
+     "head:diff_means@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 10.322367336844522,
+      "n_labels": 200,
+      "oof_nll": 0.6488241243527167,
+      "oof_acc": 0.825
+     },
+     "head:lda@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 6.720487848520275,
+      "n_labels": 200,
+      "oof_nll": 0.24429753673299875,
+      "oof_acc": 0.945
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1589806365139467,
+      "n_labels": 200,
+      "oof_nll": 0.14744178769543878,
+      "oof_acc": 0.95
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.16609243037161775,
+      "n_labels": 200,
+      "oof_nll": 0.16539742294709026,
+      "oof_acc": 0.945
+     },
+     "head:diff_means/avg@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 10.322367336844522,
+      "n_labels": 200,
+      "oof_nll": 0.6488241243527167,
+      "oof_acc": 0.825
+     },
+     "head:lda/avg@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 6.720487848520275,
+      "n_labels": 200,
+      "oof_nll": 0.24429753673299875,
+      "oof_acc": 0.945
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1589806365139467,
+      "n_labels": 200,
+      "oof_nll": 0.14744178769543878,
+      "oof_acc": 0.95
+     },
+     "head:rrr/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.16609243037161775,
+      "n_labels": 200,
+      "oof_nll": 0.16539742294709026,
+      "oof_acc": 0.945
+     }
+    }
+   },
+   "typed.customer_service.needs_human": {
+    "kind": "noul",
+    "k": 2,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.69,
+      "ece": 0.309818956262383,
+      "brier": 0.6194540913544533,
+      "nll": 3.3101815175466167,
+      "flip": 0.03
+     },
+     "L1": {
+      "acc": 0.69,
+      "ece": 0.19006134238559125,
+      "brier": 0.3992094518777149,
+      "nll": 0.5852949089701667,
+      "flip": 0.03
+     },
+     "L1@self": {
+      "acc": 0.69,
+      "ece": 0.30708705639278583,
+      "brier": 0.6128482155042405,
+      "nll": 1.929248531858953,
+      "flip": 0.03
+     },
+     "L0-perm": {
+      "acc": 0.69,
+      "ece": 0.30590470615270915,
+      "brier": 0.6053048533978024,
+      "nll": 2.767014160109346,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.69,
+      "ece": 0.1465284710104409,
+      "brier": 0.382746965530673,
+      "nll": 0.565543912929557,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.69,
+      "ece": 0.3099999999984634,
+      "brier": 0.6199999999938534,
+      "nll": 8.515268617309198,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.81,
+      "ece": 0.1764497244790102,
+      "brier": 0.3736428769272782,
+      "nll": 2.870136618154805,
+      "flip": 0.46
+     },
+     "head:lda": {
+      "acc": 0.71,
+      "ece": 0.09944305728318643,
+      "brier": 0.36164065281707325,
+      "nll": 0.5354526255448004,
+      "flip": 0.2
+     },
+     "head:ridge": {
+      "acc": 0.66,
+      "ece": 0.15935503552612426,
+      "brier": 0.40653105470364215,
+      "nll": 0.5894840213736239,
+      "flip": 0.22
+     },
+     "head:rrr": {
+      "acc": 0.66,
+      "ece": 0.15673687192046906,
+      "brier": 0.4255206359952034,
+      "nll": 0.6112274525057382,
+      "flip": 0.22
+     },
+     "head:diff_means/avg": {
+      "acc": 0.83,
+      "ece": 0.16754384177475393,
+      "brier": 0.34030638813164243,
+      "nll": 3.256510809356952,
+      "flip": 0.09
+     },
+     "head:lda/avg": {
+      "acc": 0.75,
+      "ece": 0.11673985451918033,
+      "brier": 0.3552022095980337,
+      "nll": 0.5280247761968311,
+      "flip": 0.06
+     },
+     "head:ridge/avg": {
+      "acc": 0.65,
+      "ece": 0.1615530593231732,
+      "brier": 0.42719854626997494,
+      "nll": 0.6118970219553446,
+      "flip": 0.11
+     },
+     "head:rrr/avg": {
+      "acc": 0.61,
+      "ece": 0.15019001160585838,
+      "brier": 0.4493274422700372,
+      "nll": 0.6376559551249219,
+      "flip": 0.13
+     },
+     "head:diff_means@self": {
+      "acc": 0.82,
+      "ece": 0.17995739707931843,
+      "brier": 0.3599972374076371,
+      "nll": 4.234197778473786,
+      "flip": 0.57
+     },
+     "head:lda@self": {
+      "acc": 0.69,
+      "ece": 0.3099982929585099,
+      "brier": 0.6199931724168394,
+      "nll": 8.320818855023656,
+      "flip": 0.07
+     },
+     "head:ridge@self": {
+      "acc": 0.69,
+      "ece": 0.3067577301653502,
+      "brier": 0.6119032943248395,
+      "nll": 1.871213035302312,
+      "flip": 0.04
+     },
+     "head:rrr@self": {
+      "acc": 0.69,
+      "ece": 0.30573855223291185,
+      "brier": 0.6113006461396019,
+      "nll": 1.9040294573956402,
+      "flip": 0.1
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.83,
+      "ece": 0.16548957514794366,
+      "brier": 0.33994242109079154,
+      "nll": 3.7531482542058052,
+      "flip": 0.14
+     },
+     "head:lda/avg@self": {
+      "acc": 0.69,
+      "ece": 0.3099999774123548,
+      "brier": 0.6199999096495209,
+      "nll": 8.415330771042687,
+      "flip": 0.01
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.69,
+      "ece": 0.303033700398009,
+      "brier": 0.6020770103915151,
+      "nll": 1.766180403688507,
+      "flip": 0.01
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.7,
+      "ece": 0.29178096475645354,
+      "brier": 0.6003488735355943,
+      "nll": 1.7753954353229295,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 2,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.5850208943480214,
+      "oof_acc": 0.735
+     },
+     "head:lda": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 19.143952570889397,
+      "n_labels": 200,
+      "oof_nll": 0.5722276417754597,
+      "oof_acc": 0.715
+     },
+     "head:ridge": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.8656786557103826,
+      "n_labels": 200,
+      "oof_nll": 0.6046432491691023,
+      "oof_acc": 0.685
+     },
+     "head:rrr": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.9729157062262245,
+      "n_labels": 200,
+      "oof_nll": 0.6120024199863486,
+      "oof_acc": 0.65
+     },
+     "head:diff_means/avg": {
+      "layer": 2,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.5821178132857077,
+      "oof_acc": 0.735
+     },
+     "head:lda/avg": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 18.476141700018108,
+      "n_labels": 200,
+      "oof_nll": 0.5612813174111363,
+      "oof_acc": 0.745
+     },
+     "head:ridge/avg": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.8361906982490389,
+      "n_labels": 200,
+      "oof_nll": 0.5983875920218072,
+      "oof_acc": 0.685
+     },
+     "head:rrr/avg": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.9788800795811582,
+      "n_labels": 200,
+      "oof_nll": 0.61012186177096,
+      "oof_acc": 0.67
+     },
+     "head:diff_means@self": {
+      "layer": 2,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.6130632815335747,
+      "oof_acc": 0.715
+     },
+     "head:lda@self": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 7.279078174836116,
+      "n_labels": 200,
+      "oof_nll": 0.1105882609443695,
+      "oof_acc": 0.97
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.16848820208271612,
+      "n_labels": 200,
+      "oof_nll": 0.05903362238441104,
+      "oof_acc": 0.97
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.1668843685886521,
+      "n_labels": 200,
+      "oof_nll": 0.0590928316104162,
+      "oof_acc": 0.97
+     },
+     "head:diff_means/avg@self": {
+      "layer": 2,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.6243014276884341,
+      "oof_acc": 0.71
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 7.173794290030013,
+      "n_labels": 200,
+      "oof_nll": 0.10790569461226983,
+      "oof_acc": 0.975
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.17749431054988257,
+      "n_labels": 200,
+      "oof_nll": 0.06465381038266779,
+      "oof_acc": 0.965
+     },
+     "head:rrr/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.178630600739279,
+      "n_labels": 200,
+      "oof_nll": 0.0666502463135333,
+      "oof_acc": 0.965
+     }
+    }
+   },
+   "typed.customer_service.urgency": {
+    "kind": "score",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.71,
+      "ece": 0.19937290960678336,
+      "brier": 0.4842637907195837,
+      "nll": 1.5378803403350787,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.71,
+      "ece": 0.1613720080819817,
+      "brier": 0.4316046047405452,
+      "nll": 0.7481252060271951,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.71,
+      "ece": 0.2746055529477425,
+      "brier": 0.5742153878998474,
+      "nll": 6.476484564373492,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.71,
+      "ece": 0.19937290960678336,
+      "brier": 0.4842637907195837,
+      "nll": 1.5378803403350787,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.71,
+      "ece": 0.1613720080819817,
+      "brier": 0.4316046047405452,
+      "nll": 0.7481252060271951,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.71,
+      "ece": 0.2746055529477425,
+      "brier": 0.5742153878998474,
+      "nll": 6.476484564373492,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.54,
+      "ece": 0.44994627964926137,
+      "brier": 0.9134738239930281,
+      "nll": 10.392284690328786,
+      "flip": 0.0
+     },
+     "head:lda": {
+      "acc": 0.8,
+      "ece": 0.11734860354457491,
+      "brier": 0.2554543476571449,
+      "nll": 0.5455807856662278,
+      "flip": 0.0
+     },
+     "head:ridge": {
+      "acc": 0.78,
+      "ece": 0.08559172375864892,
+      "brier": 0.30755556389726046,
+      "nll": 0.6092158501587626,
+      "flip": 0.0
+     },
+     "head:rrr": {
+      "acc": 0.76,
+      "ece": 0.10703521829128367,
+      "brier": 0.34786378129043116,
+      "nll": 0.693242942915087,
+      "flip": 0.0
+     },
+     "head:diff_means/avg": {
+      "acc": 0.54,
+      "ece": 0.44994627964926137,
+      "brier": 0.9134738239930281,
+      "nll": 10.392284690328786,
+      "flip": 0.0
+     },
+     "head:lda/avg": {
+      "acc": 0.8,
+      "ece": 0.11734860354457491,
+      "brier": 0.2554543476571449,
+      "nll": 0.5455807856662278,
+      "flip": 0.0
+     },
+     "head:ridge/avg": {
+      "acc": 0.78,
+      "ece": 0.08559172375864892,
+      "brier": 0.30755556389726046,
+      "nll": 0.6092158501587626,
+      "flip": 0.0
+     },
+     "head:rrr/avg": {
+      "acc": 0.76,
+      "ece": 0.10703521829128367,
+      "brier": 0.34786378129043116,
+      "nll": 0.693242942915087,
+      "flip": 0.0
+     },
+     "head:diff_means@self": {
+      "acc": 0.68,
+      "ece": 0.31123786323256675,
+      "brier": 0.6433542148744931,
+      "nll": 7.901449742405642,
+      "flip": 0.0
+     },
+     "head:lda@self": {
+      "acc": 0.71,
+      "ece": 0.2734534804320529,
+      "brier": 0.5360926433976317,
+      "nll": 3.2689306024835947,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.71,
+      "ece": 0.23483209902334726,
+      "brier": 0.49311576848026434,
+      "nll": 1.337474756470176,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.72,
+      "ece": 0.2345044269920202,
+      "brier": 0.48957028958967624,
+      "nll": 1.2223279409579713,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.68,
+      "ece": 0.31123786323256675,
+      "brier": 0.6433542148744931,
+      "nll": 7.901449742405642,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.71,
+      "ece": 0.2734534804320529,
+      "brier": 0.5360926433976317,
+      "nll": 3.2689306024835947,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.71,
+      "ece": 0.23483209902334726,
+      "brier": 0.49311576848026434,
+      "nll": 1.337474756470176,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.72,
+      "ece": 0.2345044269920202,
+      "brier": 0.48957028958967624,
+      "nll": 1.2223279409579713,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 0,
+      "params": {},
+      "temperature": 17.845928093514235,
+      "n_labels": 200,
+      "oof_nll": 1.097612264667342,
+      "oof_acc": 0.605
+     },
+     "head:lda": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 9.234593577207653,
+      "n_labels": 200,
+      "oof_nll": 0.6204700403127289,
+      "oof_acc": 0.79
+     },
+     "head:ridge": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.2508601896118473,
+      "n_labels": 200,
+      "oof_nll": 0.611186728841635,
+      "oof_acc": 0.79
+     },
+     "head:rrr": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.27175770742982164,
+      "n_labels": 200,
+      "oof_nll": 0.650017613123924,
+      "oof_acc": 0.78
+     },
+     "head:diff_means/avg": {
+      "layer": 0,
+      "params": {},
+      "temperature": 17.845928093514235,
+      "n_labels": 200,
+      "oof_nll": 1.097612264667342,
+      "oof_acc": 0.605
+     },
+     "head:lda/avg": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 9.234593577207653,
+      "n_labels": 200,
+      "oof_nll": 0.6204700403127289,
+      "oof_acc": 0.79
+     },
+     "head:ridge/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.2508601896118473,
+      "n_labels": 200,
+      "oof_nll": 0.611186728841635,
+      "oof_acc": 0.79
+     },
+     "head:rrr/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.27175770742982164,
+      "n_labels": 200,
+      "oof_nll": 0.650017613123924,
+      "oof_acc": 0.78
+     },
+     "head:diff_means@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 14.374374036576791,
+      "n_labels": 200,
+      "oof_nll": 0.9511540859047989,
+      "oof_acc": 0.695
+     },
+     "head:lda@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.752475641829692,
+      "n_labels": 200,
+      "oof_nll": 0.2797645981978319,
+      "oof_acc": 0.925
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1458888179793472,
+      "n_labels": 200,
+      "oof_nll": 0.1987410659115172,
+      "oof_acc": 0.91
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.16398898253178842,
+      "n_labels": 200,
+      "oof_nll": 0.24122515009651446,
+      "oof_acc": 0.91
+     },
+     "head:diff_means/avg@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 14.374374036576791,
+      "n_labels": 200,
+      "oof_nll": 0.9511540859047989,
+      "oof_acc": 0.695
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.752475641829692,
+      "n_labels": 200,
+      "oof_nll": 0.2797645981978319,
+      "oof_acc": 0.925
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1458888179793472,
+      "n_labels": 200,
+      "oof_nll": 0.1987410659115172,
+      "oof_acc": 0.91
+     },
+     "head:rrr/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.16398898253178842,
+      "n_labels": 200,
+      "oof_nll": 0.24122515009651446,
+      "oof_acc": 0.91
+     }
+    }
+   },
+   "typed.invoice_processing.discrepancy_severity": {
+    "kind": "score",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.54,
+      "ece": 0.39311150780504434,
+      "brier": 0.8388600952263421,
+      "nll": 3.9411036877953296,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.54,
+      "ece": 0.23773911312098034,
+      "brier": 0.5778684056345476,
+      "nll": 1.111110528685846,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.54,
+      "ece": 0.4548025560119634,
+      "brier": 0.9147387372347583,
+      "nll": 12.710335453560228,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.54,
+      "ece": 0.39311150780504434,
+      "brier": 0.838860095226342,
+      "nll": 3.9411036877953296,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.54,
+      "ece": 0.23773912045609633,
+      "brier": 0.5778684097870526,
+      "nll": 1.1111105343144154,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.54,
+      "ece": 0.4548025560119634,
+      "brier": 0.9147387372347583,
+      "nll": 12.710335453560228,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.58,
+      "ece": 0.41064422816951635,
+      "brier": 0.8316929150969103,
+      "nll": 8.17161538954809,
+      "flip": 0.0
+     },
+     "head:lda": {
+      "acc": 0.76,
+      "ece": 0.10608638221437783,
+      "brier": 0.33503433302733165,
+      "nll": 0.6839357910602524,
+      "flip": 0.0
+     },
+     "head:ridge": {
+      "acc": 0.76,
+      "ece": 0.13931689278902004,
+      "brier": 0.38177874699555353,
+      "nll": 0.7482224312698261,
+      "flip": 0.0
+     },
+     "head:rrr": {
+      "acc": 0.72,
+      "ece": 0.14122789559292503,
+      "brier": 0.44878155427857924,
+      "nll": 0.8802908929687007,
+      "flip": 0.0
+     },
+     "head:diff_means/avg": {
+      "acc": 0.58,
+      "ece": 0.41064422816951635,
+      "brier": 0.8316929150969103,
+      "nll": 8.17161538954809,
+      "flip": 0.0
+     },
+     "head:lda/avg": {
+      "acc": 0.76,
+      "ece": 0.10608638221437783,
+      "brier": 0.33503433302733165,
+      "nll": 0.6839357910602524,
+      "flip": 0.0
+     },
+     "head:ridge/avg": {
+      "acc": 0.76,
+      "ece": 0.13931689278902004,
+      "brier": 0.38177874699555353,
+      "nll": 0.7482224312698261,
+      "flip": 0.0
+     },
+     "head:rrr/avg": {
+      "acc": 0.72,
+      "ece": 0.14122789559292503,
+      "brier": 0.44878155427857924,
+      "nll": 0.8802908929687007,
+      "flip": 0.0
+     },
+     "head:diff_means@self": {
+      "acc": 0.6,
+      "ece": 0.39972277665507405,
+      "brier": 0.7994384764816052,
+      "nll": 9.963896139097066,
+      "flip": 0.0
+     },
+     "head:lda@self": {
+      "acc": 0.53,
+      "ece": 0.4612479489227556,
+      "brier": 0.9248431704099075,
+      "nll": 12.076513147478515,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.52,
+      "ece": 0.4265469768982134,
+      "brier": 0.8720422014263987,
+      "nll": 2.265267949793645,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.52,
+      "ece": 0.4215822663016361,
+      "brier": 0.8677512430113151,
+      "nll": 2.201082610831668,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.6,
+      "ece": 0.39972277665507405,
+      "brier": 0.7994384764816052,
+      "nll": 9.963896139097066,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.53,
+      "ece": 0.4612479489227556,
+      "brier": 0.9248431704099075,
+      "nll": 12.076513147478515,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.52,
+      "ece": 0.4265469768982134,
+      "brier": 0.8720422014263987,
+      "nll": 2.265267949793645,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.52,
+      "ece": 0.4215822663016361,
+      "brier": 0.8677512430113151,
+      "nll": 2.201082610831668,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.2015290765726885,
+      "oof_acc": 0.54
+     },
+     "head:lda": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.871448775218287,
+      "n_labels": 200,
+      "oof_nll": 0.7261654523491194,
+      "oof_acc": 0.75
+     },
+     "head:ridge": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.2829987037907605,
+      "n_labels": 200,
+      "oof_nll": 0.769940448427212,
+      "oof_acc": 0.73
+     },
+     "head:rrr": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.3356992827897801,
+      "n_labels": 200,
+      "oof_nll": 0.8316770775253702,
+      "oof_acc": 0.7
+     },
+     "head:diff_means/avg": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.2015290765726885,
+      "oof_acc": 0.54
+     },
+     "head:lda/avg": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.871448775218287,
+      "n_labels": 200,
+      "oof_nll": 0.7261654523491194,
+      "oof_acc": 0.75
+     },
+     "head:ridge/avg": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.2829987037907605,
+      "n_labels": 200,
+      "oof_nll": 0.769940448427212,
+      "oof_acc": 0.73
+     },
+     "head:rrr/avg": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.3356992827897801,
+      "n_labels": 200,
+      "oof_nll": 0.8316770775253702,
+      "oof_acc": 0.7
+     },
+     "head:diff_means@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 17.12333356488853,
+      "n_labels": 200,
+      "oof_nll": 1.072729362119297,
+      "oof_acc": 0.625
+     },
+     "head:lda@self": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.7770181019161795,
+      "n_labels": 200,
+      "oof_nll": 0.26425729090166433,
+      "oof_acc": 0.94
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.19387578037299794,
+      "n_labels": 200,
+      "oof_nll": 0.19966234267843938,
+      "oof_acc": 0.935
+     },
+     "head:rrr@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.20202620583220438,
+      "n_labels": 200,
+      "oof_nll": 0.21532811278044675,
+      "oof_acc": 0.945
+     },
+     "head:diff_means/avg@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 17.12333356488853,
+      "n_labels": 200,
+      "oof_nll": 1.072729362119297,
+      "oof_acc": 0.625
+     },
+     "head:lda/avg@self": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.7770181019161795,
+      "n_labels": 200,
+      "oof_nll": 0.26425729090166433,
+      "oof_acc": 0.94
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.19387578037299794,
+      "n_labels": 200,
+      "oof_nll": 0.19966234267843938,
+      "oof_acc": 0.935
+     },
+     "head:rrr/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.20202620583220438,
+      "n_labels": 200,
+      "oof_nll": 0.21532811278044675,
+      "oof_acc": 0.945
+     }
+    }
+   },
+   "typed.invoice_processing.disposition": {
+    "kind": "choice",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.45,
+      "ece": 0.5484293139803711,
+      "brier": 1.0955918341687014,
+      "nll": 11.196154652411247,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.45,
+      "ece": 0.16700748406855612,
+      "brier": 0.6737615887655285,
+      "nll": 1.2524138690845963,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.45,
+      "ece": 0.55,
+      "brier": 1.1,
+      "nll": 15.197061613760702,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.45,
+      "ece": 0.5463809351293063,
+      "brier": 1.0948112954381326,
+      "nll": 10.575605485153348,
+      "flip": 0.01
+     },
+     "L0-perm+T": {
+      "acc": 0.45,
+      "ece": 0.22537459500656223,
+      "brier": 0.6669115926163995,
+      "nll": 1.240925798575031,
+      "flip": 0.01
+     },
+     "L0-perm+T@self": {
+      "acc": 0.45,
+      "ece": 0.5499999899327557,
+      "brier": 1.0999999798655318,
+      "nll": 15.197061613760702,
+      "flip": 0.01
+     },
+     "head:diff_means": {
+      "acc": 0.5,
+      "ece": 0.47868635920585284,
+      "brier": 0.967995256359816,
+      "nll": 10.023520010641954,
+      "flip": 0.33
+     },
+     "head:lda": {
+      "acc": 0.73,
+      "ece": 0.1509345897433335,
+      "brier": 0.3999946490703523,
+      "nll": 0.7632087491698839,
+      "flip": 0.74
+     },
+     "head:ridge": {
+      "acc": 0.74,
+      "ece": 0.15985573677688833,
+      "brier": 0.4026643399309306,
+      "nll": 0.7888119471219157,
+      "flip": 0.82
+     },
+     "head:rrr": {
+      "acc": 0.76,
+      "ece": 0.13494624859997995,
+      "brier": 0.41171765483247613,
+      "nll": 0.8163870683144293,
+      "flip": 0.44
+     },
+     "head:diff_means/avg": {
+      "acc": 0.55,
+      "ece": 0.42270620562405015,
+      "brier": 0.8650844751294646,
+      "nll": 9.600052961855166,
+      "flip": 0.04
+     },
+     "head:lda/avg": {
+      "acc": 0.74,
+      "ece": 0.11571684049301682,
+      "brier": 0.3744075977462172,
+      "nll": 0.7462493900580748,
+      "flip": 0.21
+     },
+     "head:ridge/avg": {
+      "acc": 0.76,
+      "ece": 0.14499385836231105,
+      "brier": 0.3850611728529224,
+      "nll": 0.7854147075622915,
+      "flip": 0.42
+     },
+     "head:rrr/avg": {
+      "acc": 0.76,
+      "ece": 0.2095463342211038,
+      "brier": 0.39241606770104426,
+      "nll": 0.7857020702823576,
+      "flip": 0.13
+     },
+     "head:diff_means@self": {
+      "acc": 0.48,
+      "ece": 0.43118193109673,
+      "brier": 0.9544471483125407,
+      "nll": 12.991724584051465,
+      "flip": 0.83
+     },
+     "head:lda@self": {
+      "acc": 0.45,
+      "ece": 0.5438797172781964,
+      "brier": 1.0925811216452481,
+      "nll": 14.076979063855509,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.45,
+      "ece": 0.5449659609674882,
+      "brier": 1.0922478226818446,
+      "nll": 3.540188138293311,
+      "flip": 1.0
+     },
+     "head:rrr@self": {
+      "acc": 0.45,
+      "ece": 0.5455376264650939,
+      "brier": 1.0923721769082615,
+      "nll": 3.5364157426757954,
+      "flip": 0.96
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.47,
+      "ece": 0.43235126246870886,
+      "brier": 0.9714952816298544,
+      "nll": 13.131197145139968,
+      "flip": 0.15
+     },
+     "head:lda/avg@self": {
+      "acc": 0.45,
+      "ece": 0.5440889568249084,
+      "brier": 1.0926578232724005,
+      "nll": 14.075603202060595,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.45,
+      "ece": 0.5441969903156407,
+      "brier": 1.0907435167703354,
+      "nll": 3.473320040831124,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.45,
+      "ece": 0.5441125376830723,
+      "brier": 1.0908464900938346,
+      "nll": 3.4761682641643814,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.3239101719591735,
+      "oof_acc": 0.445
+     },
+     "head:lda": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.869169756621336,
+      "n_labels": 200,
+      "oof_nll": 0.7784026845516615,
+      "oof_acc": 0.72
+     },
+     "head:ridge": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.27611889338013107,
+      "n_labels": 200,
+      "oof_nll": 0.7822800263782673,
+      "oof_acc": 0.725
+     },
+     "head:rrr": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.29002174532967867,
+      "n_labels": 200,
+      "oof_nll": 0.855794826748417,
+      "oof_acc": 0.695
+     },
+     "head:diff_means/avg": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.2048433966554142,
+      "oof_acc": 0.535
+     },
+     "head:lda/avg": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 9.290546807182203,
+      "n_labels": 200,
+      "oof_nll": 0.7846915995395574,
+      "oof_acc": 0.72
+     },
+     "head:ridge/avg": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.2846970896503216,
+      "n_labels": 200,
+      "oof_nll": 0.7836388754321583,
+      "oof_acc": 0.715
+     },
+     "head:rrr/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.3022215720553235,
+      "n_labels": 200,
+      "oof_nll": 0.8647818690501997,
+      "oof_acc": 0.69
+     },
+     "head:diff_means@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 14.661906336227343,
+      "n_labels": 200,
+      "oof_nll": 1.0133405501465467,
+      "oof_acc": 0.695
+     },
+     "head:lda@self": {
+      "layer": 4,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 1.0253295597872571,
+      "n_labels": 200,
+      "oof_nll": 0.06463093599578013,
+      "oof_acc": 0.99
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.15447509993084854,
+      "n_labels": 200,
+      "oof_nll": 0.048257549153469664,
+      "oof_acc": 0.99
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.15441182794994188,
+      "n_labels": 200,
+      "oof_nll": 0.04672816827654178,
+      "oof_acc": 0.99
+     },
+     "head:diff_means/avg@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 16.12096023592287,
+      "n_labels": 200,
+      "oof_nll": 1.0755378224002483,
+      "oof_acc": 0.66
+     },
+     "head:lda/avg@self": {
+      "layer": 4,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 1.0189866643912802,
+      "n_labels": 200,
+      "oof_nll": 0.061600675057907915,
+      "oof_acc": 0.99
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1568962262309334,
+      "n_labels": 200,
+      "oof_nll": 0.04847767479158532,
+      "oof_acc": 0.99
+     },
+     "head:rrr/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.15751427862856143,
+      "n_labels": 200,
+      "oof_nll": 0.0478311496264134,
+      "oof_acc": 0.99
+     }
+    }
+   },
+   "typed.invoice_processing.duplicate": {
+    "kind": "noul",
+    "k": 2,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.89,
+      "ece": 0.10999999951971243,
+      "brier": 0.2199999983040624,
+      "nll": 2.57250000072444,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.89,
+      "ece": 0.13231173427190043,
+      "brier": 0.19296450102730195,
+      "nll": 0.341369029557451,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.89,
+      "ece": 0.11000000000000003,
+      "brier": 0.22,
+      "nll": 3.03941232275214,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.89,
+      "ece": 0.10999999985762135,
+      "brier": 0.21999999929434652,
+      "nll": 2.511249996873703,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.89,
+      "ece": 0.13420468906778782,
+      "brier": 0.1940087221087603,
+      "nll": 0.3430443654676803,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.89,
+      "ece": 0.11000000000000003,
+      "brier": 0.22,
+      "nll": 3.03941232275214,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.7,
+      "ece": 0.29365944347706463,
+      "brier": 0.5965502773172446,
+      "nll": 6.400633587320718,
+      "flip": 0.06
+     },
+     "head:lda": {
+      "acc": 0.94,
+      "ece": 0.05210952618914819,
+      "brier": 0.1121148591072341,
+      "nll": 0.4068936121065171,
+      "flip": 0.04
+     },
+     "head:ridge": {
+      "acc": 0.94,
+      "ece": 0.03755441244725346,
+      "brier": 0.09078623938030025,
+      "nll": 0.1522507928108676,
+      "flip": 0.04
+     },
+     "head:rrr": {
+      "acc": 0.94,
+      "ece": 0.049590909309182835,
+      "brier": 0.09291307476011136,
+      "nll": 0.1603804635246515,
+      "flip": 0.08
+     },
+     "head:diff_means/avg": {
+      "acc": 0.69,
+      "ece": 0.3022010640169174,
+      "brier": 0.5950735365500058,
+      "nll": 6.286259620739346,
+      "flip": 0.01
+     },
+     "head:lda/avg": {
+      "acc": 0.94,
+      "ece": 0.04705619501188166,
+      "brier": 0.09986035481892314,
+      "nll": 0.35454534734532706,
+      "flip": 0.05
+     },
+     "head:ridge/avg": {
+      "acc": 0.94,
+      "ece": 0.035967998090140486,
+      "brier": 0.08294739609726116,
+      "nll": 0.14381887190545717,
+      "flip": 0.05
+     },
+     "head:rrr/avg": {
+      "acc": 0.93,
+      "ece": 0.04918830010948267,
+      "brier": 0.08014142611615287,
+      "nll": 0.14226640231682844,
+      "flip": 0.07
+     },
+     "head:diff_means@self": {
+      "acc": 0.11,
+      "ece": 0.3900000000000001,
+      "brier": 0.5,
+      "nll": 0.6931471805599453,
+      "flip": 0.0
+     },
+     "head:lda@self": {
+      "acc": 0.89,
+      "ece": 0.11000000000000003,
+      "brier": 0.22,
+      "nll": 3.03941232275214,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.89,
+      "ece": 0.11000000007568715,
+      "brier": 0.21999999916744126,
+      "nll": 2.2094090475023873,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.89,
+      "ece": 0.11000000007568715,
+      "brier": 0.21999999916744126,
+      "nll": 2.2094090475023873,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.11,
+      "ece": 0.3900000000000001,
+      "brier": 0.5,
+      "nll": 0.6931471805599453,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.89,
+      "ece": 0.11000000000000003,
+      "brier": 0.22,
+      "nll": 3.03941232275214,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.89,
+      "ece": 0.11000000007568715,
+      "brier": 0.21999999916744126,
+      "nll": 2.2094090475023873,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.89,
+      "ece": 0.11000000007568715,
+      "brier": 0.21999999916744126,
+      "nll": 2.2094090475023873,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.5816327857428242,
+      "oof_acc": 0.74
+     },
+     "head:lda": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.3
+      },
+      "temperature": 7.918487960654043,
+      "n_labels": 200,
+      "oof_nll": 0.13906919396432582,
+      "oof_acc": 0.97
+     },
+     "head:ridge": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.22921025862208283,
+      "n_labels": 200,
+      "oof_nll": 0.1252909987492891,
+      "oof_acc": 0.97
+     },
+     "head:rrr": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.23194225319914547,
+      "n_labels": 200,
+      "oof_nll": 0.1323970119654676,
+      "oof_acc": 0.965
+     },
+     "head:diff_means/avg": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.5760731916489733,
+      "oof_acc": 0.745
+     },
+     "head:lda/avg": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.3
+      },
+      "temperature": 7.547884639957833,
+      "n_labels": 200,
+      "oof_nll": 0.1247863213783803,
+      "oof_acc": 0.97
+     },
+     "head:ridge/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.23102456630228194,
+      "n_labels": 200,
+      "oof_nll": 0.12490155723658129,
+      "oof_acc": 0.97
+     },
+     "head:rrr/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.23285093701327697,
+      "n_labels": 200,
+      "oof_nll": 0.13212368817753792,
+      "oof_acc": 0.975
+     },
+     "head:diff_means@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.6931471805599452,
+      "oof_acc": 0.0
+     },
+     "head:lda@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.3
+      },
+      "temperature": 0.13814958669592953,
+      "n_labels": 200,
+      "oof_nll": -0.0,
+      "oof_acc": 1.0
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 0.1
+      },
+      "temperature": 0.04978706872706748,
+      "n_labels": 200,
+      "oof_nll": 1.8921788598329962e-09,
+      "oof_acc": 1.0
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 1.0,
+       "rank": 1
+      },
+      "temperature": 0.04978706872706748,
+      "n_labels": 200,
+      "oof_nll": 1.8921788598329962e-09,
+      "oof_acc": 1.0
+     },
+     "head:diff_means/avg@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.6931471805599452,
+      "oof_acc": 0.0
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.3
+      },
+      "temperature": 0.13814958669592953,
+      "n_labels": 200,
+      "oof_nll": -0.0,
+      "oof_acc": 1.0
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 0.1
+      },
+      "temperature": 0.04978706872706748,
+      "n_labels": 200,
+      "oof_nll": 1.8921788598329962e-09,
+      "oof_acc": 1.0
+     },
+     "head:rrr/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 1.0,
+       "rank": 1
+      },
+      "temperature": 0.04978706872706748,
+      "n_labels": 200,
+      "oof_nll": 1.8921788598329962e-09,
+      "oof_acc": 1.0
+     }
+    }
+   },
+   "typed.invoice_processing.matches_order": {
+    "kind": "noul",
+    "k": 2,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.54,
+      "ece": 0.4599835120242184,
+      "brier": 0.9199340935751557,
+      "nll": 8.620016477323423,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.54,
+      "ece": 0.40619257300285666,
+      "brier": 0.5196289237839236,
+      "nll": 0.7088231914477175,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.54,
+      "ece": 0.4600000000000001,
+      "brier": 0.92,
+      "nll": 12.710269713327131,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.54,
+      "ece": 0.4599728666319751,
+      "brier": 0.9198915510533459,
+      "nll": 8.385027127255498,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.54,
+      "ece": 0.4260285997613791,
+      "brier": 0.5148887788189391,
+      "nll": 0.7036699292411096,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.54,
+      "ece": 0.4600000000000001,
+      "brier": 0.92,
+      "nll": 12.710269713327131,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.96,
+      "ece": 0.04000001263488641,
+      "brier": 0.08000000000002075,
+      "nll": 1.1052408572720336,
+      "flip": 0.0
+     },
+     "head:lda": {
+      "acc": 0.96,
+      "ece": 0.07858967766338122,
+      "brier": 0.08463870328203901,
+      "nll": 0.16893778091061062,
+      "flip": 0.43
+     },
+     "head:ridge": {
+      "acc": 0.94,
+      "ece": 0.06815272408828064,
+      "brier": 0.10548942666831662,
+      "nll": 0.19149655525278128,
+      "flip": 0.52
+     },
+     "head:rrr": {
+      "acc": 0.91,
+      "ece": 0.08309521184989013,
+      "brier": 0.1290686294367189,
+      "nll": 0.2294387705408235,
+      "flip": 0.49
+     },
+     "head:diff_means/avg": {
+      "acc": 0.95,
+      "ece": 0.047359133045225266,
+      "brier": 0.09083193228498193,
+      "nll": 1.1185565408678435,
+      "flip": 0.01
+     },
+     "head:lda/avg": {
+      "acc": 0.95,
+      "ece": 0.06655345667681273,
+      "brier": 0.09320769557621458,
+      "nll": 0.1788359341786687,
+      "flip": 0.25
+     },
+     "head:ridge/avg": {
+      "acc": 0.94,
+      "ece": 0.06739765322393639,
+      "brier": 0.10491554868083831,
+      "nll": 0.18937219724821974,
+      "flip": 0.39
+     },
+     "head:rrr/avg": {
+      "acc": 0.92,
+      "ece": 0.06368114391675947,
+      "brier": 0.13440802423431403,
+      "nll": 0.23686189161991864,
+      "flip": 0.48
+     },
+     "head:diff_means@self": {
+      "acc": 0.86,
+      "ece": 0.13897467626181387,
+      "brier": 0.27610897566958625,
+      "nll": 3.552821949252367,
+      "flip": 0.28
+     },
+     "head:lda@self": {
+      "acc": 0.54,
+      "ece": 0.4600000000000001,
+      "brier": 0.92,
+      "nll": 12.710269713327131,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.54,
+      "ece": 0.4599999978519024,
+      "brier": 0.9199999955073747,
+      "nll": 9.209824511874915,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.54,
+      "ece": 0.4599999982384185,
+      "brier": 0.9199999956787741,
+      "nll": 9.211656975375154,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.84,
+      "ece": 0.15965142826535103,
+      "brier": 0.3199199069932126,
+      "nll": 4.204784659925697,
+      "flip": 0.02
+     },
+     "head:lda/avg@self": {
+      "acc": 0.54,
+      "ece": 0.4600000000000001,
+      "brier": 0.92,
+      "nll": 12.710269713327131,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.54,
+      "ece": 0.45999999810881154,
+      "brier": 0.919999995496145,
+      "nll": 9.222344439961908,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.54,
+      "ece": 0.4599999980055637,
+      "brier": 0.9199999960026066,
+      "nll": 9.21288589730907,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 2,
+      "params": {},
+      "temperature": 15.860318939870877,
+      "n_labels": 200,
+      "oof_nll": 0.4225567360528686,
+      "oof_acc": 0.85
+     },
+     "head:lda": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.901774192168533,
+      "n_labels": 200,
+      "oof_nll": 0.32006566145166837,
+      "oof_acc": 0.865
+     },
+     "head:ridge": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.31375743682582785,
+      "n_labels": 200,
+      "oof_nll": 0.31396765979853314,
+      "oof_acc": 0.865
+     },
+     "head:rrr": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.351822935495825,
+      "n_labels": 200,
+      "oof_nll": 0.3387047110450995,
+      "oof_acc": 0.855
+     },
+     "head:diff_means/avg": {
+      "layer": 3,
+      "params": {},
+      "temperature": 15.572319532167828,
+      "n_labels": 200,
+      "oof_nll": 0.4139371303902238,
+      "oof_acc": 0.855
+     },
+     "head:lda/avg": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.666241801742574,
+      "n_labels": 200,
+      "oof_nll": 0.32342320368721106,
+      "oof_acc": 0.87
+     },
+     "head:ridge/avg": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.32326692887611946,
+      "n_labels": 200,
+      "oof_nll": 0.3222626929285716,
+      "oof_acc": 0.87
+     },
+     "head:rrr/avg": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.37422853257958316,
+      "n_labels": 200,
+      "oof_nll": 0.3572938364969806,
+      "oof_acc": 0.845
+     },
+     "head:diff_means@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.6930049323257482,
+      "oof_acc": 0.66
+     },
+     "head:lda@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.3
+      },
+      "temperature": 0.7521346629932841,
+      "n_labels": 200,
+      "oof_nll": -0.0,
+      "oof_acc": 1.0
+     },
+     "head:ridge@self": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.04978706836804673,
+      "n_labels": 200,
+      "oof_nll": 4.6718924940391534e-08,
+      "oof_acc": 1.0
+     },
+     "head:rrr@self": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.049787068367993396,
+      "n_labels": 200,
+      "oof_nll": 6.056106421449696e-08,
+      "oof_acc": 1.0
+     },
+     "head:diff_means/avg@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.6530953525135927,
+      "oof_acc": 0.69
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.3
+      },
+      "temperature": 0.7521346629932841,
+      "n_labels": 200,
+      "oof_nll": -0.0,
+      "oof_acc": 1.0
+     },
+     "head:ridge/avg@self": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.04978706836796043,
+      "n_labels": 200,
+      "oof_nll": 7.442858329491819e-08,
+      "oof_acc": 1.0
+     },
+     "head:rrr/avg@self": {
+      "layer": 2,
+      "params": {
+       "lam": 1.0,
+       "rank": 1
+      },
+      "temperature": 0.049787068367907104,
+      "n_labels": 200,
+      "oof_nll": 1.0030911379922706e-07,
+      "oof_acc": 1.0
+     }
+    }
+   },
+   "typed.invoice_processing.urgency": {
+    "kind": "score",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.63,
+      "ece": 0.24562479848741423,
+      "brier": 0.581145457683333,
+      "nll": 1.2430357598200843,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.63,
+      "ece": 0.16496026719598111,
+      "brier": 0.47787852802524006,
+      "nll": 0.7516793960334047,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.63,
+      "ece": 0.35953873196157227,
+      "brier": 0.7092136594078624,
+      "nll": 8.152186054793846,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.63,
+      "ece": 0.24562479848741423,
+      "brier": 0.581145457683333,
+      "nll": 1.2430357598200843,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.63,
+      "ece": 0.16496026719598111,
+      "brier": 0.47787852802524006,
+      "nll": 0.7516793960334047,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.63,
+      "ece": 0.35953873196157227,
+      "brier": 0.7092136594078624,
+      "nll": 8.152186054793846,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.62,
+      "ece": 0.3793634558459835,
+      "brier": 0.7584902291128338,
+      "nll": 8.997931775311653,
+      "flip": 0.0
+     },
+     "head:lda": {
+      "acc": 0.71,
+      "ece": 0.13511747285963283,
+      "brier": 0.44998776683420516,
+      "nll": 0.9262708508932639,
+      "flip": 0.0
+     },
+     "head:ridge": {
+      "acc": 0.68,
+      "ece": 0.13068340062925152,
+      "brier": 0.42888836145536674,
+      "nll": 0.7976194319015858,
+      "flip": 0.0
+     },
+     "head:rrr": {
+      "acc": 0.69,
+      "ece": 0.13164691722538774,
+      "brier": 0.481609452593577,
+      "nll": 0.931996518330379,
+      "flip": 0.0
+     },
+     "head:diff_means/avg": {
+      "acc": 0.62,
+      "ece": 0.3793634558459835,
+      "brier": 0.7584902291128338,
+      "nll": 8.997931775311653,
+      "flip": 0.0
+     },
+     "head:lda/avg": {
+      "acc": 0.71,
+      "ece": 0.13511747285963283,
+      "brier": 0.44998776683420516,
+      "nll": 0.9262708508932639,
+      "flip": 0.0
+     },
+     "head:ridge/avg": {
+      "acc": 0.68,
+      "ece": 0.13068340062925152,
+      "brier": 0.42888836145536674,
+      "nll": 0.7976194319015858,
+      "flip": 0.0
+     },
+     "head:rrr/avg": {
+      "acc": 0.69,
+      "ece": 0.13164691722538774,
+      "brier": 0.481609452593577,
+      "nll": 0.931996518330379,
+      "flip": 0.0
+     },
+     "head:diff_means@self": {
+      "acc": 0.63,
+      "ece": 0.36999241433245456,
+      "brier": 0.7399697256191952,
+      "nll": 9.803548253762235,
+      "flip": 0.0
+     },
+     "head:lda@self": {
+      "acc": 0.58,
+      "ece": 0.3579004294403384,
+      "brier": 0.7407726856901158,
+      "nll": 4.916084588824842,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.62,
+      "ece": 0.3312679483854579,
+      "brier": 0.7064361521565743,
+      "nll": 2.387061565062146,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.62,
+      "ece": 0.344717566051259,
+      "brier": 0.7104985200781699,
+      "nll": 2.3385609570790846,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.63,
+      "ece": 0.36999241433245456,
+      "brier": 0.7399697256191952,
+      "nll": 9.803548253762235,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.58,
+      "ece": 0.3579004294403384,
+      "brier": 0.7407726856901158,
+      "nll": 4.916084588824842,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.62,
+      "ece": 0.3312679483854579,
+      "brier": 0.7064361521565743,
+      "nll": 2.387061565062146,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.62,
+      "ece": 0.344717566051259,
+      "brier": 0.7104985200781699,
+      "nll": 2.3385609570790846,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 0,
+      "params": {},
+      "temperature": 18.179752088320534,
+      "n_labels": 200,
+      "oof_nll": 1.107070448962561,
+      "oof_acc": 0.6
+     },
+     "head:lda": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 11.51775330142462,
+      "n_labels": 200,
+      "oof_nll": 0.9228736198545804,
+      "oof_acc": 0.685
+     },
+     "head:ridge": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.30150311931202883,
+      "n_labels": 200,
+      "oof_nll": 0.7582027938300926,
+      "oof_acc": 0.765
+     },
+     "head:rrr": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.28806344979143944,
+      "n_labels": 200,
+      "oof_nll": 0.7715810180861262,
+      "oof_acc": 0.725
+     },
+     "head:diff_means/avg": {
+      "layer": 0,
+      "params": {},
+      "temperature": 18.179752088320534,
+      "n_labels": 200,
+      "oof_nll": 1.107070448962561,
+      "oof_acc": 0.6
+     },
+     "head:lda/avg": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 11.51775330142462,
+      "n_labels": 200,
+      "oof_nll": 0.9228736198545804,
+      "oof_acc": 0.685
+     },
+     "head:ridge/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.30150311931202883,
+      "n_labels": 200,
+      "oof_nll": 0.7582027938300926,
+      "oof_acc": 0.765
+     },
+     "head:rrr/avg": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.28806344979143944,
+      "n_labels": 200,
+      "oof_nll": 0.7715810180861262,
+      "oof_acc": 0.725
+     },
+     "head:diff_means@self": {
+      "layer": 2,
+      "params": {},
+      "temperature": 9.00871510842999,
+      "n_labels": 200,
+      "oof_nll": 0.5076609312954197,
+      "oof_acc": 0.875
+     },
+     "head:lda@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.5581220229912125,
+      "n_labels": 200,
+      "oof_nll": 0.31492173248803473,
+      "oof_acc": 0.91
+     },
+     "head:ridge@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.12112470723522044,
+      "n_labels": 200,
+      "oof_nll": 0.11548504705779215,
+      "oof_acc": 0.97
+     },
+     "head:rrr@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.12599951548197008,
+      "n_labels": 200,
+      "oof_nll": 0.12700561013941974,
+      "oof_acc": 0.965
+     },
+     "head:diff_means/avg@self": {
+      "layer": 2,
+      "params": {},
+      "temperature": 9.00871510842999,
+      "n_labels": 200,
+      "oof_nll": 0.5076609312954197,
+      "oof_acc": 0.875
+     },
+     "head:lda/avg@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 6.5581220229912125,
+      "n_labels": 200,
+      "oof_nll": 0.31492173248803473,
+      "oof_acc": 0.91
+     },
+     "head:ridge/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.12112470723522044,
+      "n_labels": 200,
+      "oof_nll": 0.11548504705779215,
+      "oof_acc": 0.97
+     },
+     "head:rrr/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.12599951548197008,
+      "n_labels": 200,
+      "oof_nll": 0.12700561013941974,
+      "oof_acc": 0.965
+     }
+    }
+   },
+   "typed.security_incidents.credential_compromise": {
+    "kind": "noul",
+    "k": 2,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.61,
+      "ece": 0.37533058410139936,
+      "brier": 0.7586577486940564,
+      "nll": 5.4696000356070575,
+      "flip": 0.04
+     },
+     "L1": {
+      "acc": 0.61,
+      "ece": 0.15165422084239683,
+      "brier": 0.4853279176777158,
+      "nll": 0.68433796437946,
+      "flip": 0.04
+     },
+     "L1@self": {
+      "acc": 0.61,
+      "ece": 0.37822416771419354,
+      "brier": 0.7646140542041322,
+      "nll": 6.147164290405752,
+      "flip": 0.04
+     },
+     "L0-perm": {
+      "acc": 0.6,
+      "ece": 0.3820161083671086,
+      "brier": 0.7472405731526481,
+      "nll": 5.501579589887798,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.6,
+      "ece": 0.142614253158917,
+      "brier": 0.48787624174472727,
+      "nll": 0.6867135336358666,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.6,
+      "ece": 0.39999912431655216,
+      "brier": 0.799996497341892,
+      "nll": 10.449306915480793,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.64,
+      "ece": 0.3530095889460362,
+      "brier": 0.7006443212992971,
+      "nll": 8.996505935057767,
+      "flip": 0.01
+     },
+     "head:lda": {
+      "acc": 0.73,
+      "ece": 0.11524684504818053,
+      "brier": 0.37812591482016505,
+      "nll": 0.5605725508966224,
+      "flip": 0.41
+     },
+     "head:ridge": {
+      "acc": 0.67,
+      "ece": 0.14274620086028542,
+      "brier": 0.4722163178031335,
+      "nll": 0.6790140255656535,
+      "flip": 0.53
+     },
+     "head:rrr": {
+      "acc": 0.63,
+      "ece": 0.2045212396982572,
+      "brier": 0.5083970337900736,
+      "nll": 0.7210911195806409,
+      "flip": 0.54
+     },
+     "head:diff_means/avg": {
+      "acc": 0.64,
+      "ece": 0.35646199034333637,
+      "brier": 0.7090679430311954,
+      "nll": 9.033627067952294,
+      "flip": 0.01
+     },
+     "head:lda/avg": {
+      "acc": 0.75,
+      "ece": 0.12273517301606579,
+      "brier": 0.343190871194467,
+      "nll": 0.5161635481916619,
+      "flip": 0.28
+     },
+     "head:ridge/avg": {
+      "acc": 0.61,
+      "ece": 0.14840091939178027,
+      "brier": 0.49533335583067495,
+      "nll": 0.6985661529600067,
+      "flip": 0.34
+     },
+     "head:rrr/avg": {
+      "acc": 0.6,
+      "ece": 0.18600224670695975,
+      "brier": 0.5155923037294674,
+      "nll": 0.722308083392283,
+      "flip": 0.41
+     },
+     "head:diff_means@self": {
+      "acc": 0.6,
+      "ece": 0.3999999786252134,
+      "brier": 0.7999999145009391,
+      "nll": 10.775838886967527,
+      "flip": 0.01
+     },
+     "head:lda@self": {
+      "acc": 0.62,
+      "ece": 0.37871352122099966,
+      "brier": 0.7601077494088956,
+      "nll": 9.844174700008004,
+      "flip": 0.02
+     },
+     "head:ridge@self": {
+      "acc": 0.62,
+      "ece": 0.3736340366262945,
+      "brier": 0.7607329066242591,
+      "nll": 4.771387369895336,
+      "flip": 0.03
+     },
+     "head:rrr@self": {
+      "acc": 0.62,
+      "ece": 0.3724725538101168,
+      "brier": 0.7600797548977021,
+      "nll": 4.058656027008635,
+      "flip": 0.02
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.61,
+      "ece": 0.3899998006077371,
+      "brier": 0.7800000000076658,
+      "nll": 10.757740545969869,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.62,
+      "ece": 0.3799693064014271,
+      "brier": 0.7599990623538919,
+      "nll": 9.820586615090525,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.62,
+      "ece": 0.37374254358870423,
+      "brier": 0.7540075165896155,
+      "nll": 3.4360538254083917,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.62,
+      "ece": 0.37097515742683007,
+      "brier": 0.7530337123461948,
+      "nll": 3.1942378240349454,
+      "flip": 0.01
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.5988580273734823,
+      "oof_acc": 0.73
+     },
+     "head:lda": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 16.143485494987612,
+      "n_labels": 200,
+      "oof_nll": 0.5259844572035824,
+      "oof_acc": 0.755
+     },
+     "head:ridge": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.6576587947233741,
+      "n_labels": 200,
+      "oof_nll": 0.5557870206608267,
+      "oof_acc": 0.71
+     },
+     "head:rrr": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.7892679551232336,
+      "n_labels": 200,
+      "oof_nll": 0.5735546674661082,
+      "oof_acc": 0.69
+     },
+     "head:diff_means/avg": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.5969608393123231,
+      "oof_acc": 0.73
+     },
+     "head:lda/avg": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 16.57427530120634,
+      "n_labels": 200,
+      "oof_nll": 0.535343385648428,
+      "oof_acc": 0.755
+     },
+     "head:ridge/avg": {
+      "layer": 3,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.7269421756769541,
+      "n_labels": 200,
+      "oof_nll": 0.5721899799688234,
+      "oof_acc": 0.705
+     },
+     "head:rrr/avg": {
+      "layer": 3,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.8660875477847884,
+      "n_labels": 200,
+      "oof_nll": 0.5894461800742696,
+      "oof_acc": 0.69
+     },
+     "head:diff_means@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 10.682002261187035,
+      "n_labels": 200,
+      "oof_nll": 0.2536389469216914,
+      "oof_acc": 0.93
+     },
+     "head:lda@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 4.824734487116864,
+      "n_labels": 200,
+      "oof_nll": 0.02625131701438004,
+      "oof_acc": 0.99
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.07004118903483536,
+      "n_labels": 200,
+      "oof_nll": 0.021678347214516655,
+      "oof_acc": 0.995
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.0810965798718907,
+      "n_labels": 200,
+      "oof_nll": 0.025379555694097222,
+      "oof_acc": 0.995
+     },
+     "head:diff_means/avg@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 10.682002261187035,
+      "n_labels": 200,
+      "oof_nll": 0.2536389469216914,
+      "oof_acc": 0.93
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.3
+      },
+      "temperature": 5.2199944301074686,
+      "n_labels": 200,
+      "oof_nll": 0.03147906594716678,
+      "oof_acc": 0.995
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.09930216258399499,
+      "n_labels": 200,
+      "oof_nll": 0.021128166905353667,
+      "oof_acc": 0.995
+     },
+     "head:rrr/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.10582632372231905,
+      "n_labels": 200,
+      "oof_nll": 0.024861818770126703,
+      "oof_acc": 0.995
+     }
+    }
+   },
+   "typed.security_incidents.disposition": {
+    "kind": "choice",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.75,
+      "ece": 0.23996731980150415,
+      "brier": 0.49882247297719085,
+      "nll": 2.7998717408235323,
+      "flip": 0.17
+     },
+     "L1": {
+      "acc": 0.75,
+      "ece": 0.11453447816941405,
+      "brier": 0.4074023275339193,
+      "nll": 0.7580283426288272,
+      "flip": 0.17
+     },
+     "L1@self": {
+      "acc": 0.75,
+      "ece": 0.24324924149616894,
+      "brier": 0.500617701537679,
+      "nll": 3.912039817528413,
+      "flip": 0.17
+     },
+     "L0-perm": {
+      "acc": 0.75,
+      "ece": 0.2330781166137416,
+      "brier": 0.49595413814445244,
+      "nll": 2.8929303049910335,
+      "flip": 0.04
+     },
+     "L0-perm+T": {
+      "acc": 0.75,
+      "ece": 0.1366440678802232,
+      "brier": 0.4173964034772167,
+      "nll": 0.7655964533886518,
+      "flip": 0.04
+     },
+     "L0-perm+T@self": {
+      "acc": 0.75,
+      "ece": 0.24902267889515195,
+      "brier": 0.4996706687391692,
+      "nll": 6.908536105921891,
+      "flip": 0.04
+     },
+     "head:diff_means": {
+      "acc": 0.31,
+      "ece": 0.6570807382687897,
+      "brier": 1.3486964117397406,
+      "nll": 16.273160407600884,
+      "flip": 0.42
+     },
+     "head:lda": {
+      "acc": 0.73,
+      "ece": 0.14334679361757152,
+      "brier": 0.419765245830149,
+      "nll": 1.0289982339297816,
+      "flip": 0.88
+     },
+     "head:ridge": {
+      "acc": 0.73,
+      "ece": 0.15077600208575803,
+      "brier": 0.43090799394271967,
+      "nll": 0.8666952295295637,
+      "flip": 0.92
+     },
+     "head:rrr": {
+      "acc": 0.71,
+      "ece": 0.14049220225083886,
+      "brier": 0.4699586985162058,
+      "nll": 0.9613064055312561,
+      "flip": 0.9
+     },
+     "head:diff_means/avg": {
+      "acc": 0.24,
+      "ece": 0.7327492259514569,
+      "brier": 1.4710507382675315,
+      "nll": 16.879008579837205,
+      "flip": 0.11
+     },
+     "head:lda/avg": {
+      "acc": 0.77,
+      "ece": 0.17843305651277191,
+      "brier": 0.3987532749704901,
+      "nll": 1.0026351726438394,
+      "flip": 0.39
+     },
+     "head:ridge/avg": {
+      "acc": 0.74,
+      "ece": 0.11039965277724693,
+      "brier": 0.3931760625204579,
+      "nll": 0.8070193408657788,
+      "flip": 0.45
+     },
+     "head:rrr/avg": {
+      "acc": 0.71,
+      "ece": 0.1197426547218961,
+      "brier": 0.41495580686928824,
+      "nll": 0.8681104624990483,
+      "flip": 0.51
+     },
+     "head:diff_means@self": {
+      "acc": 0.58,
+      "ece": 0.40930843694175256,
+      "brier": 0.8390389135400506,
+      "nll": 8.740562102841944,
+      "flip": 0.89
+     },
+     "head:lda@self": {
+      "acc": 0.72,
+      "ece": 0.1700350120277201,
+      "brier": 0.43973319412941336,
+      "nll": 3.191856221801599,
+      "flip": 0.86
+     },
+     "head:ridge@self": {
+      "acc": 0.74,
+      "ece": 0.25214400880626553,
+      "brier": 0.5048216350250898,
+      "nll": 1.6160596701480427,
+      "flip": 0.4
+     },
+     "head:rrr@self": {
+      "acc": 0.74,
+      "ece": 0.25166640317034467,
+      "brier": 0.5072161283867623,
+      "nll": 1.588138280349636,
+      "flip": 0.38
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.46,
+      "ece": 0.515998413970305,
+      "brier": 1.0662609413540283,
+      "nll": 11.316250775149538,
+      "flip": 0.2
+     },
+     "head:lda/avg@self": {
+      "acc": 0.71,
+      "ece": 0.19715062146139464,
+      "brier": 0.4391134079050243,
+      "nll": 3.1863288762983673,
+      "flip": 0.02
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.75,
+      "ece": 0.237600237864974,
+      "brier": 0.49241021745159463,
+      "nll": 1.5362396443092508,
+      "flip": 0.02
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.75,
+      "ece": 0.23539481764421435,
+      "brier": 0.49285915247749373,
+      "nll": 1.5078206024780647,
+      "flip": 0.02
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 1,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.4212147131343773,
+      "oof_acc": 0.37
+     },
+     "head:lda": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 10.628527695106246,
+      "n_labels": 200,
+      "oof_nll": 0.7449871997997102,
+      "oof_acc": 0.745
+     },
+     "head:ridge": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.28481259628476463,
+      "n_labels": 200,
+      "oof_nll": 0.7398970800076714,
+      "oof_acc": 0.735
+     },
+     "head:rrr": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.3035474907766629,
+      "n_labels": 200,
+      "oof_nll": 0.7687041967749714,
+      "oof_acc": 0.73
+     },
+     "head:diff_means/avg": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.5207131745371252,
+      "oof_acc": 0.3
+     },
+     "head:lda/avg": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 10.542890567650906,
+      "n_labels": 200,
+      "oof_nll": 0.7222770648507509,
+      "oof_acc": 0.78
+     },
+     "head:ridge/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.2716557891540351,
+      "n_labels": 200,
+      "oof_nll": 0.696147331249317,
+      "oof_acc": 0.76
+     },
+     "head:rrr/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.28541284337645517,
+      "n_labels": 200,
+      "oof_nll": 0.7158579319187472,
+      "oof_acc": 0.74
+     },
+     "head:diff_means@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 14.381687634432303,
+      "n_labels": 200,
+      "oof_nll": 0.9546794952996411,
+      "oof_acc": 0.695
+     },
+     "head:lda@self": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 3.1158351958277324,
+      "n_labels": 200,
+      "oof_nll": 0.4639689806912702,
+      "oof_acc": 0.93
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.15239020261141953,
+      "n_labels": 200,
+      "oof_nll": 0.0652338094497014,
+      "oof_acc": 0.985
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.15479329673086858,
+      "n_labels": 200,
+      "oof_nll": 0.06867632284966785,
+      "oof_acc": 0.985
+     },
+     "head:diff_means/avg@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 16.88659526689379,
+      "n_labels": 200,
+      "oof_nll": 1.0687792090183093,
+      "oof_acc": 0.635
+     },
+     "head:lda/avg@self": {
+      "layer": 3,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 3.40074323644249,
+      "n_labels": 200,
+      "oof_nll": 0.48758835152476565,
+      "oof_acc": 0.925
+     },
+     "head:ridge/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.15566703560793735,
+      "n_labels": 200,
+      "oof_nll": 0.07332537301546348,
+      "oof_acc": 0.97
+     },
+     "head:rrr/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.15725505528455833,
+      "n_labels": 200,
+      "oof_nll": 0.07491933362281186,
+      "oof_acc": 0.975
+     }
+    }
+   },
+   "typed.security_incidents.severity": {
+    "kind": "score",
+    "k": 5,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.6,
+      "ece": 0.31696253678955877,
+      "brier": 0.6575488282890676,
+      "nll": 2.1094990643338134,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.6,
+      "ece": 0.1449999333163065,
+      "brier": 0.5244970321843696,
+      "nll": 0.9310113589861098,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.6,
+      "ece": 0.38980299104464705,
+      "brier": 0.7694775201171774,
+      "nll": 9.659140712376534,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.6,
+      "ece": 0.31696253678955877,
+      "brier": 0.6575488282890676,
+      "nll": 2.1094990643338134,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.6,
+      "ece": 0.14499993328326646,
+      "brier": 0.5244970321416117,
+      "nll": 0.9310113589153518,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.6,
+      "ece": 0.38980299104464705,
+      "brier": 0.7694775201171774,
+      "nll": 9.659140712376534,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.52,
+      "ece": 0.4594613127090001,
+      "brier": 0.9342955439827101,
+      "nll": 10.37362716344019,
+      "flip": 0.0
+     },
+     "head:lda": {
+      "acc": 0.72,
+      "ece": 0.1810453839132826,
+      "brier": 0.43982814983324586,
+      "nll": 1.0010916821291678,
+      "flip": 0.0
+     },
+     "head:ridge": {
+      "acc": 0.76,
+      "ece": 0.14091344457824037,
+      "brier": 0.37489058315311075,
+      "nll": 0.7149988524715647,
+      "flip": 0.0
+     },
+     "head:rrr": {
+      "acc": 0.69,
+      "ece": 0.09405595915704869,
+      "brier": 0.40618151284122506,
+      "nll": 0.7942728957326515,
+      "flip": 0.0
+     },
+     "head:diff_means/avg": {
+      "acc": 0.52,
+      "ece": 0.4594613127090001,
+      "brier": 0.9342955439827101,
+      "nll": 10.37362716344019,
+      "flip": 0.0
+     },
+     "head:lda/avg": {
+      "acc": 0.72,
+      "ece": 0.1810453839132826,
+      "brier": 0.43982814983324586,
+      "nll": 1.0010916821291678,
+      "flip": 0.0
+     },
+     "head:ridge/avg": {
+      "acc": 0.76,
+      "ece": 0.14091344457824037,
+      "brier": 0.37489058315311075,
+      "nll": 0.7149988524715647,
+      "flip": 0.0
+     },
+     "head:rrr/avg": {
+      "acc": 0.69,
+      "ece": 0.09405595915704869,
+      "brier": 0.40618151284122506,
+      "nll": 0.7942728957326515,
+      "flip": 0.0
+     },
+     "head:diff_means@self": {
+      "acc": 0.64,
+      "ece": 0.35666921873834456,
+      "brier": 0.7206015248658375,
+      "nll": 9.33901471295235,
+      "flip": 0.0
+     },
+     "head:lda@self": {
+      "acc": 0.56,
+      "ece": 0.39349651152947474,
+      "brier": 0.8160320502301185,
+      "nll": 7.652602090374697,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.61,
+      "ece": 0.32870083802783234,
+      "brier": 0.6873415397514181,
+      "nll": 2.033923921424559,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.63,
+      "ece": 0.3222626822880666,
+      "brier": 0.6770559618217905,
+      "nll": 2.0538525366109894,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.64,
+      "ece": 0.35666921873834456,
+      "brier": 0.7206015248658375,
+      "nll": 9.33901471295235,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.56,
+      "ece": 0.39349651152947474,
+      "brier": 0.8160320502301185,
+      "nll": 7.652602090374697,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.61,
+      "ece": 0.32870083802783234,
+      "brier": 0.6873415397514181,
+      "nll": 2.033923921424559,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.63,
+      "ece": 0.3222626822880666,
+      "brier": 0.6770559618217905,
+      "nll": 2.0538525366109894,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 1,
+      "params": {},
+      "temperature": 19.057462096247185,
+      "n_labels": 200,
+      "oof_nll": 1.364855872674463,
+      "oof_acc": 0.515
+     },
+     "head:lda": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.693670743647896,
+      "n_labels": 200,
+      "oof_nll": 0.6699584194963828,
+      "oof_acc": 0.8
+     },
+     "head:ridge": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.23556110944322475,
+      "n_labels": 200,
+      "oof_nll": 0.7073457879602507,
+      "oof_acc": 0.785
+     },
+     "head:rrr": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.2583562862026586,
+      "n_labels": 200,
+      "oof_nll": 0.7553717341045748,
+      "oof_acc": 0.765
+     },
+     "head:diff_means/avg": {
+      "layer": 1,
+      "params": {},
+      "temperature": 19.057462096247185,
+      "n_labels": 200,
+      "oof_nll": 1.364855872674463,
+      "oof_acc": 0.515
+     },
+     "head:lda/avg": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 8.693670743647896,
+      "n_labels": 200,
+      "oof_nll": 0.6699584194963828,
+      "oof_acc": 0.8
+     },
+     "head:ridge/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.23556110944322475,
+      "n_labels": 200,
+      "oof_nll": 0.7073457879602507,
+      "oof_acc": 0.785
+     },
+     "head:rrr/avg": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.2583562862026586,
+      "n_labels": 200,
+      "oof_nll": 0.7553717341045748,
+      "oof_acc": 0.765
+     },
+     "head:diff_means@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 9.106954573553322,
+      "n_labels": 200,
+      "oof_nll": 0.6681831177402557,
+      "oof_acc": 0.835
+     },
+     "head:lda@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 7.093744043395653,
+      "n_labels": 200,
+      "oof_nll": 0.3917804138975653,
+      "oof_acc": 0.905
+     },
+     "head:ridge@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.15200113087348727,
+      "n_labels": 200,
+      "oof_nll": 0.16069827656358046,
+      "oof_acc": 0.945
+     },
+     "head:rrr@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.1536274276904803,
+      "n_labels": 200,
+      "oof_nll": 0.16913861588908394,
+      "oof_acc": 0.94
+     },
+     "head:diff_means/avg@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 9.106954573553322,
+      "n_labels": 200,
+      "oof_nll": 0.6681831177402557,
+      "oof_acc": 0.835
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 7.093744043395653,
+      "n_labels": 200,
+      "oof_nll": 0.3917804138975653,
+      "oof_acc": 0.905
+     },
+     "head:ridge/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.15200113087348727,
+      "n_labels": 200,
+      "oof_nll": 0.16069827656358046,
+      "oof_acc": 0.945
+     },
+     "head:rrr/avg@self": {
+      "layer": 0,
+      "params": {
+       "lam": 10.0,
+       "rank": 4
+      },
+      "temperature": 0.1536274276904803,
+      "n_labels": 200,
+      "oof_nll": 0.16913861588908394,
+      "oof_acc": 0.94
+     }
+    }
+   },
+   "typed.security_incidents.true_positive": {
+    "kind": "noul",
+    "k": 2,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.66,
+      "ece": 0.30417356213967167,
+      "brier": 0.6407662975848598,
+      "nll": 4.613985554399677,
+      "flip": 0.19
+     },
+     "L1": {
+      "acc": 0.66,
+      "ece": 0.20405570664642142,
+      "brier": 0.48851874549200613,
+      "nll": 0.6873496056715467,
+      "flip": 0.19
+     },
+     "L1@self": {
+      "acc": 0.66,
+      "ece": 0.29969490409923266,
+      "brier": 0.6212772195922319,
+      "nll": 2.2056328341890854,
+      "flip": 0.19
+     },
+     "L0-perm": {
+      "acc": 0.57,
+      "ece": 0.40672306820447574,
+      "brier": 0.8446455925785098,
+      "nll": 5.868640661211012,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.57,
+      "ece": 0.2213728041987222,
+      "brier": 0.5302101169977106,
+      "nll": 0.7321338941643124,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.57,
+      "ece": 0.4291833575223769,
+      "brier": 0.8601136950778191,
+      "nll": 11.882185644278902,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.72,
+      "ece": 0.2796143432124133,
+      "brier": 0.560022898050268,
+      "nll": 7.227792668210834,
+      "flip": 0.27
+     },
+     "head:lda": {
+      "acc": 0.88,
+      "ece": 0.09008225325049932,
+      "brier": 0.20492567382913665,
+      "nll": 0.3366905545047213,
+      "flip": 0.32
+     },
+     "head:ridge": {
+      "acc": 0.86,
+      "ece": 0.12460308908740944,
+      "brier": 0.21753635567895283,
+      "nll": 0.3521642360584739,
+      "flip": 0.25
+     },
+     "head:rrr": {
+      "acc": 0.78,
+      "ece": 0.10673890936614566,
+      "brier": 0.23945984950342544,
+      "nll": 0.37636010051522895,
+      "flip": 0.37
+     },
+     "head:diff_means/avg": {
+      "acc": 0.71,
+      "ece": 0.28924564448731704,
+      "brier": 0.5771502062378896,
+      "nll": 7.421971217302467,
+      "flip": 0.14
+     },
+     "head:lda/avg": {
+      "acc": 0.86,
+      "ece": 0.06362355033287968,
+      "brier": 0.220849747213321,
+      "nll": 0.37931534822968666,
+      "flip": 0.23
+     },
+     "head:ridge/avg": {
+      "acc": 0.83,
+      "ece": 0.08188098137827747,
+      "brier": 0.2404033287511592,
+      "nll": 0.3812700353503874,
+      "flip": 0.35
+     },
+     "head:rrr/avg": {
+      "acc": 0.8,
+      "ece": 0.12132900476639108,
+      "brier": 0.2722718746668752,
+      "nll": 0.41701041867967736,
+      "flip": 0.35
+     },
+     "head:diff_means@self": {
+      "acc": 0.71,
+      "ece": 0.29000000000000004,
+      "brier": 0.58,
+      "nll": 8.01299612361928,
+      "flip": 0.21
+     },
+     "head:lda@self": {
+      "acc": 0.56,
+      "ece": 0.4376615415869993,
+      "brier": 0.8791925849562026,
+      "nll": 10.643993059592495,
+      "flip": 0.18
+     },
+     "head:ridge@self": {
+      "acc": 0.57,
+      "ece": 0.4179038279575434,
+      "brier": 0.8456224144117671,
+      "nll": 3.60339917829789,
+      "flip": 0.16
+     },
+     "head:rrr@self": {
+      "acc": 0.57,
+      "ece": 0.41787723743996025,
+      "brier": 0.8429512309879277,
+      "nll": 3.525336526725158,
+      "flip": 0.16
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.7,
+      "ece": 0.2995329270477384,
+      "brier": 0.5982354099464763,
+      "nll": 8.04399293554743,
+      "flip": 0.17
+     },
+     "head:lda/avg@self": {
+      "acc": 0.57,
+      "ece": 0.4266184220218562,
+      "brier": 0.8621824996787423,
+      "nll": 11.227578170787632,
+      "flip": 0.05
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.57,
+      "ece": 0.4169270170388653,
+      "brier": 0.8557837176810054,
+      "nll": 3.206347152127877,
+      "flip": 0.07
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.57,
+      "ece": 0.4160823376521398,
+      "brier": 0.8488388893901186,
+      "nll": 3.0978412130751094,
+      "flip": 0.12
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.556823547649406,
+      "oof_acc": 0.76
+     },
+     "head:lda": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 14.057594858360467,
+      "n_labels": 200,
+      "oof_nll": 0.4218472806919054,
+      "oof_acc": 0.84
+     },
+     "head:ridge": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.4520233862083701,
+      "n_labels": 200,
+      "oof_nll": 0.4235647252778709,
+      "oof_acc": 0.8
+     },
+     "head:rrr": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.5026686457602574,
+      "n_labels": 200,
+      "oof_nll": 0.44068531931482385,
+      "oof_acc": 0.79
+     },
+     "head:diff_means/avg": {
+      "layer": 3,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 0.5523700386684685,
+      "oof_acc": 0.755
+     },
+     "head:lda/avg": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 13.453878338054123,
+      "n_labels": 200,
+      "oof_nll": 0.4115107586895871,
+      "oof_acc": 0.845
+     },
+     "head:ridge/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.4316964352442362,
+      "n_labels": 200,
+      "oof_nll": 0.4143559001522022,
+      "oof_acc": 0.8
+     },
+     "head:rrr/avg": {
+      "layer": 2,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.4630687842792932,
+      "n_labels": 200,
+      "oof_nll": 0.42350267357891247,
+      "oof_acc": 0.795
+     },
+     "head:diff_means@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 15.572319542911195,
+      "n_labels": 200,
+      "oof_nll": 0.41393713039022373,
+      "oof_acc": 0.855
+     },
+     "head:lda@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 5.578506786312314,
+      "n_labels": 200,
+      "oof_nll": 0.04840537661444495,
+      "oof_acc": 0.99
+     },
+     "head:ridge@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.09795610687595724,
+      "n_labels": 200,
+      "oof_nll": 0.04063330019180082,
+      "oof_acc": 0.99
+     },
+     "head:rrr@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.0992500924745525,
+      "n_labels": 200,
+      "oof_nll": 0.044301299839364885,
+      "oof_acc": 0.985
+     },
+     "head:diff_means/avg@self": {
+      "layer": 1,
+      "params": {},
+      "temperature": 14.150507575534107,
+      "n_labels": 200,
+      "oof_nll": 0.37767411835265774,
+      "oof_acc": 0.87
+     },
+     "head:lda/avg@self": {
+      "layer": 0,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 5.066489940023418,
+      "n_labels": 200,
+      "oof_nll": 0.03434135475287801,
+      "oof_acc": 0.995
+     },
+     "head:ridge/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.11699655985975675,
+      "n_labels": 200,
+      "oof_nll": 0.04790971577625486,
+      "oof_acc": 0.98
+     },
+     "head:rrr/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.12183546466776725,
+      "n_labels": 200,
+      "oof_nll": 0.05316599817700544,
+      "oof_acc": 0.98
+     }
+    }
+   },
+   "typed.security_incidents.urgency": {
+    "kind": "score",
+    "k": 4,
+    "n_test": 100,
+    "n_calib": 200,
+    "rows": {
+     "raw": {
+      "acc": 0.52,
+      "ece": 0.4053423468484196,
+      "brier": 0.8558827005996205,
+      "nll": 2.6975496212948515,
+      "flip": 0.0
+     },
+     "L1": {
+      "acc": 0.52,
+      "ece": 0.19766647836189327,
+      "brier": 0.5567836957397653,
+      "nll": 0.9725097146450772,
+      "flip": 0.0
+     },
+     "L1@self": {
+      "acc": 0.52,
+      "ece": 0.4548676400666415,
+      "brier": 0.944736121813382,
+      "nll": 12.354189985261364,
+      "flip": 0.0
+     },
+     "L0-perm": {
+      "acc": 0.52,
+      "ece": 0.4053423468484196,
+      "brier": 0.8558827005996205,
+      "nll": 2.6975496212948515,
+      "flip": 0.0
+     },
+     "L0-perm+T": {
+      "acc": 0.52,
+      "ece": 0.19766647836189327,
+      "brier": 0.5567836957397653,
+      "nll": 0.9725097146450772,
+      "flip": 0.0
+     },
+     "L0-perm+T@self": {
+      "acc": 0.52,
+      "ece": 0.4548676400666415,
+      "brier": 0.944736121813382,
+      "nll": 12.354189985261364,
+      "flip": 0.0
+     },
+     "head:diff_means": {
+      "acc": 0.5,
+      "ece": 0.47796172768168976,
+      "brier": 0.9412442649715108,
+      "nll": 10.08162732956674,
+      "flip": 0.0
+     },
+     "head:lda": {
+      "acc": 0.59,
+      "ece": 0.23979782308354605,
+      "brier": 0.5927080076625318,
+      "nll": 1.0651735225572785,
+      "flip": 0.0
+     },
+     "head:ridge": {
+      "acc": 0.56,
+      "ece": 0.18908823475301584,
+      "brier": 0.5469655681547967,
+      "nll": 1.0069954192725532,
+      "flip": 0.0
+     },
+     "head:rrr": {
+      "acc": 0.56,
+      "ece": 0.16662006874207447,
+      "brier": 0.5502926272893188,
+      "nll": 0.9875077641762688,
+      "flip": 0.0
+     },
+     "head:diff_means/avg": {
+      "acc": 0.5,
+      "ece": 0.47796172768168976,
+      "brier": 0.9412442649715108,
+      "nll": 10.08162732956674,
+      "flip": 0.0
+     },
+     "head:lda/avg": {
+      "acc": 0.59,
+      "ece": 0.23979782308354605,
+      "brier": 0.5927080076625318,
+      "nll": 1.0651735225572785,
+      "flip": 0.0
+     },
+     "head:ridge/avg": {
+      "acc": 0.56,
+      "ece": 0.18908823475301584,
+      "brier": 0.5469655681547967,
+      "nll": 1.0069954192725532,
+      "flip": 0.0
+     },
+     "head:rrr/avg": {
+      "acc": 0.56,
+      "ece": 0.16662006874207447,
+      "brier": 0.5502926272893188,
+      "nll": 0.9875077641762688,
+      "flip": 0.0
+     },
+     "head:diff_means@self": {
+      "acc": 0.62,
+      "ece": 0.36367145776082066,
+      "brier": 0.7551030355564629,
+      "nll": 9.698182637540489,
+      "flip": 0.0
+     },
+     "head:lda@self": {
+      "acc": 0.51,
+      "ece": 0.3208090484583414,
+      "brier": 0.8880711968766113,
+      "nll": 13.151864338958603,
+      "flip": 0.0
+     },
+     "head:ridge@self": {
+      "acc": 0.5,
+      "ece": 0.481261299664635,
+      "brier": 0.9656144661801406,
+      "nll": 3.3313583940362133,
+      "flip": 0.0
+     },
+     "head:rrr@self": {
+      "acc": 0.5,
+      "ece": 0.48208746320345014,
+      "brier": 0.9662890458721519,
+      "nll": 3.333144883869796,
+      "flip": 0.0
+     },
+     "head:diff_means/avg@self": {
+      "acc": 0.62,
+      "ece": 0.36367145776082066,
+      "brier": 0.7551030355564629,
+      "nll": 9.698182637540489,
+      "flip": 0.0
+     },
+     "head:lda/avg@self": {
+      "acc": 0.51,
+      "ece": 0.3208090484583414,
+      "brier": 0.8880711968766113,
+      "nll": 13.151864338958603,
+      "flip": 0.0
+     },
+     "head:ridge/avg@self": {
+      "acc": 0.5,
+      "ece": 0.481261299664635,
+      "brier": 0.9656144661801406,
+      "nll": 3.3313583940362133,
+      "flip": 0.0
+     },
+     "head:rrr/avg@self": {
+      "acc": 0.5,
+      "ece": 0.48208746320345014,
+      "brier": 0.9662890458721519,
+      "nll": 3.333144883869796,
+      "flip": 0.0
+     }
+    },
+    "heads": {
+     "head:diff_means": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.1742479019788679,
+      "oof_acc": 0.555
+     },
+     "head:lda": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 11.828865594303423,
+      "n_labels": 200,
+      "oof_nll": 0.8663972397001031,
+      "oof_acc": 0.71
+     },
+     "head:ridge": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.32534573637728154,
+      "n_labels": 200,
+      "oof_nll": 0.8917141490452064,
+      "oof_acc": 0.68
+     },
+     "head:rrr": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.3079517117380424,
+      "n_labels": 200,
+      "oof_nll": 0.928109468013232,
+      "oof_acc": 0.635
+     },
+     "head:diff_means/avg": {
+      "layer": 0,
+      "params": {},
+      "temperature": 20.085536923170256,
+      "n_labels": 200,
+      "oof_nll": 1.1742479019788679,
+      "oof_acc": 0.555
+     },
+     "head:lda/avg": {
+      "layer": 2,
+      "params": {
+       "shrinkage": 0.9
+      },
+      "temperature": 11.828865594303423,
+      "n_labels": 200,
+      "oof_nll": 0.8663972397001031,
+      "oof_acc": 0.71
+     },
+     "head:ridge/avg": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.32534573637728154,
+      "n_labels": 200,
+      "oof_nll": 0.8917141490452064,
+      "oof_acc": 0.68
+     },
+     "head:rrr/avg": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 1
+      },
+      "temperature": 0.3079517117380424,
+      "n_labels": 200,
+      "oof_nll": 0.928109468013232,
+      "oof_acc": 0.635
+     },
+     "head:diff_means@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 15.696302281662318,
+      "n_labels": 200,
+      "oof_nll": 1.016399640217513,
+      "oof_acc": 0.66
+     },
+     "head:lda@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 3.888632989755441,
+      "n_labels": 200,
+      "oof_nll": 0.41350534095867286,
+      "oof_acc": 0.92
+     },
+     "head:ridge@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1312905148267728,
+      "n_labels": 200,
+      "oof_nll": 0.05914891726324612,
+      "oof_acc": 0.97
+     },
+     "head:rrr@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.13217183041925198,
+      "n_labels": 200,
+      "oof_nll": 0.05987758155488313,
+      "oof_acc": 0.97
+     },
+     "head:diff_means/avg@self": {
+      "layer": 0,
+      "params": {},
+      "temperature": 15.696302281662318,
+      "n_labels": 200,
+      "oof_nll": 1.016399640217513,
+      "oof_acc": 0.66
+     },
+     "head:lda/avg@self": {
+      "layer": 1,
+      "params": {
+       "shrinkage": 0.6
+      },
+      "temperature": 3.888632989755441,
+      "n_labels": 200,
+      "oof_nll": 0.41350534095867286,
+      "oof_acc": 0.92
+     },
+     "head:ridge/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 100.0
+      },
+      "temperature": 0.1312905148267728,
+      "n_labels": 200,
+      "oof_nll": 0.05914891726324612,
+      "oof_acc": 0.97
+     },
+     "head:rrr/avg@self": {
+      "layer": 1,
+      "params": {
+       "lam": 10.0,
+       "rank": 2
+      },
+      "temperature": 0.13217183041925198,
+      "n_labels": 200,
+      "oof_nll": 0.05987758155488313,
+      "oof_acc": 0.97
+     }
+    }
+   }
+  },
+  "pooled": {
+   "raw": {
+    "acc": 0.626,
+    "ece": 0.32276989533306294,
+    "brier": 0.6877577840120342,
+    "nll": 3.8417058501246957,
+    "flip": 0.0715,
+    "n": 2000
+   },
+   "L1": {
+    "acc": 0.626,
+    "ece": 0.03110894876119211,
+    "brier": 0.4822033617352061,
+    "nll": 0.8392430573338338,
+    "flip": 0.0715,
+    "n": 2000
+   },
+   "L1@self": {
+    "acc": 0.626,
+    "ece": 0.31670428847908305,
+    "brier": 0.6874995401552854,
+    "nll": 6.765437383210227,
+    "flip": 0.0715,
+    "n": 2000
+   },
+   "L0-perm": {
+    "acc": 0.6355,
+    "ece": 0.31294469139786824,
+    "brier": 0.6685845067958718,
+    "nll": 3.692492345428677,
+    "flip": 0.026,
+    "n": 2000
+   },
+   "L0-perm+T": {
+    "acc": 0.6355,
+    "ece": 0.04078959416041967,
+    "brier": 0.4702111897321006,
+    "nll": 0.8166966403897163,
+    "flip": 0.026,
+    "n": 2000
+   },
+   "L0-perm+T@self": {
+    "acc": 0.6355,
+    "ece": 0.35982845695618076,
+    "brier": 0.7237298411353736,
+    "nll": 9.538702705251392,
+    "flip": 0.026,
+    "n": 2000
+   },
+   "head:diff_means": {
+    "acc": 0.6415,
+    "ece": 0.3456322014385948,
+    "brier": 0.6975005193698244,
+    "nll": 7.6877170357266245,
+    "flip": 0.2035,
+    "n": 2000
+   },
+   "head:lda": {
+    "acc": 0.7705,
+    "ece": 0.059583824016863185,
+    "brier": 0.33904666292840013,
+    "nll": 0.7449133926236393,
+    "flip": 0.2885,
+    "n": 2000
+   },
+   "head:ridge": {
+    "acc": 0.7565,
+    "ece": 0.03774952717243893,
+    "brier": 0.3526271899408436,
+    "nll": 0.6488682050965001,
+    "flip": 0.278,
+    "n": 2000
+   },
+   "head:rrr": {
+    "acc": 0.7425,
+    "ece": 0.040596282460717927,
+    "brier": 0.3761953629372827,
+    "nll": 0.6970975163795567,
+    "flip": 0.261,
+    "n": 2000
+   },
+   "head:diff_means/avg": {
+    "acc": 0.642,
+    "ece": 0.34646139758121897,
+    "brier": 0.6975642084875696,
+    "nll": 7.783653494744359,
+    "flip": 0.048,
+    "n": 2000
+   },
+   "head:lda/avg": {
+    "acc": 0.7745,
+    "ece": 0.05904722190233031,
+    "brier": 0.33581011855460635,
+    "nll": 0.7432695888430293,
+    "flip": 0.1115,
+    "n": 2000
+   },
+   "head:ridge/avg": {
+    "acc": 0.749,
+    "ece": 0.03463409153703184,
+    "brier": 0.35392011159442144,
+    "nll": 0.6544209007953333,
+    "flip": 0.1305,
+    "n": 2000
+   },
+   "head:rrr/avg": {
+    "acc": 0.7345,
+    "ece": 0.03562928816355227,
+    "brier": 0.3742420718688382,
+    "nll": 0.693506217628524,
+    "flip": 0.152,
+    "n": 2000
+   },
+   "head:diff_means@self": {
+    "acc": 0.6285,
+    "ece": 0.3359226123164297,
+    "brier": 0.6713380908402,
+    "nll": 8.250882971419369,
+    "flip": 0.2385,
+    "n": 2000
+   },
+   "head:lda@self": {
+    "acc": 0.625,
+    "ece": 0.32084564829464757,
+    "brier": 0.7051299822140956,
+    "nll": 7.563435243535383,
+    "flip": 0.1735,
+    "n": 2000
+   },
+   "head:ridge@self": {
+    "acc": 0.627,
+    "ece": 0.34671867086521774,
+    "brier": 0.7090421427603999,
+    "nll": 2.9244815240753104,
+    "flip": 0.182,
+    "n": 2000
+   },
+   "head:rrr@self": {
+    "acc": 0.6265,
+    "ece": 0.344653350318205,
+    "brier": 0.7084380998920963,
+    "nll": 2.877112458168519,
+    "flip": 0.207,
+    "n": 2000
+   },
+   "head:diff_means/avg@self": {
+    "acc": 0.618,
+    "ece": 0.3452227275429118,
+    "brier": 0.6905773165065857,
+    "nll": 8.467499847976084,
+    "flip": 0.056,
+    "n": 2000
+   },
+   "head:lda/avg@self": {
+    "acc": 0.628,
+    "ece": 0.31991288760371117,
+    "brier": 0.7014760123073845,
+    "nll": 7.584470122227027,
+    "flip": 0.046,
+    "n": 2000
+   },
+   "head:ridge/avg@self": {
+    "acc": 0.628,
+    "ece": 0.3443840671406847,
+    "brier": 0.7064866277752918,
+    "nll": 2.82107827317995,
+    "flip": 0.015,
+    "n": 2000
+   },
+   "head:rrr/avg@self": {
+    "acc": 0.629,
+    "ece": 0.3410393864746415,
+    "brier": 0.7052887786521764,
+    "nll": 2.794550360091657,
+    "flip": 0.0335,
+    "n": 2000
+   }
+  }
+ }
+}

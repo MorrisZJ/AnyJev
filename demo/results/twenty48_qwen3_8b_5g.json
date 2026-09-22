@@ -1,0 +1,220 @@
+{
+ "game": "2048",
+ "model": "Qwen/Qwen3-8B",
+ "levels": [
+  "raw",
+  "L0",
+  "L1"
+ ],
+ "preview": true,
+ "oracle_depth": 2,
+ "games": [
+  {
+   "seed": 0,
+   "steps": 216,
+   "raw \u00b7 Qwen3-8B": {
+    "score": 2744,
+    "max_tile": 256,
+    "moves": 216
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "score": 1132,
+    "max_tile": 128,
+    "moves": 121
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "score": 1132,
+    "max_tile": 128,
+    "moves": 121
+   }
+  },
+  {
+   "seed": 1,
+   "steps": 247,
+   "raw \u00b7 Qwen3-8B": {
+    "score": 1264,
+    "max_tile": 128,
+    "moves": 128
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "score": 2988,
+    "max_tile": 256,
+    "moves": 247
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "score": 1224,
+    "max_tile": 64,
+    "moves": 138
+   }
+  },
+  {
+   "seed": 2,
+   "steps": 226,
+   "raw \u00b7 Qwen3-8B": {
+    "score": 1652,
+    "max_tile": 128,
+    "moves": 156
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "score": 1492,
+    "max_tile": 128,
+    "moves": 157
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "score": 2644,
+    "max_tile": 256,
+    "moves": 226
+   }
+  },
+  {
+   "seed": 3,
+   "steps": 252,
+   "raw \u00b7 Qwen3-8B": {
+    "score": 1688,
+    "max_tile": 128,
+    "moves": 173
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "score": 3108,
+    "max_tile": 256,
+    "moves": 252
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "score": 1244,
+    "max_tile": 128,
+    "moves": 132
+   }
+  },
+  {
+   "seed": 4,
+   "steps": 143,
+   "raw \u00b7 Qwen3-8B": {
+    "score": 1372,
+    "max_tile": 128,
+    "moves": 143
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "score": 1188,
+    "max_tile": 128,
+    "moves": 126
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "score": 1348,
+    "max_tile": 128,
+    "moves": 138
+   }
+  }
+ ],
+ "baselines": {
+  "random": [
+   {
+    "score": 1100,
+    "max_tile": 128,
+    "moves": 115
+   },
+   {
+    "score": 1372,
+    "max_tile": 128,
+    "moves": 139
+   },
+   {
+    "score": 1044,
+    "max_tile": 128,
+    "moves": 112
+   },
+   {
+    "score": 508,
+    "max_tile": 64,
+    "moves": 73
+   },
+   {
+    "score": 252,
+    "max_tile": 32,
+    "moves": 47
+   }
+  ],
+  "first-listed": [
+   {
+    "score": 420,
+    "max_tile": 32,
+    "moves": 68
+   },
+   {
+    "score": 1428,
+    "max_tile": 128,
+    "moves": 147
+   },
+   {
+    "score": 444,
+    "max_tile": 32,
+    "moves": 72
+   },
+   {
+    "score": 224,
+    "max_tile": 32,
+    "moves": 45
+   },
+   {
+    "score": 656,
+    "max_tile": 64,
+    "moves": 86
+   }
+  ],
+  "oracle": [
+   {
+    "score": 10500,
+    "max_tile": 1024,
+    "moves": 600
+   },
+   {
+    "score": 10536,
+    "max_tile": 1024,
+    "moves": 600
+   },
+   {
+    "score": 10380,
+    "max_tile": 1024,
+    "moves": 600
+   },
+   {
+    "score": 8936,
+    "max_tile": 512,
+    "moves": 600
+   },
+   {
+    "score": 10420,
+    "max_tile": 1024,
+    "moves": 600
+   }
+  ]
+ },
+ "summary": {
+  "raw \u00b7 Qwen3-8B": {
+   "decisions": 816,
+   "agree": 0.4068627450980392,
+   "regret": 0.3333299121505599,
+   "ece": 0.4558102534049782,
+   "brier": 0.9948912879185243,
+   "flip": 0.19975490196078433,
+   "illegal_mass": 5.7263959214580795e-05
+  },
+  "L0 \u00b7 Qwen3-8B": {
+   "decisions": 903,
+   "agree": 0.4795127353266888,
+   "regret": 0.26621537223596436,
+   "ece": 0.32770996062188057,
+   "brier": 0.8044561804526241,
+   "flip": 0.11738648947951273,
+   "illegal_mass": 1.7615292812133332e-05
+  },
+  "L1 \u00b7 Qwen3-8B": {
+   "decisions": 755,
+   "agree": 0.45165562913907287,
+   "regret": 0.29542073801611934,
+   "ece": 0.07748415996992442,
+   "brier": 0.6404781622051119,
+   "flip": 0.11788079470198676,
+   "illegal_mass": 0.023346137400651026
+  }
+ }
+}

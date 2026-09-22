@@ -34,6 +34,7 @@ class VLMBackend:
         self.name = model_name
         self.batch_size = batch_size
         self.device = device
+        self.dtype = dtype
         self.revision = revision
         self.max_pixels = max_pixels
         self.min_pixels = min_pixels

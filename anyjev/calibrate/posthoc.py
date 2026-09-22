@@ -6,7 +6,7 @@ models is a user error and is not detected here.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Sequence
+from typing import Any, Dict, Optional, Sequence
 
 import numpy as np
 
@@ -26,6 +26,10 @@ def nll(logits: np.ndarray, labels: Sequence[int]) -> float:
 @dataclass
 class TemperatureScaler:
     temperature: float = 1.0
+    prior: Optional[np.ndarray] = None       # the [P, K] prior the calibration set was scored with, frozen
+    prior_strength: float = 0.0
+    prior_method: str = "none"
+    n_calib: int = 0
 
     @classmethod
     def fit(cls, probs: np.ndarray, labels: Sequence[int],
@@ -52,9 +56,18 @@ class TemperatureScaler:
         logits = np.log(np.clip(np.asarray(probs, dtype=np.float64), EPS, None))
         return np.exp(_log_softmax(logits / self.temperature))
 
-    def to_dict(self) -> Dict[str, float]:
-        return {"method": "temperature", "temperature": self.temperature}
+    def to_dict(self) -> Dict[str, Any]:
+        out: Dict[str, Any] = {"method": "temperature", "temperature": self.temperature,
+                               "prior_method": self.prior_method, "prior_strength": self.prior_strength,
+                               "n_calib": self.n_calib}
+        if self.prior is not None:
+            out["prior"] = np.asarray(self.prior, dtype=float).round(8).tolist()
+        return out
 
     @classmethod
     def from_dict(cls, d: Dict) -> "TemperatureScaler":
-        return cls(temperature=float(d["temperature"]))
+        return cls(temperature=float(d["temperature"]),
+                   prior=np.asarray(d["prior"], dtype=float) if d.get("prior") is not None else None,
+                   prior_strength=float(d.get("prior_strength", 0.0)),
+                   prior_method=str(d.get("prior_method", "none")),
+                   n_calib=int(d.get("n_calib", 0)))

@@ -8,6 +8,7 @@ bench/results_batchprior_v0/<date>/*.json, the same files bench.table reads.
 from __future__ import annotations
 
 import argparse
+import glob
 import json
 from pathlib import Path
 
@@ -17,7 +18,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 
-DEFAULT_DIR = "bench/results_batchprior_v0/2026-09-20"
+DEFAULT_DIR = (sorted(glob.glob("bench/results_v01/*/")) or ["bench/results_v01/"])[-1]   # latest dated run
 MODELS = ["Qwen3-8B", "Qwen2.5-7B-Instruct", "Qwen3-30B-A3B-Instruct-2507"]
 MODEL_SHORT = {"Qwen3-8B": "Qwen3-8B",
                "Qwen2.5-7B-Instruct": "Qwen2.5-7B",

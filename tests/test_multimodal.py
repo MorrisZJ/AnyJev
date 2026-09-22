@@ -198,10 +198,47 @@ def test_probes_are_shared_across_states_with_the_same_picture_count():
     q = Question.choice("What colour?", OPTIONS)
     d = Decider(be, prior="content_free")
     d.decide_batch([Image(RED), Image(GREEN), Image(BLUE)], q)
-    # 3 states x 4 perms + 4 perms x 3 probes shared once = 24
-    assert be.calls == 1 and be.prompts_seen == 24
+    # 3 states x 4 perms, then 4 perms x 3 probes shared once in their own call = 24
+    assert be.calls == 2 and be.prompts_seen == 24
     d.decide(Image(RED), [q])
-    assert be.prompts_seen == 28                      # cf prior cached, no probes reissued
+    assert be.calls == 3 and be.prompts_seen == 28    # cf prior cached, no probes reissued
+
+
+def test_picture_prompts_never_take_the_shared_prefix_path():
+    # the shared-prefix contract carries text only; a picture prompt must go flat with its images
+    q = Question.choice("What colour?", OPTIONS)
+    be = vlm()
+    Decider(be, shared_prefix=True).decide_batch([Image(RED), Image(BLUE)], q)
+    assert be.shared_calls == 0 and len(be.images_seen) == 8
+    text_be = FakeBackend(no_text_signal)
+    Decider(text_be, shared_prefix=True).decide_batch(["a", "b"], q)
+    assert text_be.shared_calls == 1                  # text states still share
+
+
+def test_adaptive_shifts_carry_pictures_and_a_probe_per_picture_count():
+    be = vlm(position_bias=[4.0, 0, 0, 0])
+    q = Question.choice("What colour?", OPTIONS, name="colour")
+    d = Decider(be, prior="content_free", adaptive_shifts=True)
+    two = {"a": GREEN, "b": GREEN}                    # two pictures: its own probe
+    decs = d.decide_batch([Image(GREEN), two], q)
+    assert [x.argmax for x in decs] == ["green", "green"]
+    assert [x.diagnostics["n_images"] for x in decs] == [1, 2]
+    assert decs[0].diagnostics["adaptive"] and decs[0].diagnostics["prior_method"] == "content_free"
+    assert {k[1] for k in d._cf_cache} == {1, 2}
+    blank = blank_image().key
+    assert any(len(s) == 2 and all(im.key == blank for im in s) for s in be.images_seen)
+
+
+def test_l1_freezes_the_prior_on_picture_states():
+    be = vlm(label_prior={"A": 1.5})
+    q = Question.choice("What colour?", OPTIONS, name="colour")
+    d = Decider(be)
+    states = [Image(RED), Image(GREEN), Image(BLUE)] * 10
+    art = d.calibrate(q, states, [OPTIONS.index(COLOUR[Image(s).key]) for s in states])
+    assert art.get("prior") is not None               # the batch prior from the calibration set
+    r = d.decide(Image(GREEN), [q], level="L1")["colour"]
+    assert r.level == "L1" and r.argmax == "green"
+    assert r.diagnostics["prior_method"].startswith("frozen:")
 
 
 def test_l1_calibration_works_on_picture_states():

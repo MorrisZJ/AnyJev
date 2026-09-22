@@ -16,7 +16,7 @@ import json
 import os
 import time
 from collections import defaultdict
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 
@@ -70,7 +70,8 @@ def pooled(rows: List[tuple]) -> Dict[str, float]:
     return out
 
 
-def run(decider: Decider, test: List[Decision], calib: List[Decision], levels: List[str]) -> Dict[str, Any]:
+def run(decider: Decider, test: List[Decision], calib: List[Decision], levels: List[str],
+        dump: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     groups = group_by_question(test)
     calib_groups = group_by_question(calib) if calib else {}
     per_level: Dict[str, List[tuple]] = defaultdict(list)
@@ -79,7 +80,16 @@ def run(decider: Decider, test: List[Decision], calib: List[Decision], levels: L
         q = items[0].question
         states = [d.state for d in items]
         decs = decider.decide_batch(states, q, level="L0")
-        rows = _rows_from_diagnostics(decs, decider.combine)
+        if dump is not None:   # raw position-space distributions per item, enough to replay any prior rule offline
+            dump[key] = {"name": items[0].qname, "workflow": items[0].workflow, "kind": q.kind, "k": q.k,
+                         "perms": decs[0].diagnostics["perms"],
+                         "gold": [d.gold_index for d in items],
+                         "gold_probs": [d.gold_probs for d in items],
+                         "p_pos_raw": [d.diagnostics["p_pos_raw"].round(6).tolist() for d in decs],
+                         "cf_prior": (decs[0].diagnostics["cf_prior"].round(6).tolist()
+                                      if decs[0].diagnostics.get("cf_prior") is not None else None)}
+        rows = _rows_from_diagnostics(decs, decider.combine,
+                                      decider.strength() if decider.prior == "batch" else 0.75)
         for name, P in rows.items():
             for d, p in zip(items, P):
                 per_level[name].append((d, p))
@@ -95,13 +105,26 @@ def run(decider: Decider, test: List[Decision], calib: List[Decision], levels: L
     for level, rows in per_level.items():
         if level not in levels and not level.startswith("L0-"):
             continue
-        entry = {"overall": pooled(rows), "by_workflow": {}, "by_type": {}}
+        entry = {"overall": pooled(rows), "by_workflow": {}, "by_type": {}, "by_question": {}}
         for wf in sorted({d.workflow for d, _ in rows}):
             entry["by_workflow"][wf] = pooled([r for r in rows if r[0].workflow == wf])
         for t in ("choice", "noul", "score"):
             sub = [r for r in rows if r[0].question.kind == t]
             if sub:
                 entry["by_type"][t] = pooled(sub)
+        # per question: the unit of the "when does L0 help" diagnostic. Label skew is
+        # computed from the gold labels of the same items so it is comparable across levels.
+        for key, items in groups.items():
+            sub = [r for r in rows if r[0].question.key == key]
+            if not sub:
+                continue
+            q = items[0].question
+            counts = np.bincount([d.gold_index for d in items], minlength=q.k).astype(float)
+            pm = counts / counts.sum()
+            ent = float(-(pm[pm > 0] * np.log(pm[pm > 0])).sum() / np.log(q.k)) if q.k > 1 else 0.0
+            entry["by_question"][key] = {**pooled(sub), "workflow": items[0].workflow, "name": items[0].qname,
+                                         "kind": q.kind, "k": q.k, "majority": float(pm.max()),
+                                         "label_entropy": ent}
         out["levels"][level] = entry
     return out
 
@@ -134,24 +157,35 @@ def main(argv=None):
     ap.add_argument("--calib-cases", type=int, default=50, help="train cases per workflow used for L1 temperature")
     ap.add_argument("--batch-size", type=int, default=32)
     ap.add_argument("--prior", default="batch", choices=["batch", "content_free", "none"])
+    ap.add_argument("--prior-strength", type=float, default=None)
     ap.add_argument("--out", default="bench/results_typed")
+    ap.add_argument("--dump-items", action="store_true", help="also write per-item raw distributions (items JSON)")
     args = ap.parse_args(argv)
 
     from anyjev.backends.hf import HFBackend
-    decider = Decider(HFBackend(args.model, batch_size=args.batch_size), prior=args.prior)
+    decider = Decider(HFBackend(args.model, batch_size=args.batch_size), prior=args.prior,
+                      prior_strength=args.prior_strength)
     levels = args.levels.split(",")
     test = load("test", limit_cases=args.limit_cases)
     calib = load("train", limit_cases=args.calib_cases) if "L1" in levels else []
     print(f"test decisions: {len(test)} over {len(group_by_question(test))} questions; calib: {len(calib)}", flush=True)
 
+    dump: Optional[Dict[str, Any]] = {} if args.dump_items else None
     results = {"model": args.model, "dataset": "LocalLLaMA/typed-decisions", "prior": args.prior,
-               "limit_cases": args.limit_cases, "env": environment(), **run(decider, test, calib, levels)}
+               "prior_strength": args.prior_strength, "limit_cases": args.limit_cases,
+               "calib_cases_per_workflow": args.calib_cases,
+               "env": environment(batch_size=args.batch_size, dtype=decider.backend.dtype, backend="hf",
+                                  shared_prefix=str(decider.shared_prefix)),
+               **run(decider, test, calib, levels, dump)}
     stamp = dt.datetime.now().strftime("%Y-%m-%d")
     outdir = os.path.join(args.out, stamp)
     os.makedirs(outdir, exist_ok=True)
     slug = args.model.replace("/", "__")
     with open(os.path.join(outdir, f"{slug}.json"), "w") as f:
         json.dump(results, f, indent=1, default=float)
+    if dump is not None:
+        with open(os.path.join(outdir, f"{slug}.items.json"), "w") as f:
+            json.dump({"model": args.model, "questions": dump}, f, default=float)
     table = markdown(results)
     with open(os.path.join(outdir, f"{slug}.md"), "w") as f:
         f.write(table + "\n")

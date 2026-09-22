@@ -9,6 +9,7 @@ written; it sits on the page rather than punching a dark block into it.
 from __future__ import annotations
 
 import argparse
+import glob
 import json
 from pathlib import Path
 
@@ -19,7 +20,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import FancyBboxPatch
 
-DEFAULT_DIR = "bench/results_batchprior_v0/2026-09-20"
+DEFAULT_DIR = (sorted(glob.glob("bench/results_v01/*/")) or ["bench/results_v01/"])[-1]   # latest dated run
 HEADLINE = ("Qwen3-8B", "banking20")
 
 THEME = dict(bg_top="#ffffff", bg_bottom="#e8eefb", ink="#0f172a", dim="#64748b",

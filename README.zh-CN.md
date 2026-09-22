@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.png" width="100%" alt="AnyJev —— 把任意 LLM 变成 Jev 风格的决策模型。类型化的决策、真实的概率、不需要训练。选项顺序翻转率 0.227 降到 0.077，校准误差 0.235 降到 0.100，5% 风险下可自动决策比例 7.7% 升到 54.3%。">
+<img src="assets/banner.png" width="100%" alt="AnyJev —— 把任意 LLM 变成 Jev 风格的决策模型。类型化的决策、真实的概率、不需要训练。选项顺序翻转率 0.230 降到 0.073，校准误差 0.240 降到 0.095，5% 风险下可自动决策比例 7.7% 升到 52.0%。">
 
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
@@ -41,16 +41,16 @@
 | | 直接读 logits | **AnyJev L0** | **AnyJev L1** |
 |:--|:--:|:--:|:--:|
 | 需要标签 | 无 | **无** | 100–500 条 |
-| 选项倒序后答案改变的比例 | 0.227 | **0.077** | 0.077 |
-| 准确率 | 0.750 | **0.807** | 0.807 |
-| 校准误差（ECE） | 0.235 | 0.180 | **0.100** |
-| **错误率 ≤5% 时可自动决策的比例** | **7.7%** | **47.7%** | **54.3%** |
+| 选项倒序后答案改变的比例 | 0.230 | **0.073** | 0.077 |
+| 准确率 | 0.747 | **0.803** | 0.807 |
+| 校准误差（ECE） | 0.240 | 0.184 | **0.095** |
+| **错误率 ≤5% 时可自动决策的比例** | **7.7%** | **46.3%** | **52.0%** |
 
 <sub>Qwen3-8B，BANKING77 20 分类，300 条测试样本。含全部消融行的完整表：<a href="docs/results_bench.md">docs/results_bench.md</a></sub>
 
 </div>
 
-最后一行才是重点。准确率只动了 6 个点，但可以安全自动化的流量从 **7.7% 涨到 54.3%**，相差 7 倍。直接读 logits 时那个 "0.9" 不足以支撑你去行动，于是所有请求都得转人工；一旦概率真的表示它字面的意思，你才能设阈值。
+最后一行才是重点。准确率只动了 6 个点，但可以安全自动化的流量从 **7.7% 涨到 52.0%**，在这个任务上相差 6.8 倍（n=300 的点估计，区间很宽，见"局限"）。直接读 logits 时那个 "0.9" 不足以支撑你去行动，于是所有请求都得转人工；一旦概率真的表示它字面的意思，你才能设阈值。
 
 > [!NOTE]
 > 与 TypeSafe AI 及 Jev 无关，未获其认可，也不派生自它们。本文档中的每一项对比都是我们实测的、可从 `bench/` 复现，明确标注为"由原作者发布"的行除外。
@@ -151,15 +151,15 @@ python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20
 
 | model | task | K | raw flip | L0 flip | raw acc | L0 acc | raw ECE | L1 ECE |
 |---|---|---|---|---|---|---|---|---|
-| Qwen3-8B | banking20 | 20 | 0.227 | **0.077** | 0.750 | **0.807** | 0.235 | **0.100** |
-| Qwen3-8B | newsgroups | 20 | 0.237 | **0.173** | 0.640 | **0.660** | 0.331 | **0.157** |
-| Qwen3-8B | injection | 2 | 0.060 | **0.000** | 0.693 | **0.710** | 0.287 | **0.162** |
-| Qwen2.5-7B-Instruct | banking20 | 20 | 0.197 | **0.067** | 0.723 | **0.767** | 0.236 | **0.072** |
-| Qwen2.5-7B-Instruct | newsgroups | 20 | 0.233 | **0.123** | 0.660 | **0.707** | 0.276 | **0.082** |
-| Qwen2.5-7B-Instruct | injection | 2 | 0.053 | **0.000** | 0.737 | **0.813** | 0.189 | **0.037** |
-| Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | 0.143 | **0.097** | 0.733 | **0.767** | 0.246 | **0.079** |
-| Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | 0.133 | **0.100** | 0.730 | **0.740** | 0.249 | **0.086** |
-| Qwen3-30B-A3B-Instruct-2507 | injection | 2 | 0.093 | **0.000** | 0.723 | **0.767** | 0.253 | **0.080** |
+| Qwen3-8B | banking20 | 20 | 0.230 | **0.073** | 0.747 | **0.803** | 0.240 | **0.095** |
+| Qwen3-8B | newsgroups | 20 | 0.233 | **0.177** | 0.637 | **0.660** | 0.334 | **0.138** |
+| Qwen3-8B | injection | 2 | 0.060 | **0.000** | 0.693 | **0.700** | 0.288 | **0.161** |
+| Qwen2.5-7B-Instruct | banking20 | 20 | 0.197 | **0.080** | 0.723 | **0.757** | 0.237 | **0.070** |
+| Qwen2.5-7B-Instruct | newsgroups | 20 | 0.237 | **0.127** | 0.663 | **0.710** | 0.273 | **0.096** |
+| Qwen2.5-7B-Instruct | injection | 2 | 0.070 | **0.000** | 0.737 | **0.790** | 0.188 | **0.049** |
+| Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | 0.143 | **0.097** | 0.730 | **0.770** | 0.249 | **0.086** |
+| Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | 0.140 | **0.093** | 0.737 | **0.740** | 0.242 | **0.096** |
+| Qwen3-30B-A3B-Instruct-2507 | injection | 2 | 0.103 | **0.000** | 0.730 | **0.757** | 0.248 | **0.090** |
 
 全部消融行（只做排列、单独使用每种先验、Brier、5% 风险下的覆盖率）：[docs/results_bench.md](docs/results_bench.md)。一张 H100，bf16，transformers 4.55.4。
 
@@ -169,27 +169,51 @@ python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20
 |---|---|---|---|---|---|
 | laya-multilingual (zero-shot), measured here | 0.340 | 0.325 | 0.287 | 0.269 | 0.688 |
 | laya (zero-shot), measured here | 0.359 | 0.331 | 0.177 | 0.227 | 0.694 |
-| Qwen2.5-7B-Instruct + raw logits (clone baseline) | 0.621 | 0.514 | 0.287 | 0.209 | 0.437 |
+| Qwen2.5-7B-Instruct + raw logits (clone baseline) | 0.620 | 0.514 | 0.287 | 0.209 | 0.437 |
 | Qwen3-8B + raw logits (clone baseline) | 0.626 | 0.520 | 0.328 | 0.210 | 0.621 |
-| Qwen2.5-7B-Instruct + AnyJev L0, zero-shot | 0.628 | 0.506 | 0.200 | 0.176 | 0.451 |
-| Qwen2.5-7B-Instruct + AnyJev L1, temperature from 200 train cases | 0.632 | 0.452 | 0.047 | 0.149 | 0.443 |
-| Qwen3-8B + AnyJev L0, zero-shot | 0.640 | 0.523 | 0.273 | 0.196 | 0.617 |
-| Qwen3-8B + AnyJev L1, temperature from 200 train cases | 0.646 | 0.457 | 0.056 | 0.143 | 0.474 |
+| Qwen2.5-7B-Instruct + AnyJev L0, zero-shot | 0.628 | 0.512 | 0.234 | 0.188 | 0.439 |
+| Qwen2.5-7B-Instruct + AnyJev L1, temperature from 200 train cases | 0.628 | 0.461 | 0.038 | 0.148 | 0.425 |
+| Qwen3-8B + AnyJev L0, zero-shot | 0.647 | 0.530 | 0.290 | 0.198 | 0.591 |
+| Qwen3-8B + AnyJev L1, temperature from 200 train cases | 0.648 | 0.468 | 0.055 | 0.140 | 0.444 |
 | Qwen3-32B + raw logits (clone baseline) | 0.684 | 0.556 | 0.206 | 0.144 | 0.488 |
-| Qwen3-32B + AnyJev L0, zero-shot | 0.700 | 0.548 | 0.133 | 0.128 | 0.456 |
-| Qwen3-32B + AnyJev L1, temperature from 200 train cases | 0.701 | 0.502 | **0.034** | 0.120 | 0.412 |
+| Qwen3-32B + AnyJev L1, temperature from 200 train cases | 0.699 | 0.508 | 0.036 | 0.119 | 0.416 |
+| Qwen3-32B + AnyJev L0, zero-shot | 0.700 | 0.555 | 0.149 | 0.129 | 0.449 |
 | Jev 1.13.0 (published by TypeSafe / Laya; not rerun) | 0.727 | 0.580 | 0.144 | 0.148 | 0.391 |
-| laya-typed-decisions (fine-tuned on this set's train split), measured here | **0.768** | 0.471 | 0.215 | **0.118** | **0.243** |
+| laya-typed-decisions (fine-tuned on this set's train split), measured here | 0.768 | 0.471 | 0.215 | 0.118 | 0.243 |
 
-除 Jev 外的每一行都是我们在同样的 2,000 个 decision 上实测的；微调后的 Laya checkpoint 复现了它公布的 0.766。**这张表要从两个角度读。** 看 argmax 准确率，微调后的 Laya 赢，零训练的 32B 开源模型比 Jev 低 2.7 个点。看概率质量，也就是 System One 模型存在的意义：微调后的 Laya 的 ECE（0.215）是 AnyJev L1（0.034）的**六倍**，但单看 Brier 它仍略微领先，0.118 对 0.120。温度缩放用 soft accuracy 换校准，所以 7B 和 8B 的 L1 行在这一项上掉到 0.45 左右。Laya 的零样本 checkpoint，也就是你在它没训练过的问题上会用到的那个，只有 0.34 到 0.36，随机基线是 0.32。
+除 Jev 外的每一行都是我们在同样的 2,000 个 decision 上实测的；微调后的 Laya checkpoint 复现了它公布的 0.766。**这张表要从两个角度读。** 看 argmax 准确率，微调后的 Laya 赢，零训练的 32B 开源模型比 Jev 低 2.8 个点。看概率质量，也就是 System One 模型存在的意义：微调后的 Laya 的 ECE（0.215）是 AnyJev L1（0.036）的**六倍**，但单看 Brier 它仍略微领先，0.118 对 0.119。温度缩放用 soft accuracy 换校准，所以 7B 和 8B 的 L1 行在这一项上掉到 0.45 左右。Laya 的零样本 checkpoint，也就是你在它没训练过的问题上会用到的那个，只有 0.34 到 0.36，随机基线是 0.32。
 
 按 workflow、按题型拆分的完整表：[docs/results_typed.md](docs/results_typed.md)。
 
 ### 放进 NanoJev 的迷宫 harness
 
-我们复刻了 NanoJev 的 "Untuned Qwen3-0.6B" A/B 读法，在它冻结的 scaled_maze 流水线里只替换回答布尔问题的引擎。**两件事同时成立。** 未训练读法的结果高度依赖读法：同一个 Qwen3-0.6B，在 A/B 读法下是 13/15 个迷宫、20,555 步，在 AnyJev 的 raw Yes/No 读法下是 15/15、5,825 步。同时，没有任何一种读法，包括 Qwen3-8B，在"向北走一步是否畅通"上比一直回答多数类更准（边判断准确率 0.40 到 0.56，多数类基线 0.54 到 0.62）。这不是 NanoJev held-out gameplay 表里那个 2/10 成绩所对应的评测 —— 那个数字来自另一个我们没有跑过的 274-case 套件。我们报告它，因为这是 NanoJev 发起的对比；我们不拿它做标题。
+我们复刻了 NanoJev 的 "Untuned Qwen3-0.6B" A/B 读法，在它冻结的 scaled_maze 流水线里只替换回答布尔问题的引擎。**两件事同时成立。** 未训练读法的结果高度依赖读法：同一个 Qwen3-0.6B，在 A/B 读法下是 13/15 个迷宫、20,500 步，在 AnyJev 的 raw Yes/No 读法下是 15/15、5,825 步。同时，没有任何一种读法，包括 Qwen3-8B，在"向北走一步是否畅通"上比一直回答多数类更准（边判断准确率 0.40 到 0.55，多数类基线 0.54 到 0.61）。这不是 NanoJev held-out gameplay 表里那个 2/10 成绩所对应的评测 —— 那个数字来自另一个我们没有跑过的 274-case 套件。我们报告它，因为这是 NanoJev 发起的对比；我们不拿它做标题。
 
 完整表和协议：[docs/results_maze.md](docs/results_maze.md)。
+
+### 同一个 hidden state 上的闭式 head（预览）
+
+raw 读法本身就是一个线性 head：标签 token 在 `lm_head` 里的那几行，作用在最后一个位置的 hidden state 上。`anyjev.heads` 用一小批带标签的样本，为一个问题闭式地拟合另一个矩阵（收缩 LDA、ridge、reduced-rank regression，或类均值之差），层数、正则和温度都只在这批样本上用交叉验证选。没有梯度、不改权重，在你本来就要付的那一次 prefill 之后，CPU 上几秒钟。
+
+| typed-decisions，Qwen3-8B，每题 200 个标签，20 题 × 100 条测试 | acc | ECE | Brier |
+|---|---|---|---|
+| raw logits | 0.626 | 0.330 | 0.688 |
+| AnyJev L0（排列） | 0.635 | 0.320 | 0.669 |
+| AnyJev L1（温度） | 0.626 | 0.174 | 0.482 |
+| **闭式 head，每题按交叉验证选** | **0.771** | **0.120** | **0.339** |
+| laya-typed-decisions，用全部 300 条训练样本微调 | 0.768 | 0.215 | — |
+
+分类型：`choice` 0.60 → 0.75，`noul` 0.71 → 0.85，`score` 0.59 → 0.73；20 题里 19 题变好。在 BANKING77（K = 20，200 个标签）上 ridge head 到 0.843，L0 是 0.800，raw 是 0.747，ECE 0.046。两个 caveat，都是测出来的。在单一选项顺序上拟合的 head 不具备顺序不变性（选项倒序后 0.95 的答案会变；改用循环移位平均的特征后降到 0.11–0.19，代价是 K 次 prefill）。标签必须来自任务本身：用模型自己的答案拟合 head 没有收益，用它 thinking 模式的答案拟合反而掉准确率。目前只有一个模型、一个 seed。`python -m bench.heads_study`、`python -m bench.heads_table`；JSON 在 `bench/results_heads/`。这里的 Brier 是多分类求和，不是上表的按选项平均。
+
+### 两个自带 oracle 的游戏
+
+`python -m demo.games.twenty48` 和 `python -m demo.games.minesweeper` 让 raw、L0、L1 在同样的种子上各玩一局，每一步决策都对着 oracle 打分（深度 2 的 expectimax；精确的地雷后验）。Qwen3-8B 玩 2048（五局，给模型看每个合法走法之后的棋盘）：得分 raw 1,744 → L0 1,982，flip 0.20 → 0.12，ECE 0.46 → 0.33 → L1 0.08；随机 855，oracle 10,154。扫雷上 8B 和 32B 的任何读法都打不过随机（清掉 0.71 的棋盘，随机 0.68）：模型读不懂数字约束，L1 只是让它的 P(safe) 变得诚实（ECE 0.41 → 0.08）。两者都能在一个合成的有偏模型上不用 GPU 跑（`--backend fake`）；见 [demo/games/README.md](demo/games/README.md)。
+
+---
+
+## 可复现性
+
+一次独立复现重跑了每一个已发布的数字（3 个模型 × 3 个任务 × 2 种先验、迷宫的所有行、Laya 的所有行）：在记录的设置下所有零标签数字逐位一致，并发现了一个设计瑕疵：L1 artifact 用的是一个持续累积的先验，因此取决于 decider 之前打过分的样本。已修：artifact 现在冻结拟合时用的先验，每个结果 JSON 都记录 batch size 和 dtype（bf16 的 logits 会随 batch 形状变动最多 0.01）。上面每张表都在修复后的代码下由提交的 JSON 重新生成，`bash scripts/regen_docs.sh`。
 
 ---
 
@@ -198,15 +222,16 @@ python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20
 这些我们宁可你在这里看到，而不是在生产环境里撞上。
 
 - **L0 不是每个任务都稳赢。** 在 Qwen3-8B 的 prompt-injection 切分上，L0 的 5% 风险覆盖率（0.160）反而*低于* raw（0.297）。content-free 先验的方差最大：在某个 `noul` 任务上 +8 到 +12 个点，在有序 `score` 上 −3，在另一个模型的 `noul` 上 −9。请在你自己的任务上测 —— bench 的所有消融行都来自同一批前向，不额外花钱。
-- **batch 先验需要"一批"数据。** 它要攒够 `min_prior_n`（默认 8）条同一问题的样本才启用，并且假设这批数据的标签边缘分布不极端。边缘分布偏斜时它会过度校正 —— 一个收缩系数是开放研究项。
+- **batch 先验需要"一批"数据。** 它要攒够 `min_prior_n`（默认 8）条同一问题的样本才启用，并且假设这批数据的标签边缘分布不极端。在真实多数类超过约 65% 的问题上它会损失准确率（默认强度 0.75 时 −0.02，全强度时 −0.04，基于 164 个 (模型, 问题) 点，见 [docs/when_l0_helps.md](docs/when_l0_helps.md)），而且没有任何无标签规则能把这种情况和有偏的模型区分开。
 - **校准救不了答不出来的模型。** 在迷宫 harness 里，没有任何读法能在边判断上打过多数类基线。AnyJev 让不确定性变得*可读*，而不是变小。
+- **5% 风险下的覆盖率是高方差的点估计**：n = 300 时翻转一条样本就能让它动 0.013，而且它"最深可接受前缀"的定义平均比"首次越界"的定义高 0.026。把那个 7 倍当方向看，别当常数。
 - **当前字母读法最多 26 个选项**，span 读法会解除这个上限。
 - **L1 扛不住分布偏移**，而且它只重塑置信度、不改变排序。
 - **目前表里只有一个模型家族。** 上面全部是 Qwen，Llama 和 Gemma 行在路线图上。
 
 ## 状态
 
-**v0.0.2。** 库、两个后端、三个 benchmark 都是真实可运行、实测过的。持续开发中 —— 带日期的计划在 [ROADMAP.md](ROADMAP.md)。**接下来：** 超过 26 个选项的 span 读法、conformal 弃答、延迟列、在线 demo、Llama 和 Gemma 行。**再之后：** Jev 兼容的 HTTP 服务端、更多后端。**v0.0.2 之后已合入：** 多模态 state（[docs/multimodal.md](docs/multimodal.md)）。
+**v0.0.2。** 库、两个后端、三个 benchmark 都是真实可运行、实测过的。持续开发中 —— 带日期的计划在 [ROADMAP.md](ROADMAP.md)。**接下来：** 闭式 head 扩到更多模型和标签数量、超过 26 个选项的 span 读法、conformal 弃答、Llama 和 Gemma 行。**再之后：** Jev 兼容的 HTTP 服务端、更多后端。**v0.0.2 之后已合入：** 多模态 state（[docs/multimodal.md](docs/multimodal.md)）。
 
 后端和 benchmark provider 都是一个文件一个，其中几项标了 **help wanted** —— 见 [CONTRIBUTING.md](CONTRIBUTING.md)。已完成的改动：[CHANGELOG.md](CHANGELOG.md)。我们站在谁的肩膀上：[CREDITS.md](CREDITS.md)。
 
