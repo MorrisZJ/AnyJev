@@ -1,8 +1,9 @@
 <div align="center">
 
-<img src="assets/banner.png" width="100%" alt="AnyJev —— 把任意 LLM 变成 Jev 风格的决策模型。类型化的决策、真实的概率、不需要训练。选项顺序翻转率 0.227 降到 0.077，校准误差 0.235 降到 0.100，5% 风险下可自动决策比例 7.7% 升到 54.3%。">
-
-<br>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
+  <img src="assets/banner-light.png" width="100%" alt="AnyJev —— 把任意 LLM 变成 Jev 风格的决策模型。类型化的决策、真实的概率、不需要训练。选项顺序翻转率 0.227 降到 0.077，校准误差 0.235 降到 0.100，5% 风险下可自动决策比例 7.7% 升到 54.3%。">
+</picture>
 
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
@@ -11,17 +12,8 @@
 
 [English](README.md) · **简体中文** · [档位约定](docs/levels.md) · [完整结果](docs/results_bench.md) · [路线图](ROADMAP.md)
 
-</div>
-
----
-
-<div align="center">
-
-### 作者
-
-**Jiamu Zhang**<sup>1</sup> · **Tianze Yang**<sup>1</sup> · **Yucheng Shi**<sup>2</sup> · **Liang Wu**<sup>1</sup>
-
-<sup>1</sup> Nokia, Sunnyvale, CA &nbsp;&nbsp;·&nbsp;&nbsp; <sup>2</sup> Tencent Hunyuan
+<sub><b>Jiamu Zhang</b><sup>1</sup> &nbsp;·&nbsp; <b>Tianze Yang</b><sup>1</sup> &nbsp;·&nbsp; <b>Yucheng Shi</b><sup>2</sup> &nbsp;·&nbsp; <b>Liang Wu</b><sup>1</sup><br>
+<sup>1</sup>Nokia, Sunnyvale, CA &nbsp;&nbsp; <sup>2</sup>Tencent Hunyuan</sub>
 
 </div>
 
@@ -207,9 +199,9 @@ python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20
 | Jev 1.13.0 (published by TypeSafe / Laya; not rerun) | 0.727 | 0.580 | 0.144 | 0.148 | 0.391 |
 | laya-typed-decisions (fine-tuned on this set's train split), measured here | **0.768** | 0.471 | 0.215 | **0.118** | **0.243** |
 
-Laya 的头条数字是这个数据集上的 0.766，高于 Jev 的 0.727。除 Jev 外的每一行都是我们在同样的 2,000 个 decision 上实测的；Laya 的微调 checkpoint 复现了它公布的数字。**这张表要从两个角度读。** 看 argmax 准确率，在 train 切分上微调过的 Laya 赢，零训练的 32B 开源模型比 Jev 低 2.7 个点。看概率质量，也就是 System One 模型存在的意义，情况就不一样了：微调后的 Laya 的 ECE（0.215）是 AnyJev L1（0.034）的**六倍**，它的 soft accuracy（0.471）低于表中每一个零样本的 Qwen 行。两个 AnyJev L1 行是例外 —— 温度缩放用 soft accuracy 换校准，7B 和 8B 的 soft accuracy 降到 0.452 和 0.457，同时 Brier 改善。单看 Brier，微调后的 Laya 仍然略微领先，0.118 对 AnyJev L1 最好的 0.120。Laya 的零样本 checkpoint，也就是你在它没训练过的问题上会用到的那个，只有 0.34 到 0.36，随机基线是 0.32。
+除 Jev 外的每一行都是我们在同样的 2,000 个 decision 上实测的；微调后的 Laya checkpoint 复现了它公布的 0.766。**这张表要从两个角度读。** 看 argmax 准确率，微调后的 Laya 赢，零训练的 32B 开源模型比 Jev 低 2.7 个点。看概率质量，也就是 System One 模型存在的意义：微调后的 Laya 的 ECE（0.215）是 AnyJev L1（0.034）的**六倍**，但单看 Brier 它仍略微领先，0.118 对 0.120。温度缩放用 soft accuracy 换校准，所以 7B 和 8B 的 L1 行在这一项上掉到 0.45 左右。Laya 的零样本 checkpoint，也就是你在它没训练过的问题上会用到的那个，只有 0.34 到 0.36，随机基线是 0.32。
 
-含按 workflow、按题型拆分的完整表：[docs/results_typed.md](docs/results_typed.md)；用 `python -m bench.run_typed --model <model>` 和 `python -m bench.providers.laya` 重新生成。
+按 workflow、按题型拆分的完整表：[docs/results_typed.md](docs/results_typed.md)；用 `python -m bench.run_typed --model <model>` 和 `python -m bench.providers.laya` 重新生成。
 
 ### 放进 NanoJev 的迷宫 harness
 

@@ -1,8 +1,9 @@
 <div align="center">
 
-<img src="assets/banner.png" width="100%" alt="AnyJev — turn any LLM into a Jev-style decision model. Typed decisions, real probabilities, no training. Order-flip rate 0.227 to 0.077, calibration error 0.235 to 0.100, auto-decidable at 5% risk 7.7% to 54.3%.">
-
-<br>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
+  <img src="assets/banner-light.png" width="100%" alt="AnyJev — turn any LLM into a Jev-style decision model. Typed decisions, real probabilities, no training. Order-flip rate 0.227 to 0.077, calibration error 0.235 to 0.100, auto-decidable at 5% risk 7.7% to 54.3%.">
+</picture>
 
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
@@ -11,17 +12,8 @@
 
 **English** · [简体中文](README.zh-CN.md) · [Levels contract](docs/levels.md) · [Results](docs/results_bench.md) · [Roadmap](ROADMAP.md)
 
-</div>
-
----
-
-<div align="center">
-
-### Authors
-
-**Jiamu Zhang**<sup>1</sup> · **Tianze Yang**<sup>1</sup> · **Yucheng Shi**<sup>2</sup> · **Liang Wu**<sup>1</sup>
-
-<sup>1</sup> Nokia, Sunnyvale, CA &nbsp;&nbsp;·&nbsp;&nbsp; <sup>2</sup> Tencent Hunyuan
+<sub><b>Jiamu Zhang</b><sup>1</sup> &nbsp;·&nbsp; <b>Tianze Yang</b><sup>1</sup> &nbsp;·&nbsp; <b>Yucheng Shi</b><sup>2</sup> &nbsp;·&nbsp; <b>Liang Wu</b><sup>1</sup><br>
+<sup>1</sup>Nokia, Sunnyvale, CA &nbsp;&nbsp; <sup>2</sup>Tencent Hunyuan</sub>
 
 </div>
 
@@ -207,9 +199,9 @@ Full table with every ablation row (permutation only, each prior alone, Brier, c
 | Jev 1.13.0 (published by TypeSafe / Laya; not rerun) | 0.727 | 0.580 | 0.144 | 0.148 | 0.391 |
 | laya-typed-decisions (fine-tuned on this set's train split), measured here | **0.768** | 0.471 | 0.215 | **0.118** | **0.243** |
 
-Laya's headline is 0.766 on this set, above Jev's 0.727. All rows except Jev were measured here on the same 2,000 decisions; the Laya fine-tuned checkpoint reproduces its published number. **Read it two ways.** On argmax accuracy, Laya fine-tuned on the train split wins, and a 32B open model with zero training is 2.7 points behind Jev. On the probabilities, which is what a System One model is for, the picture changes: the fine-tuned Laya's ECE (0.215) is **six times** AnyJev L1's (0.034), and its soft accuracy (0.471) is below every zero-shot Qwen row. Two AnyJev L1 rows are the exception — temperature scaling trades soft accuracy for calibration, so the 7B and 8B models fall to 0.452 and 0.457 soft accuracy while their Brier improves. On Brier alone the fine-tuned Laya stays narrowly ahead, 0.118 against AnyJev L1's best of 0.120. Laya's zero-shot checkpoints, the ones you would use on a question they were not trained for, score 0.34 to 0.36 against a 0.32 random baseline.
+All rows except Jev were measured here on the same 2,000 decisions; the fine-tuned Laya checkpoint reproduces its published 0.766. **Read it two ways.** On argmax accuracy the fine-tuned Laya wins, and a zero-training 32B open model lands 2.7 points behind Jev. On the probabilities — what a System One model is for — the fine-tuned Laya's ECE (0.215) is **six times** AnyJev L1's (0.034), though it stays narrowly ahead on Brier, 0.118 against 0.120. Temperature scaling trades soft accuracy for calibration, so the 7B and 8B L1 rows drop to about 0.45 there. Laya's zero-shot checkpoints, the ones you would use on a question they were not trained for, score 0.34 to 0.36 against a 0.32 random baseline.
 
-Full table with per-workflow and per-type breakdown: [docs/results_typed.md](docs/results_typed.md); regenerate with `python -m bench.run_typed --model <model>` and `python -m bench.providers.laya`.
+Per-workflow and per-type breakdown: [docs/results_typed.md](docs/results_typed.md); regenerate with `python -m bench.run_typed --model <model>` and `python -m bench.providers.laya`.
 
 ### Inside NanoJev's maze harness
 
@@ -222,9 +214,9 @@ Full table with per-workflow and per-type breakdown: [docs/results_typed.md](doc
 | Qwen3-8B + AnyJev L0 (batch prior) | 11/11 | 3/4 | 17841 | 7171 | 0.555 | 0.600 | 0.344 | 25124 |
 | Qwen3-0.6B native A/B readout (NanoJev's 'Untuned Qwen' protocol) | 10/11 | 3/4 | 20555 | 8496 | 0.419 | 0.607 | 0.305 | 27660 |
 
-NanoJev's README compares its trained 0.6B model against "Untuned Qwen3-0.6B", which reads A/B logits for four Boolean questions per maze cell. We reimplemented that readout and ran it inside NanoJev's scaled_maze pipeline ([docs/SCALED_GAMES.md](https://github.com/TianyuCodings/NanoJev/blob/main/docs/SCALED_GAMES.md)), on its 15 test and out-of-distribution episodes at sizes 8 to 50, with their frozen exploration code and their pinned Qwen3-0.6B revision. Only the engine that answers the Boolean changes. This is **not** the evaluation behind the 2/10 maze figure in NanoJev's held-out gameplay table — that figure comes from a separate 274-case suite that we did not run, so the rows above neither restate nor contest it. NanoJev publishes no untuned-Qwen baseline on the scaled suite, so the last row is our own reimplementation of their protocol rather than a number of theirs.
+NanoJev compares its trained 0.6B model against an "Untuned Qwen3-0.6B" that reads A/B logits for four Boolean questions per maze cell. We reimplemented that readout and swapped only the Boolean engine inside their frozen scaled_maze pipeline ([docs/SCALED_GAMES.md](https://github.com/TianyuCodings/NanoJev/blob/main/docs/SCALED_GAMES.md)), on their 15 test and out-of-distribution episodes. This is **not** the evaluation behind the 2/10 figure in their held-out gameplay table, which comes from a separate 274-case suite we did not run.
 
-**Two things are true at once.** The untuned readout's result depends heavily on how you read it: the same Qwen3-0.6B goes from 13/15 mazes and 20,555 attempts under the A/B readout to 15/15 and 5,825 attempts under AnyJev's raw Yes/No readout. And no LLM readout, not even Qwen3-8B, answers "is one step north clear?" better than always saying the majority label (edge accuracy 0.40 to 0.56 against a 0.54 to 0.62 majority). The raw row comes closest, and at 0.537 against a 0.539 majority it is a tie rather than a win. The maze differences come from how each readout's average probability interacts with the controller's `p >= 0.5` probe rule, not from map reading. We report it because it is the comparison NanoJev invites; we do not headline it. Full table: [docs/results_maze.md](docs/results_maze.md).
+**Two things are true at once.** The untuned readout's score depends heavily on how you read it: the same Qwen3-0.6B goes from 13/15 mazes and 20,555 attempts under the A/B readout to 15/15 and 5,825 under AnyJev's raw Yes/No readout. And no readout, not even Qwen3-8B, beats always answering the majority label on "is one step north clear?" (edge accuracy 0.40 to 0.56 against a 0.54 to 0.62 majority). We report it because it is the comparison NanoJev invites; we do not headline it. Full table: [docs/results_maze.md](docs/results_maze.md).
 
 ---
 
