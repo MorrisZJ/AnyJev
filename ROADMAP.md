@@ -2,7 +2,7 @@
 
 AnyJev is under active development. This file is the plan; `CHANGELOG.md` is what actually landed. Dates are targets, not promises. Anything marked **help wanted** is a good first PR; each one is a single file.
 
-## Where we are (v0.0.1, 2026-09-21)
+## Where we are (v0.0.2, 2026-09-21)
 
 - Library: choice / noul / score, one prefill, no generation. L0 debiasing on by default (cyclic-shift marginalization, batch prior), L1 temperature scaling, every result carries its level.
 - Backends: transformers, vLLM (OpenAI-compatible server, `allowed_token_ids`).

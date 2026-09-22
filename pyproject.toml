@@ -10,7 +10,12 @@ readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
-authors = [{ name = "Jiamu (Morris) Zhang" }]
+authors = [
+    { name = "Jiamu Zhang" },
+    { name = "Tianze Yang" },
+    { name = "Yucheng Shi" },
+    { name = "Liang Wu" },
+]
 keywords = ["llm", "decision", "calibration", "jev", "system-one"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
@@ -30,9 +35,9 @@ bench = ["datasets>=2.20", "scikit-learn>=1.4"]
 dev = ["pytest>=8", "ruff"]
 
 [project.urls]
-Homepage = "https://github.com/MorrisZJ/AnyJev"
-Repository = "https://github.com/MorrisZJ/AnyJev"
-Changelog = "https://github.com/MorrisZJ/AnyJev/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/nokia-applied-research/AnyJev"
+Repository = "https://github.com/nokia-applied-research/AnyJev"
+Changelog = "https://github.com/nokia-applied-research/AnyJev/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 include = ["anyjev*"]
