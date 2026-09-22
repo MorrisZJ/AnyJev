@@ -1,0 +1,43 @@
+{
+ "model": "Qwen/Qwen3-8B",
+ "task": "banking20",
+ "rounds": [
+  {
+   "round": 0,
+   "items_seen_before_calibrate": 300,
+   "temperature": 4.158443983657533,
+   "ece": 0.099904491339201,
+   "cov@5%": 0.5466666666666666,
+   "acc": 0.8066666666666666
+  },
+  {
+   "round": 1,
+   "items_seen_before_calibrate": 800,
+   "temperature": 4.158450819638629,
+   "ece": 0.09990769008194358,
+   "cov@5%": 0.5433333333333333,
+   "acc": 0.8066666666666666
+  },
+  {
+   "round": 2,
+   "items_seen_before_calibrate": 1300,
+   "temperature": 4.158453060358436,
+   "ece": 0.09990555567957929,
+   "cov@5%": 0.5433333333333333,
+   "acc": 0.8066666666666666
+  }
+ ],
+ "calibrate_first": {
+  "items_seen_before_calibrate": 0,
+  "temperature": 4.147244874938648,
+  "ece": 0.09967226693943543,
+  "cov@5%": 0.54,
+  "acc": 0.8066666666666666
+ },
+ "spread": {
+  "temperature": 0.011208185419787853,
+  "ece": 0.00023542314250815655,
+  "cov@5%": 0.006666666666666599,
+  "acc": 0.0
+ }
+}

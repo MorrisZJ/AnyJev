@@ -1,0 +1,26 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | raw | 0.733 | 0.749 | 0.502 | 0.246 | 0.143 | 0.253 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | L0-perm | 0.760 | 0.776 | 0.456 | 0.212 | 0.107 | 0.217 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | L0-perm+bc | 0.767 | 0.784 | 0.435 | 0.210 | 0.097 | 0.343 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | L0-perm+cf | 0.773 | 0.789 | 0.424 | 0.202 | 0.087 | 0.217 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | L0-cf | 0.733 | 0.747 | 0.514 | 0.241 | 0.177 | 0.153 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | L0-bc | 0.740 | 0.753 | 0.481 | 0.237 | 0.147 | 0.370 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | L0 | 0.773 | 0.789 | 0.424 | 0.202 | 0.087 | 0.217 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | L1 | 0.773 | 0.789 | 0.341 | 0.050 | 0.093 | 0.340 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | raw | 0.730 | 0.724 | 0.507 | 0.249 | 0.133 | 0.110 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | L0-perm | 0.743 | 0.735 | 0.491 | 0.235 | 0.097 | 0.393 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | L0-perm+bc | 0.740 | 0.729 | 0.491 | 0.239 | 0.100 | 0.307 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | L0-perm+cf | 0.747 | 0.740 | 0.484 | 0.225 | 0.097 | 0.343 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | L0-cf | 0.730 | 0.723 | 0.508 | 0.248 | 0.163 | 0.110 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | L0-bc | 0.727 | 0.720 | 0.511 | 0.252 | 0.140 | 0.247 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | L0 | 0.747 | 0.740 | 0.484 | 0.225 | 0.097 | 0.343 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | L1 | 0.740 | 0.733 | 0.393 | 0.076 | 0.103 | 0.350 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | injection | 2 | raw | 0.723 | 0.648 | 0.528 | 0.253 | 0.093 | 0.417 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | injection | 2 | L0-perm | 0.730 | 0.659 | 0.490 | 0.240 | 0.000 | 0.427 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | injection | 2 | L0-perm+bc | 0.767 | 0.719 | 0.418 | 0.193 | 0.000 | 0.433 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | injection | 2 | L0-perm+cf | 0.797 | 0.768 | 0.361 | 0.169 | 0.000 | 0.457 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | injection | 2 | L0-cf | 0.813 | 0.786 | 0.329 | 0.148 | 0.070 | 0.447 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | injection | 2 | L0-bc | 0.743 | 0.681 | 0.460 | 0.232 | 0.097 | 0.420 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | injection | 2 | L0 | 0.797 | 0.768 | 0.361 | 0.169 | 0.000 | 0.457 |
+| Qwen/Qwen3-30B-A3B-Instruct-2507 | injection | 2 | L1 | 0.803 | 0.777 | 0.274 | 0.061 | 0.000 | 0.430 |

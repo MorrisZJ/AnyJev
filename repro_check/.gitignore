@@ -1,0 +1,19 @@
+# The NanoJev checkout: cloned at run time by run_maze.sh, not ours to vendor.
+external/
+
+# Raw run logs: tens of MB of progress bars, and every number they produced is
+# already in REPORT.md and in results/.
+logs/
+
+# The maze result JSONs are ~10 MB each because NanoJev's run_exploration
+# returns every per-episode observation. The summaries that the report compares
+# are reproduced in REPORT.md; regenerate the full files with run_maze.sh.
+results/nanojev*/
+
+# Per-item probability dumps behind the bootstrap intervals (~11 MB of arrays).
+# The intervals they produce are in REPORT.md; regenerate the dumps with
+# `python run_repro.py --dump-items`.
+*.items/
+
+__pycache__/
+*.pyc

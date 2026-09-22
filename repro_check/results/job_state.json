@@ -1,0 +1,86 @@
+{
+ "P1.bench.Qwen__Qwen3-8B.content_free": {
+  "rc": 0,
+  "seconds": 945.6990988254547,
+  "gpu": 3,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P1.bench.Qwen__Qwen3-8B.content_free.log"
+ },
+ "P1.bench.Qwen__Qwen3-8B.batch": {
+  "rc": 0,
+  "seconds": 946.5211386680603,
+  "gpu": 2,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P1.bench.Qwen__Qwen3-8B.batch.log"
+ },
+ "P2.typed.Qwen__Qwen3-8B": {
+  "rc": 0,
+  "seconds": 464.7069375514984,
+  "gpu": 2,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P2.typed.Qwen__Qwen3-8B.log"
+ },
+ "P2.typed.Qwen__Qwen3-32B": {
+  "rc": 0,
+  "seconds": 978.4716098308563,
+  "gpu": 3,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P2.typed.Qwen__Qwen3-32B.log"
+ },
+ "P3.items.Qwen__Qwen2.5-7B-Instruct": {
+  "rc": 0,
+  "seconds": 774.692554473877,
+  "gpu": 3,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P3.items.Qwen__Qwen2.5-7B-Instruct.log"
+ },
+ "P3.items.Qwen__Qwen3-8B": {
+  "rc": 0,
+  "seconds": 1843.2311899662018,
+  "gpu": 2,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P3.items.Qwen__Qwen3-8B.log"
+ },
+ "P3.extra.Qwen__Qwen3-8B": {
+  "rc": 0,
+  "seconds": 729.0986692905426,
+  "gpu": 3,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P3.extra.Qwen__Qwen3-8B.log"
+ },
+ "P1.bench.Qwen__Qwen3-30B-A3B-Instruct-2507.batch": {
+  "rc": -15,
+  "seconds": 3750.8401262760162,
+  "gpu": 0,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P1.bench.Qwen__Qwen3-30B-A3B-Instruct-2507.batch.log"
+ },
+ "P1.bench.Qwen__Qwen3-30B-A3B-Instruct-2507.content_free": {
+  "rc": -15,
+  "seconds": 3751.2995126247406,
+  "gpu": 1,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P1.bench.Qwen__Qwen3-30B-A3B-Instruct-2507.content_free.log"
+ },
+ "P3.families.mistralai__Mistral-7B-Instruct-v0.3": {
+  "rc": 0,
+  "seconds": 918.6345043182373,
+  "gpu": 3,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P3.families.mistralai__Mistral-7B-Instruct-v0.3.log"
+ },
+ "P3.extra.Qwen__Qwen2.5-7B-Instruct": {
+  "rc": 0,
+  "seconds": 1223.4050633907318,
+  "gpu": 2,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P3.extra.Qwen__Qwen2.5-7B-Instruct.log"
+ },
+ "P3.families.microsoft__Phi-3.5-mini-instruct": {
+  "rc": 0,
+  "seconds": 1142.6783740520477,
+  "gpu": 0,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P3.families.microsoft__Phi-3.5-mini-instruct.log"
+ },
+ "P3.families.allenai__OLMo-2-1124-7B-Instruct": {
+  "rc": 0,
+  "seconds": 1159.830820798874,
+  "gpu": 1,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P3.families.allenai__OLMo-2-1124-7B-Instruct.log"
+ },
+ "P3.families.tiiuae__Falcon3-7B-Instruct": {
+  "rc": 0,
+  "seconds": 857.3052475452423,
+  "gpu": 3,
+  "log": "/mnt/persist/project/AnyJev/tianze/logs/P3.families.tiiuae__Falcon3-7B-Instruct.log"
+ }
+}

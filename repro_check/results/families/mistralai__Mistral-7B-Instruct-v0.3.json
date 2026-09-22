@@ -1,0 +1,136 @@
+{
+ "model": "mistralai/Mistral-7B-Instruct-v0.3",
+ "seed": 0,
+ "n": 300,
+ "calib": 200,
+ "prior": "batch",
+ "combine": "logmean",
+ "max_permutations": null,
+ "batch_size": 32,
+ "seconds_model_load": 8.497491836547852,
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-21T22:35:10.868196",
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ },
+ "date": "2026-09-21T22:35:11.035654",
+ "tasks": [
+  {
+   "task": "banking20",
+   "question": "c081d3be69b2a432",
+   "kind": "choice",
+   "k": 20,
+   "n_test": 300,
+   "n_calib": 200,
+   "levels": {
+    "raw": {
+     "n": 300,
+     "acc": 0.6933333333333334,
+     "macro_f1": 0.7127324334411277,
+     "brier": 0.5908842883292031,
+     "nll": 4.1814522745656575,
+     "ece": 0.2876029338256109,
+     "cov@5%": 0.1,
+     "aurc": 0.21218678875399935,
+     "flip": 0.29
+    },
+    "L0-perm": {
+     "n": 300,
+     "acc": 0.73,
+     "macro_f1": 0.7370712147692762,
+     "brier": 0.4963423207650797,
+     "nll": 2.455306345411336,
+     "ece": 0.23142927766205168,
+     "cov@5%": 0.27,
+     "aurc": 0.124153793944877,
+     "flip": 0.14
+    },
+    "L0-perm+bc": {
+     "n": 300,
+     "acc": 0.7433333333333333,
+     "macro_f1": 0.750009596489459,
+     "brier": 0.46680979351193697,
+     "nll": 2.171602928533326,
+     "ece": 0.2145120161575512,
+     "cov@5%": 0.34,
+     "aurc": 0.10505004309243608,
+     "flip": 0.14
+    },
+    "L0-perm+cf": {
+     "n": 300,
+     "acc": 0.75,
+     "macro_f1": 0.7567772605351045,
+     "brier": 0.4466126359607319,
+     "nll": 2.2177898068882325,
+     "ece": 0.20929525418289047,
+     "cov@5%": 0.1,
+     "aurc": 0.11836212496253168,
+     "flip": 0.15
+    },
+    "L0-cf": {
+     "n": 300,
+     "acc": 0.7,
+     "macro_f1": 0.7164453076086954,
+     "brier": 0.5498442216401148,
+     "nll": 3.3271686799308573,
+     "ece": 0.2619719372135939,
+     "cov@5%": 0.21333333333333335,
+     "aurc": 0.15656700421159647,
+     "flip": 0.31333333333333335
+    },
+    "L0-bc": {
+     "n": 300,
+     "acc": 0.6933333333333334,
+     "macro_f1": 0.7100776961295737,
+     "brier": 0.5870805895284,
+     "nll": 3.9264706713328543,
+     "ece": 0.28975499907043073,
+     "cov@5%": 0.16,
+     "aurc": 0.18305901184415702,
+     "flip": 0.29333333333333333
+    },
+    "L0": {
+     "n": 300,
+     "acc": 0.7433333333333333,
+     "macro_f1": 0.750009596489459,
+     "brier": 0.46680979351193697,
+     "nll": 2.171602928533326,
+     "ece": 0.2145120161575512,
+     "cov@5%": 0.34,
+     "aurc": 0.10505004309243608,
+     "flip": 0.14
+    },
+    "L1": {
+     "n": 300,
+     "acc": 0.7433333333333333,
+     "macro_f1": 0.750009596489459,
+     "brier": 0.3918558546033945,
+     "nll": 0.9469500816226358,
+     "ece": 0.10753161899646432,
+     "cov@5%": 0.36,
+     "aurc": 0.0996727127358341,
+     "flip": 0.14,
+     "temperature": 3.2454244390265474
+    }
+   },
+   "temperature": 3.2454244390265474,
+   "seconds_l0_pass": 124.02071356773376,
+   "seconds_per_decision_l0": 0.41340237855911255,
+   "answer_mass": 0.9999277167913916,
+   "cyclic_flip_raw": 0.2829824561403509,
+   "cyclic_flip_l0": 0.26894736842105266,
+   "permutations": 20
+  },
+  {
+   "task": "newsgroups",
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 486.00 MiB. GPU 0 has a total capacity of 93.10 GiB of which 435.31 MiB is free. Including non-PyTorch memory, this process has 18.08 GiB memory in use. Process 75241 has 74.57 GiB memory in use. Of the allocated memory 17.22 GiB is allocated by PyTorch, and 212.76 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+  },
+  {
+   "task": "injection",
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 906.00 MiB. GPU 0 has a total capacity of 93.10 GiB of which 775.31 MiB is free. Including non-PyTorch memory, this process has 17.75 GiB memory in use. Process 75241 has 74.57 GiB memory in use. Of the allocated memory 16.88 GiB is allocated by PyTorch, and 221.93 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+  }
+ ]
+}

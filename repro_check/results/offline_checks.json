@@ -1,0 +1,182 @@
+[
+ {
+  "group": "MATH",
+  "check": "logmean removes additive position bias exactly",
+  "pass": true,
+  "detail": "max abs error over 800 random cases = 3.33e-16"
+ },
+ {
+  "group": "MATH",
+  "check": "arithmetic mean does NOT (so the log-space choice is load-bearing)",
+  "pass": true,
+  "detail": "max abs error for combine='mean' = 0.548"
+ },
+ {
+  "group": "MATH",
+  "check": "logmean is invariant to the original option listing",
+  "pass": true,
+  "detail": "max deviation = 4.44e-16"
+ },
+ {
+  "group": "MATH",
+  "check": "arithmetic mean is not listing-invariant",
+  "pass": true,
+  "detail": "max deviation for combine='mean' = 0.2311"
+ },
+ {
+  "group": "MATH",
+  "check": "prior division recovers the signal exactly when bias is multiplicative",
+  "pass": true,
+  "detail": "max abs error = 2.22e-16"
+ },
+ {
+  "group": "MATH",
+  "check": "batch_prior is the normalized mean over inputs",
+  "pass": true,
+  "detail": "got [0.7 0.3]"
+ },
+ {
+  "group": "MATH",
+  "check": "content_free_prior is the normalized mean over probes",
+  "pass": true,
+  "detail": "got [0.8 0.2]"
+ },
+ {
+  "group": "MATH",
+  "check": "temperature T=0.3 preserves every argmax",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "group": "MATH",
+  "check": "temperature T=1.7 preserves every argmax",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "group": "MATH",
+  "check": "temperature T=4.16 preserves every argmax",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "group": "MATH",
+  "check": "temperature DOES re-rank items by confidence (explains the L1 cov@5% gain)",
+  "pass": true,
+  "detail": "confidence ordering across items changed under T>1"
+ },
+ {
+  "group": "MATH",
+  "check": "flattening ranks a concentrated runner-up above a diffuse tail",
+  "pass": true,
+  "detail": "same 0.900 top-1 -> 0.620 (peaked) vs 0.153 (diffuse)"
+ },
+ {
+  "group": "MATH",
+  "check": "temperature fit recovers a planted temperature",
+  "pass": true,
+  "detail": "planted 2.5, fitted 2.535"
+ },
+ {
+  "group": "METRICS",
+  "check": "ece matches an independent rewrite",
+  "pass": true,
+  "detail": "max diff 0.00e+00"
+ },
+ {
+  "group": "METRICS",
+  "check": "cov@5% matches an independent rewrite",
+  "pass": true,
+  "detail": "max diff 0.00e+00"
+ },
+ {
+  "group": "METRICS",
+  "check": "brier matches the textbook definition",
+  "pass": true,
+  "detail": "max diff 0.00e+00"
+ },
+ {
+  "group": "METRICS",
+  "check": "cov@5% is 1.0 when every answer is right",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "group": "METRICS",
+  "check": "cov@5% is 0.0 when the most confident answer is always wrong",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "group": "METRICS",
+  "check": "flip_rate counts argmax disagreements",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "group": "METRICS",
+  "check": "cov@5% uses the deepest admissible prefix (optimistic vs first-crossing)",
+  "pass": true,
+  "detail": "deepest >= first-crossing up to one boundary item; mean gap +0.026, p95 +0.113, max +0.260 of coverage (40% of draws disagree)"
+ },
+ {
+  "group": "METRICS",
+  "check": "cov@5% is a high-variance point estimate (single-item sensitivity)",
+  "pass": true,
+  "detail": "flipping ONE correct item to wrong moves cov@5% by up to -0.013 (mean -0.002) at n=300"
+ },
+ {
+  "group": "DOCS",
+  "check": "README headline table matches the committed JSON",
+  "pass": true,
+  "detail": "all 10 cells match"
+ },
+ {
+  "group": "DOCS",
+  "check": "README cross-model flip table (9 rows x 7 cells) matches JSON",
+  "pass": true,
+  "detail": "all cells match"
+ },
+ {
+  "group": "DOCS",
+  "check": "docs/results_bench.md rows are regenerable from bench/results_batchprior_v0/2026-09-20",
+  "pass": true,
+  "detail": "every generated row is present in the doc"
+ },
+ {
+  "group": "DOCS",
+  "check": "typed-decisions table in README matches the committed JSON",
+  "pass": true,
+  "detail": "7 spot-checked cells match"
+ },
+ {
+  "group": "DOCS",
+  "check": "'six times' ECE claim is supported by the JSON",
+  "pass": true,
+  "detail": "laya ECE 0.215 / best L1 ECE 0.034 = 6.4x"
+ },
+ {
+  "group": "DOCS",
+  "check": "'7x' coverage claim is supported by the JSON",
+  "pass": true,
+  "detail": "0.543 / 0.077 = 7.1x"
+ },
+ {
+  "group": "DOCS",
+  "check": "AURC (robust ranking summary) improves far less dramatically than cov@5%",
+  "pass": true,
+  "detail": "aurc raw 0.134 -> L0 0.072 -> L1 0.068 (2.0x, vs 7.1x for cov@5%)"
+ },
+ {
+  "group": "DOCS",
+  "check": "the self-reported counter-example (L0 cov below raw on injection) is real",
+  "pass": true,
+  "detail": "raw 0.297 -> L0 0.160"
+ },
+ {
+  "group": "DOCS",
+  "check": "results carry hardware and library provenance",
+  "pass": true,
+  "detail": "gpu=NVIDIA H100 NVL, torch=2.5.1+cu124, transformers=4.55.4"
+ }
+]

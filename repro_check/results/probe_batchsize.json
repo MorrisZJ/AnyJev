@@ -1,0 +1,44 @@
+{
+ "bench": {
+  "16": {
+   "cells": 264,
+   "raw_identical_frac": 0.08333333333333333,
+   "raw_max_dev": 0.010485353863431301,
+   "all_max_dev": 0.03666666666666668
+  },
+  "32": {
+   "cells": 888,
+   "raw_identical_frac": 1.0,
+   "raw_max_dev": 0.0,
+   "all_max_dev": 0.033333333333333326
+  }
+ },
+ "typed": {
+  "Qwen__Qwen3-32B": {
+   "8": {
+    "identical_frac": 0.047619047619047616,
+    "max_dev": 0.00464661037208966
+   },
+   "32": {
+    "identical_frac": 0.0,
+    "max_dev": 0.003389042382186319
+   },
+   "16": {
+    "identical_frac": 1.0,
+    "max_dev": 0.0
+   }
+  },
+  "Qwen__Qwen3-8B": {
+   "32": {
+    "identical_frac": 1.0,
+    "max_dev": 0.0
+   }
+  },
+  "Qwen__Qwen2.5-7B-Instruct": {
+   "32": {
+    "identical_frac": 1.0,
+    "max_dev": 0.0
+   }
+  }
+ }
+}
