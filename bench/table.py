@@ -26,8 +26,10 @@ def rows(results: List[Dict[str, Any]]):
     for r in results:
         model = r["model"].split("/")[-1]
         for t in r["tasks"]:
+            # the prior behind L0 is recorded per task; files that predate that print as before
+            task = f"{t['task']} (L0 prior: {t['prior']})" if t.get("prior") else t["task"]
             for level, m in sorted(t["levels"].items(), key=lambda kv: LEVEL_ORDER.get(kv[0], 9)):
-                yield model, t["task"], t["k"], t["n_test"], level, m
+                yield model, task, t["k"], t["n_test"], level, m
 
 
 def markdown(results: List[Dict[str, Any]]) -> str:

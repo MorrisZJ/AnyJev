@@ -84,8 +84,9 @@ def run_task(decider: Decider, task_name: str, n_test: int, n_calib: int, seed: 
     states = [s for s, _ in test]
     labels = [y for _, y in test]
     q = task.question
+    # prior is per task: runs of one model with different priors merge into one file
     out: Dict[str, Any] = {"task": task_name, "question": q.key, "n_test": len(test),
-                           "n_calib": len(calib), "k": q.k, "levels": {}}
+                           "n_calib": len(calib), "k": q.k, "prior": decider.prior, "levels": {}}
 
     t0 = time.time()
     decs = decider.decide_batch(states, q, level="L0")
@@ -125,6 +126,7 @@ def run_task(decider: Decider, task_name: str, n_test: int, n_calib: int, seed: 
         out["levels"]["L1"] = {**metrics.summarize(l1, labels, l1_r), "temperature": art["temperature"]}
         out["artifact"] = art
     out["answer_mass"] = answer_mass
+    out["images_per_item"] = float(np.mean([d.diagnostics["n_images"] for d in decs]))
     out["seconds_l0_pass"] = t_l0
     out["seconds_per_decision_l0"] = t_l0 / max(1, len(test))
     return out
@@ -162,8 +164,12 @@ def environment() -> Dict[str, Any]:
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", required=True)
-    ap.add_argument("--backend", default="hf", choices=["hf"])
+    ap.add_argument("--model", required=True, help="name recorded in the results")
+    ap.add_argument("--model-path", default=None,
+                    help="where to load it from, if not the name (a local checkpoint)")
+    ap.add_argument("--backend", default="hf", choices=["hf", "vlm"])
+    ap.add_argument("--max-pixels", type=int, default=None,
+                    help="vlm only: cap pixels per image (the processor's resize budget)")
     ap.add_argument("--tasks", default="newsgroups,injection")
     ap.add_argument("--levels", default="raw,L0,L1")
     ap.add_argument("--n", type=int, default=300, help="test items per task")
@@ -176,14 +182,21 @@ def main(argv=None):
     ap.add_argument("--out", default="bench/results")
     args = ap.parse_args(argv)
 
-    from anyjev.backends.hf import HFBackend
-    backend = HFBackend(args.model, batch_size=args.batch_size)
+    source = args.model_path or args.model
+    if args.backend == "vlm":
+        from anyjev.backends.hf_vlm import VLMBackend
+        backend = VLMBackend(source, batch_size=args.batch_size, max_pixels=args.max_pixels)
+    else:
+        from anyjev.backends.hf import HFBackend
+        backend = HFBackend(source, batch_size=args.batch_size)
+    backend.name = args.model            # artifacts and results carry the name, not the path
     decider = Decider(backend, max_permutations=args.max_permutations, combine=args.combine,
                       prior=args.prior, record_content_free=True)
     levels = args.levels.split(",")
 
     results: Dict[str, Any] = {"model": args.model, "backend": args.backend, "seed": args.seed,
-                               "n": args.n, "calib": args.calib,
+                               "n": args.n, "calib": args.calib, "batch_size": args.batch_size,
+                               "max_pixels": args.max_pixels,
                                "max_permutations": args.max_permutations, "combine": args.combine, "prior": args.prior,
                                "env": environment(), "tasks": []}
     stamp = dt.datetime.now().strftime("%Y-%m-%d")
