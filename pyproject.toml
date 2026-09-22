@@ -31,8 +31,9 @@ dependencies = ["numpy>=1.24"]
 
 [project.optional-dependencies]
 hf = ["torch>=2.3", "transformers>=4.45"]
+vlm = ["torch>=2.3", "transformers>=4.57", "pillow>=10.0", "accelerate>=1.0"]
 bench = ["datasets>=2.20", "scikit-learn>=1.4"]
-dev = ["pytest>=8", "ruff"]
+dev = ["pytest>=8", "ruff", "pillow>=10.0"]
 
 [project.urls]
 Homepage = "https://github.com/nokia-applied-research/AnyJev"
@@ -52,3 +53,4 @@ ignore = ["E731"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = ["engine: needs a real model on a GPU; skipped unless its env var points at one"]

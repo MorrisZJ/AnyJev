@@ -26,10 +26,11 @@ from anyjev.readout import (
     build_prompt,
     label_ids_for_perm,
     map_label_tokens,
+    prompt_images,
     render_chat,
 )
 from anyjev.result import Decision, DecisionSet
-from anyjev.state import render_state
+from anyjev.state import content_free_state, split_state
 
 LEVELS = ("raw", "L0", "L1")
 PRIORS = ("batch", "content_free", "none")
@@ -63,7 +64,17 @@ class Decider:
         self._label_ids: Dict[tuple, List[int]] = {}
         self._artifacts: Dict[str, TemperatureScaler] = {}
         self._running: Dict[str, Tuple[np.ndarray, int]] = {}   # q.key -> (sum p_pos_raw [P,K], n)
-        self._cf_cache: Dict[str, np.ndarray] = {}                # q.key -> cf prior [P,K]
+        self._cf_cache: Dict[tuple, np.ndarray] = {}            # (q.key, n_images) -> cf prior [P,K]
+
+    @property
+    def renderer(self):
+        """What holds the chat template: the processor on a multimodal
+        backend, the tokenizer otherwise."""
+        return getattr(self.backend, "chat_renderer", None) or self.backend.tokenizer
+
+    @property
+    def accepts_images(self) -> bool:
+        return bool(getattr(self.backend, "accepts_images", False))
 
     # ---- public -------------------------------------------------------
     def decide(self, state: Any, questions: Sequence[Question], level: Optional[str] = None) -> DecisionSet:
@@ -141,75 +152,89 @@ class Decider:
     def _run(self, states: List[Any], questions: List[Question], level: str) -> Dict[tuple, Decision]:
         if level not in LEVELS:
             raise ValueError(f"level must be one of {LEVELS}")
-        tok = self.backend.tokenizer
-        state_texts = [render_state(s) for s in states]
+        renderer = self.renderer
+        rendered = [split_state(s) for s in states]                # [(text, images)]
         want_cf = level != "raw" and (self.prior == "content_free" or self.record_content_free)
+        if any(imgs for _, imgs in rendered) and not self.accepts_images:
+            raise ValueError(
+                f"state carries images but backend {self.backend.name!r} is text-only; "
+                "use anyjev.backends.hf_vlm.VLMBackend or another backend with accepts_images")
 
-        # 1. collect every prompt once (content-free probes are shared across states)
-        prompt_index: Dict[str, int] = {}
+        # 1. collect every prompt once. A prompt is its text *and* its pictures,
+        #    so the same state under K permutations still costs K prefills, not
+        #    K x (images decoded again).
+        prompt_index: Dict[tuple, int] = {}
         prompt_ids: List[List[int]] = []
+        prompt_texts: List[str] = []
+        prompt_pictures: List[tuple] = []
 
-        def add(text: str, ids: List[int]) -> int:
-            if text not in prompt_index:
-                prompt_index[text] = len(prompt_ids)
+        def add(text: str, q: Question, perm: List[int], ids: List[int], images: tuple = ()) -> int:
+            spec = build_prompt(text, q, perm, self.system, images)
+            rendered_text, ordered = render_chat(renderer, spec), prompt_images(spec)
+            key = (rendered_text, tuple(im.key for im in ordered))
+            if key not in prompt_index:
+                prompt_index[key] = len(prompt_ids)
                 prompt_ids.append(ids)
-            return prompt_index[text]
+                prompt_texts.append(rendered_text)
+                prompt_pictures.append(ordered)
+            return prompt_index[key]
 
         plan = {}
+        cf_plan: Dict[int, Dict[int, List[List[int]]]] = {}        # qi -> n_images -> [P][C] rows
         for qi, q in enumerate(questions):
             ids = self._ids_for(q)
             perms = self._perms(q, level)
-            cf_rows = []
             perm_ids = [label_ids_for_perm(q, ids, perm) for perm in perms]
-            if want_cf and q.key not in self._cf_cache:
-                for perm, pids in zip(perms, perm_ids):
-                    cf_rows.append([add(render_chat(tok, build_prompt(probe, q, perm, self.system)), pids)
-                                    for probe in self.cf_probes])
-            for si, st in enumerate(state_texts):
-                real_rows = [add(render_chat(tok, build_prompt(st, q, perm, self.system)), pids)
-                             for perm, pids in zip(perms, perm_ids)]
-                plan[(si, qi)] = (perms, real_rows, cf_rows)
+            cf_plan[qi] = {}
+            for si, (text, images) in enumerate(rendered):
+                n_img = len(images)
+                # the probe keeps the shape of a real prompt: same question,
+                # same picture count, no content in either modality
+                if want_cf and (q.key, n_img) not in self._cf_cache and n_img not in cf_plan[qi]:
+                    probes = [content_free_state(probe, n_img) for probe in self.cf_probes]
+                    cf_plan[qi][n_img] = [[add(cf_text, q, perm, pids, cf_images) for cf_text, cf_images in probes]
+                                          for perm, pids in zip(perms, perm_ids)]
+                real_rows = [add(text, q, perm, pids, images) for perm, pids in zip(perms, perm_ids)]
+                plan[(si, qi)] = (perms, real_rows, n_img)
 
         # 2. one backend call
-        prompts = [None] * len(prompt_index)
-        for text, i in prompt_index.items():
-            prompts[i] = text
-        logprobs = self.backend.next_token_logprobs(prompts, prompt_ids)
+        if any(prompt_pictures):
+            logprobs = self.backend.next_token_logprobs(prompt_texts, prompt_ids, images=prompt_pictures)
+        else:
+            logprobs = self.backend.next_token_logprobs(prompt_texts, prompt_ids)
 
         # 3. per question: raw position-space distributions, priors
         out: Dict[tuple, Decision] = {}
         for qi, q in enumerate(questions):
-            perms, _, cf_rows = plan[(0, qi)]
+            perms = plan[(0, qi)][0]
             p_pos_raw_all = []
             for si in range(len(states)):
                 lp_real = np.stack([logprobs[r] for r in plan[(si, qi)][1]])   # [P, K]
                 p_pos_raw_all.append((lp_real, np.stack([_softmax(lp) for lp in lp_real])))
 
-            cf_prior = None
-            if want_cf:
-                if cf_rows:
-                    self._cf_cache[q.key] = np.stack([
-                        content_free_prior(np.stack([_softmax(logprobs[r]) for r in rows]))
-                        for rows in cf_rows])                                      # [P, K]
-                cf_prior = self._cf_cache[q.key]
-            prior_used = b_prior = None
+            for n_img, cf_rows in cf_plan[qi].items():
+                self._cf_cache[(q.key, n_img)] = np.stack([
+                    content_free_prior(np.stack([_softmax(logprobs[r]) for r in rows]))
+                    for rows in cf_rows])                                          # [P, K]
+            b_prior = None
             if level != "raw":
                 stack = np.stack([p for _, p in p_pos_raw_all])                    # [N, P, K]
                 s, n = self._running.get(q.key, (np.zeros(stack.shape[1:]), 0))
                 self._running[q.key] = (s + stack.sum(axis=0), n + len(stack))
                 b_prior = self.running_prior(q)
-                if self.prior == "batch":
-                    prior_used = b_prior
-                elif self.prior == "content_free":
-                    prior_used = cf_prior
 
             # 4. assemble per state
             for si, (lp_real, p_pos_raw) in enumerate(p_pos_raw_all):
+                cf_prior = self._cf_cache.get((q.key, plan[(si, qi)][2])) if want_cf else None
+                prior_used = None
+                if level != "raw":
+                    prior_used = b_prior if self.prior == "batch" else (
+                        cf_prior if self.prior == "content_free" else None)
                 answer_mass = float(np.exp(lp_real).sum(axis=1).mean())
                 raw_probs = marginalize(p_pos_raw[:1], perms[:1])
                 diag: Dict[str, Any] = {"answer_mass": answer_mass, "raw_probs": raw_probs,
                                         "permutations": len(perms), "perms": perms,
-                                        "p_pos_raw": p_pos_raw}
+                                        "p_pos_raw": p_pos_raw, "n_images": plan[(si, qi)][2]}
                 if level == "raw":
                     probs, achieved = raw_probs, "raw"
                 else:

@@ -1,12 +1,18 @@
 """Readout: build prompts for a (state, question, permutation) and map option
-labels to the single tokens whose logits we read at the answer position."""
+labels to the single tokens whose logits we read at the answer position.
+
+Images ride along as `<image i>` markers inside the state text; rendering
+splits the user turn at those markers into an interleaved content list, so a
+picture lands where it sat in the state rather than all of them up front."""
 from __future__ import annotations
 
 import string
-from dataclasses import dataclass
-from typing import List, Sequence
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Sequence, Tuple
 
+from anyjev.media import Image
 from anyjev.question import Question
+from anyjev.state import MARKER_RE
 
 LETTERS = string.ascii_uppercase
 
@@ -72,10 +78,12 @@ def map_label_tokens(tokenizer, labels: Sequence[str]) -> List[int]:
 class PromptSpec:
     system: str
     user: str
+    images: tuple = field(default_factory=tuple)
 
 
 def build_prompt(state_text: str, q: Question, perm: Sequence[int],
-                 system: str = DEFAULT_SYSTEM) -> PromptSpec:
+                 system: str = DEFAULT_SYSTEM,
+                 images: Sequence[Image] = ()) -> PromptSpec:
     """perm[j] = index (into q.options) of the option shown at position j."""
     labels = answer_labels(q)
     lines = ["State:", state_text if state_text else "(empty)", "", f"Question: {q.text}"]
@@ -97,19 +105,60 @@ def build_prompt(state_text: str, q: Question, perm: Sequence[int],
         for j, i in enumerate(perm):
             lines.append(f"{labels[j]}. {q.options[i]}")
         lines.append("Answer with the letter only.")
-    return PromptSpec(system=system, user="\n".join(lines))
+    return PromptSpec(system=system, user="\n".join(lines), images=tuple(images))
 
 
-def render_chat(tokenizer, spec: PromptSpec) -> str:
-    """Render through the tokenizer's chat template with the generation prompt
-    appended, so the next token is the model's first answer token."""
+def _interleave(spec: PromptSpec) -> Tuple[List[Dict[str, Any]], tuple]:
+    """Split the user turn at its `<image i>` markers. Returns the content parts
+    and the images in the order their placeholders appear, which is the order
+    a processor will consume them in. Each image is placed once, at its first
+    marker; a repeat, or a literal "<image 9>" with no such image (MMMU-style
+    question text), stays as text. Placeholders and images therefore always
+    agree in count and order, whatever the user's own text contains."""
+    parts: List[Dict[str, Any]] = []
+    order: List[Image] = []
+    used = set()
+    cursor = 0
+    for match in MARKER_RE.finditer(spec.user):
+        index = int(match.group(1)) - 1
+        if not 0 <= index < len(spec.images) or index in used:
+            continue
+        lead = spec.user[cursor:match.start()]
+        if lead:
+            parts.append({"type": "text", "text": lead})
+        parts.append({"type": "image"})
+        used.add(index)
+        order.append(spec.images[index])
+        cursor = match.end()
+    tail = spec.user[cursor:]
+    if tail:
+        parts.append({"type": "text", "text": tail})
+    return parts, tuple(order)
+
+
+def user_content(spec: PromptSpec) -> Any:
+    """The user turn: a plain string when there are no images, otherwise the
+    text split at its markers with an image part in each gap."""
+    return _interleave(spec)[0] if spec.images else spec.user
+
+
+def prompt_images(spec: PromptSpec) -> tuple:
+    """The images to hand the backend with this prompt, in placeholder order."""
+    return _interleave(spec)[1] if spec.images else ()
+
+
+def render_chat(renderer, spec: PromptSpec) -> str:
+    """Render through the chat template with the generation prompt appended,
+    so the next token is the model's first answer token. `renderer` is the
+    tokenizer for a text model and the processor for a multimodal one; the
+    processor expands the image placeholder to the right token count later."""
     messages = [{"role": "system", "content": spec.system},
-                {"role": "user", "content": spec.user}]
-    template = getattr(tokenizer, "chat_template", None)
+                {"role": "user", "content": user_content(spec)}]
+    template = getattr(renderer, "chat_template", None)
     if not template:
         return f"{spec.system}\n\n{spec.user}\nAnswer:"
     kwargs = dict(tokenize=False, add_generation_prompt=True)
     try:
-        return tokenizer.apply_chat_template(messages, enable_thinking=False, **kwargs)
+        return renderer.apply_chat_template(messages, enable_thinking=False, **kwargs)
     except TypeError:
-        return tokenizer.apply_chat_template(messages, **kwargs)
+        return renderer.apply_chat_template(messages, **kwargs)
