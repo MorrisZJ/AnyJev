@@ -42,20 +42,20 @@ def load_headline(results_dir: Path) -> dict:
 def stat(ax, t, x, label, before, after, *, pct=False):
     """One before -> after stat block, anchored at x in axes coords."""
     fmt = (lambda v: f"{v * 100:.1f}%") if pct else (lambda v: f"{v:.3f}")
-    ax.text(x, 0.335, label.upper(), color=t["dim"], fontsize=9.5, va="center",
+    ax.text(x, 0.360, label.upper(), color=t["dim"], fontsize=9.5, va="center",
             fontweight="bold", transform=ax.transAxes, zorder=3)
-    ax.text(x, 0.185, fmt(before), color=t["faint"], fontsize=21, va="center",
+    ax.text(x, 0.205, fmt(before), color=t["faint"], fontsize=21, va="center",
             fontweight="bold", transform=ax.transAxes, zorder=3)
-    ax.text(x + 0.079, 0.185, "→", color=t["faint"], fontsize=17, va="center",
+    ax.text(x + 0.079, 0.205, "→", color=t["faint"], fontsize=17, va="center",
             transform=ax.transAxes, zorder=3)
-    ax.text(x + 0.112, 0.185, fmt(after), color=t["good"], fontsize=25, va="center",
+    ax.text(x + 0.112, 0.205, fmt(after), color=t["good"], fontsize=25, va="center",
             fontweight="bold", transform=ax.transAxes, zorder=3)
 
 
 def render(lv: dict, out: Path) -> None:
     t = THEME
     plt.rcParams["font.family"] = "DejaVu Sans"
-    fig = plt.figure(figsize=(16, 4.4), dpi=200)
+    fig = plt.figure(figsize=(16, 5.0), dpi=200)
     ax = fig.add_axes((0, 0, 1, 1))
     ax.set_axis_off()
     ax.set_xlim(0, 1)
@@ -68,18 +68,22 @@ def render(lv: dict, out: Path) -> None:
     gx, gy = np.meshgrid(np.linspace(0.02, 0.99, 60), np.linspace(0.05, 0.95, 16))
     ax.scatter(gx, gy, s=1.6, c=t["ink"], alpha=t["dots"], marker="s", zorder=1, linewidths=0)
 
-    for r in np.linspace(0.34, 0.03, 26):
-        ax.add_patch(plt.Circle((0.105, 0.73), r, color=t["accent"], alpha=t["glow"],
+    for r in np.linspace(0.46, 0.03, 40):
+        ax.add_patch(plt.Circle((0.5, 0.72), r, color=t["accent"], alpha=t["glow"] * 0.7,
                                 zorder=1, linewidth=0, transform=ax.transAxes))
 
-    ax.text(0.042, 0.745, "AnyJev", color=t["ink"], fontsize=58, fontweight="bold",
-            va="center", transform=ax.transAxes, zorder=3)
-    ax.text(0.30, 0.775, "Turn any LLM into a Jev-style decision model",
-            color=t["ink"], fontsize=19, va="center", transform=ax.transAxes, zorder=3)
-    ax.text(0.30, 0.685, "Typed decisions  ·  real probabilities  ·  no training",
-            color=t["accent"], fontsize=13.5, va="center", transform=ax.transAxes, zorder=3)
+    ax.text(0.5, 0.825, "AnyJev", color=t["ink"], fontsize=54, fontweight="bold",
+            ha="center", va="center", transform=ax.transAxes, zorder=3)
+    ax.plot([0.463, 0.537], [0.700, 0.700], color=t["accent"], alpha=0.55,
+            linewidth=2.2, solid_capstyle="round", transform=ax.transAxes, zorder=3)
+    ax.text(0.5, 0.633, "Turn any LLM into a Jev-style decision model",
+            color=t["ink"], fontsize=19, ha="center", va="center",
+            transform=ax.transAxes, zorder=3)
+    ax.text(0.5, 0.553, "Typed decisions  ·  real probabilities  ·  no training",
+            color=t["accent"], fontsize=13.5, ha="center", va="center",
+            transform=ax.transAxes, zorder=3)
 
-    strip = FancyBboxPatch((0.035, 0.10), 0.93, 0.34, transform=ax.transAxes,
+    strip = FancyBboxPatch((0.035, 0.105), 0.93, 0.35, transform=ax.transAxes,
                            boxstyle="round,pad=0.006,rounding_size=0.012",
                            facecolor=t["strip"], alpha=t["strip_alpha"],
                            edgecolor="none", zorder=2)
@@ -89,7 +93,7 @@ def render(lv: dict, out: Path) -> None:
     stat(ax, t, 0.375, "calibration error", lv["raw"]["ece"], lv["L1"]["ece"])
     stat(ax, t, 0.675, "auto-decidable at 5% risk", lv["raw"]["cov@5%"], lv["L1"]["cov@5%"], pct=True)
     for x in (0.335, 0.635):
-        ax.plot([x, x], [0.14, 0.40], color=t["dim"], alpha=t["rule"], linewidth=1,
+        ax.plot([x, x], [0.145, 0.425], color=t["dim"], alpha=t["rule"], linewidth=1,
                 transform=ax.transAxes, zorder=3)
 
     ax.text(0.965, 0.055, f"{HEADLINE[0]} · {HEADLINE[1]} · 300 items · measured, not claimed",
