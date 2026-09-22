@@ -1,9 +1,6 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
-  <img src="assets/banner-light.png" width="100%" alt="AnyJev —— 把任意 LLM 变成 Jev 风格的决策模型。类型化的决策、真实的概率、不需要训练。选项顺序翻转率 0.227 降到 0.077，校准误差 0.235 降到 0.100，5% 风险下可自动决策比例 7.7% 升到 54.3%。">
-</picture>
+<img src="assets/banner.png" width="100%" alt="AnyJev —— 把任意 LLM 变成 Jev 风格的决策模型。类型化的决策、真实的概率、不需要训练。选项顺序翻转率 0.227 降到 0.077，校准误差 0.235 降到 0.100，5% 风险下可自动决策比例 7.7% 升到 54.3%。">
 
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
@@ -12,10 +9,14 @@
 
 [English](README.md) · **简体中文** · [档位约定](docs/levels.md) · [完整结果](docs/results_bench.md) · [路线图](ROADMAP.md)
 
-<sub><b>Jiamu Zhang</b><sup>1</sup> &nbsp;·&nbsp; <b>Tianze Yang</b><sup>1</sup> &nbsp;·&nbsp; <b>Yucheng Shi</b><sup>2</sup> &nbsp;·&nbsp; <b>Liang Wu</b><sup>1</sup><br>
-<sup>1</sup>Nokia, Sunnyvale, CA &nbsp;&nbsp; <sup>2</sup>Tencent Hunyuan</sub>
-
 </div>
+
+<p align="center">
+  <b>Jiamu Zhang</b><sup>1</sup> &nbsp;&nbsp;&nbsp; <b>Tianze Yang</b><sup>1</sup> &nbsp;&nbsp;&nbsp; <b>Yucheng Shi</b><sup>2</sup> &nbsp;&nbsp;&nbsp; <b>Liang Wu</b><sup>1</sup>
+</p>
+<p align="center">
+  <sub><sup>1</sup>&nbsp;Nokia, Sunnyvale, CA &nbsp;&nbsp;&nbsp;&nbsp; <sup>2</sup>&nbsp;Tencent Hunyuan</sub>
+</p>
 
 ---
 
@@ -24,28 +25,16 @@
 <div align="center">
 <sub>Qwen3-8B，一条真实的 BANKING77 样本，真实输出。</sub><br>
 <sub><b>左：</b>直接读 next-token logits —— 把选项倒过来，答案就翻了，置信度还是 1.00。</sub><br>
-<sub><b>右：</b>AnyJev L0，零标签 —— 两种顺序同一个答案。</sub><br>
-<sub>用 <code>scripts/find_flip_example.py</code> 和 <code>scripts/make_flip_gif.py</code> 重新生成。</sub>
+<sub><b>右：</b>AnyJev L0，零标签 —— 两种顺序同一个答案。</sub>
 </div>
 
 ---
 
-## 这是什么
+## 为什么不直接读 logits
 
-给它一个 **state** 和一组**类型化的问题**，每个问题返回一个决策和一个概率，直接从模型的 next-token 分布上读出来 —— **不生成 token，不用解析，不用微调**。用的就是你已经加载在显存里的那个模型。
+给 AnyJev 一个 **state** 和一组**类型化的问题**，每个问题返回一个决策和一个概率，直接从模型的 next-token 分布上读出来 —— 不生成 token、不用解析、不用微调，用的就是你已经在跑的那个模型。
 
-```python
-r = decider.decide(state, [route, is_destructive, is_done])
-
-r["route"].distribution     # {"billing": 0.81, "technical": 0.07, ...}
-r["is_destructive"].p_true  # 0.12
-r["is_done"].value          # 0.35
-r.level                     # "L0"
-```
-
-### 为什么不直接读 logits
-
-因为 `max_tokens=1` 加 logprobs 给你的，是一个**换个选项顺序就会变的排序**，和一个**没法拿来设阈值的置信度**。这两件事都不需要训练就能修，AnyJev 默认修掉。
+这些你自己用 `max_tokens=1` 加 logprobs 也能做。问题在于你拿到的是什么：一个**换个选项顺序就会变的排序**，和一个**没法拿来设阈值的置信度**。这两件事都是**读法**的性质，不是模型知识的性质，而且一条标签都不用就能修。
 
 <div align="center">
 
@@ -61,39 +50,17 @@ r.level                     # "L0"
 
 </div>
 
-最后一行才是重点。准确率只动了 6 个点，但**可以安全自动化的流量从 7.7% 涨到 54.3%**，相差 7 倍。直接读 logits 时那个 "0.9" 不足以支撑你去行动，于是所有请求都得转人工；一旦概率真的表示它字面的意思，你才能设阈值。
-
----
-
-## 亮点
-
-- **默认开启免训练去偏（L0）。** 循环移位边际化消除选项顺序偏差；无标签的先验估计消除模型的标签偏好。零标签，零微调。
-- **有标签时做事后校准（L1）。** 按（模型，问题）拟合温度，存成一个很小的 JSON artifact。载入在别的模型上拟合的 artifact 会直接报错。
-- **每个结果都标明自己是哪一档。** `decision.level` 是 `raw`、`L0` 或 `L1`，下游代码可以拒绝使用不够格的概率。
-- **三个类型化原语。** `choice`（最多 26 个选项）、`noul`（Yes/No，给出真实的 `p_true`）、`score`（2–10 个有序 bin，给出期望值）。
-- **只有一个方法的后端接口。** 后端只负责返回 next-token 的 log 概率，别的什么都不做。transformers 和 vLLM 已经可用，新增一个后端就是一个文件。
-- **一个真正报告校准的 benchmark**，不只是准确率：Brier、ECE、选项顺序翻转率、5% 风险下的覆盖率 —— 一条命令出表，全部由提交的 JSON 重新生成。
+最后一行才是重点。准确率只动了 6 个点，但可以安全自动化的流量从 **7.7% 涨到 54.3%**，相差 7 倍。直接读 logits 时那个 "0.9" 不足以支撑你去行动，于是所有请求都得转人工；一旦概率真的表示它字面的意思，你才能设阈值。
 
 > [!NOTE]
 > 与 TypeSafe AI 及 Jev 无关，未获其认可，也不派生自它们。本文档中的每一项对比都是我们实测的、可从 `bench/` 复现，明确标注为"由原作者发布"的行除外。
 
----
-
-## 安装
+## 快速开始
 
 ```bash
 pip install "anyjev[hf]"        # 库 + transformers 后端
 pip install anyjev              # 只装库（仅依赖 numpy），后端自备
 ```
-
-Benchmark 不在 wheel 里 —— 它需要数据集、结果目录和其他项目的代码，所以要从仓库里跑：
-
-```bash
-git clone https://github.com/nokia-applied-research/AnyJev && cd AnyJev
-pip install -e ".[hf,bench,dev]"
-```
-
-## 十行代码
 
 ```python
 from anyjev import Decider, Question
@@ -114,24 +81,23 @@ r["route"].distribution    # {"billing": 0.81, "technical": 0.07, ...}
 r["safe"].p_true           # 0.12
 r["done"].value            # 0.35
 r.level                    # "L0"（已去偏，未校准）
-```
 
-有标签时：
-
-```python
-art = d.calibrate(safe, calib_states, calib_labels)   # 约 100 到 500 条样本 -> L1 artifact
+art = d.calibrate(safe, calib_states, calib_labels)   # 100-500 条样本 -> L1 artifact
 r = d.decide(state, [safe], level="L1")
 ```
 
----
+Benchmark 不在 wheel 里 —— 它需要数据集、结果目录和其他项目的代码，所以要从仓库里跑：
 
-## 为什么 L0 不是可选项
+```bash
+git clone https://github.com/nokia-applied-research/AnyJev && cd AnyJev
+pip install -e ".[hf,bench,dev]"
+```
 
-一个 `noul` 问题："这封邮件是垃圾邮件吗？"直接读 logits，**P(Yes) = 0.62**。把邮件正文换成 `N/A`、其余不变，模型给出 **P(Yes) = 0.70** —— 不管内容是什么它都偏向 Yes。除以这个先验再归一化，答案变成 **P(Yes) = 0.41**，判断翻转。
+## 工作原理
 
-位置偏差对 `choice` 问题做的是同一件事：把选项顺序换一下，答案就变。这两种偏差都是**读法**的性质，不是模型知识的性质，而且一条标签都不用就能修。
+三个类型化原语：`choice`（最多 26 个选项）、`noul`（Yes/No，给出真实的 `p_true`）、`score`（2–10 个有序 bin，给出期望值）。后端只做一件事 —— 返回 next-token 的 log 概率 —— 所以新增一个后端就是一个文件；transformers 和 vLLM 已经可用。
 
-## 三个档位
+后端之上就是让数字变得可用的两项修正。**循环移位边际化**把 K 个选项的列表转 K 次，让每个选项在每个位置各坐一遍，在 log 空间合并。**先验校正**在没有标签的情况下估出模型的标签先验再除掉：一个问"这封邮件是垃圾邮件吗"的 `noul` 读出 P(Yes) = 0.62，把正文换成 `N/A` 后读出 P(Yes) = 0.70 —— 不管内容是什么它都偏向 Yes —— 除以这个先验后得到 0.41，判断翻转。
 
 完整约定见 [docs/levels.md](docs/levels.md)。
 
@@ -141,11 +107,9 @@ r = d.decide(state, [safe], level="L1")
 | `L0` | 无 | 消除位置偏差和标签先验偏差 | 让模型自身的不确定性变得校准 |
 | `L1` | 每个问题 100 到 500 条标签 | 在 L0 之上做温度缩放 | 在校准集之外的分布偏移下仍然可靠 |
 
-## 开销
+每个 `Decision` 都带着自己的 `level`，下游代码可以拒绝使用不够格的概率。
 
-L0 是用算力换稳定性：K 个选项的 `choice` 需要 **K 次 prefill**（`noul` 2 次，`score` 1 次），它们共享 state 前缀，而且都能 batch 掉。全程不生成任何 token，所以循环里没有自回归解码。`max_permutations` 可以给 K 封顶。
-
-在一张 H100 上，transformers 路径在 20 个排列时约为**每个决策 0.25 秒（batch 32）**。vLLM 路径更快，目前还没有公布的数字 —— 延迟列在[路线图](ROADMAP.md)上。
+**开销。** L0 用算力换稳定性：K 个选项的 `choice` 需要 K 次 prefill（`noul` 2 次，`score` 1 次），它们共享 state 前缀、都能 batch 掉，而且全程不生成任何 token。在一张 H100 上，transformers 路径在 20 个排列时约为**每个决策 0.25 秒（batch 32）**。`max_permutations` 可以给 K 封顶。
 
 ---
 
@@ -155,17 +119,13 @@ L0 是用算力换稳定性：K 个选项的 `choice` 需要 **K 次 prefill**�
 python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20 --n 300 --calib 200
 ```
 
-结果以 Markdown 和 JSON 落在 `bench/results/<日期>/`，带硬件和库版本。`python -m bench.table bench/results/<日期>` 重新生成下面的表；**没有任何数字是手打的。**
+结果以 Markdown 和 JSON 落在 `bench/results/<日期>/`，带硬件和库版本。下面每一张表和图都由这些 JSON 重新生成；**没有任何数字是手打的。**
 
 ![四个面板，覆盖三个开源模型和三个任务：选项顺序翻转率、期望校准误差、准确率、5% 风险下的覆盖率，对比直接读 logits 与 AnyJev L0 / L1](assets/results.png)
 
-<div align="center">
-<sub>用 <code>python scripts/make_results_figure.py</code> 重新生成 —— 它读的是和 <code>bench.table</code> 同一批已提交的 JSON。</sub>
-</div>
-
 ### 把选项顺序倒过来，五分之一的答案会变
 
-三个开源模型、三个任务、每个任务 300 条测试样本。`flip` 是选项列表倒序（`choice`）或措辞在 "Yes or No" 与 "No or Yes" 之间互换（`noul`）时答案发生变化的样本比例。`raw` 是所有读 logits 的克隆项目的做法。`L0` 是 AnyJev 的默认值，零标签。`L1` 在此基础上用 200 条标签拟合一个温度。
+`flip` 是选项列表倒序（`choice`）或 Yes/No 措辞顺序互换（`noul`）时答案发生变化的样本比例。三个开源模型、三个任务、每个任务 300 条测试样本。
 
 | model | task | K | raw flip | L0 flip | raw acc | L0 acc | raw ECE | L1 ECE |
 |---|---|---|---|---|---|---|---|---|
@@ -179,7 +139,7 @@ python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20
 | Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | 0.133 | **0.100** | 0.730 | **0.740** | 0.249 | **0.086** |
 | Qwen3-30B-A3B-Instruct-2507 | injection | 2 | 0.093 | **0.000** | 0.723 | **0.767** | 0.253 | **0.080** |
 
-含全部消融行（只做排列、单独使用每种先验、Brier、5% 风险下的覆盖率）的完整表：[docs/results_bench.md](docs/results_bench.md)。一张 H100，bf16，transformers 4.55.4；用 `python -m bench.table bench/results_batchprior_v0/2026-09-20` 重新生成。
+全部消融行（只做排列、单独使用每种先验、Brier、5% 风险下的覆盖率）：[docs/results_bench.md](docs/results_bench.md)。一张 H100，bf16，transformers 4.55.4。
 
 ### 在 Laya 自己的 benchmark 上，零样本
 
@@ -201,22 +161,13 @@ python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20
 
 除 Jev 外的每一行都是我们在同样的 2,000 个 decision 上实测的；微调后的 Laya checkpoint 复现了它公布的 0.766。**这张表要从两个角度读。** 看 argmax 准确率，微调后的 Laya 赢，零训练的 32B 开源模型比 Jev 低 2.7 个点。看概率质量，也就是 System One 模型存在的意义：微调后的 Laya 的 ECE（0.215）是 AnyJev L1（0.034）的**六倍**，但单看 Brier 它仍略微领先，0.118 对 0.120。温度缩放用 soft accuracy 换校准，所以 7B 和 8B 的 L1 行在这一项上掉到 0.45 左右。Laya 的零样本 checkpoint，也就是你在它没训练过的问题上会用到的那个，只有 0.34 到 0.36，随机基线是 0.32。
 
-按 workflow、按题型拆分的完整表：[docs/results_typed.md](docs/results_typed.md)；用 `python -m bench.run_typed --model <model>` 和 `python -m bench.providers.laya` 重新生成。
+按 workflow、按题型拆分的完整表：[docs/results_typed.md](docs/results_typed.md)。
 
 ### 放进 NanoJev 的迷宫 harness
 
-| engine | goal test | goal ood | attempts | collisions | edge acc | majority | edge Brier | edge questions |
-|---|---|---|---|---|---|---|---|---|
-| Qwen3-0.6B + AnyJev L0 (batch prior) | 10/11 | 3/4 | 15616 | 6236 | 0.490 | 0.618 | 0.271 | 23156 |
-| Qwen3-0.6B + AnyJev L0 (content_free prior) | 10/11 | 4/4 | 16278 | 6563 | 0.490 | 0.614 | 0.274 | 23284 |
-| Qwen3-0.6B + AnyJev L0 (none prior) | 10/11 | 3/4 | 21851 | 9136 | 0.403 | 0.597 | 0.460 | 28040 |
-| Qwen3-0.6B + AnyJev raw | 11/11 | 4/4 | 5825 | 2616 | 0.537 | 0.539 | 0.363 | 10944 |
-| Qwen3-8B + AnyJev L0 (batch prior) | 11/11 | 3/4 | 17841 | 7171 | 0.555 | 0.600 | 0.344 | 25124 |
-| Qwen3-0.6B native A/B readout (NanoJev's 'Untuned Qwen' protocol) | 10/11 | 3/4 | 20555 | 8496 | 0.419 | 0.607 | 0.305 | 27660 |
+我们复刻了 NanoJev 的 "Untuned Qwen3-0.6B" A/B 读法，在它冻结的 scaled_maze 流水线里只替换回答布尔问题的引擎。**两件事同时成立。** 未训练读法的结果高度依赖读法：同一个 Qwen3-0.6B，在 A/B 读法下是 13/15 个迷宫、20,555 步，在 AnyJev 的 raw Yes/No 读法下是 15/15、5,825 步。同时，没有任何一种读法，包括 Qwen3-8B，在"向北走一步是否畅通"上比一直回答多数类更准（边判断准确率 0.40 到 0.56，多数类基线 0.54 到 0.62）。这不是 NanoJev held-out gameplay 表里那个 2/10 成绩所对应的评测 —— 那个数字来自另一个我们没有跑过的 274-case 套件。我们报告它，因为这是 NanoJev 发起的对比；我们不拿它做标题。
 
-NanoJev 的 README 把它训练的 0.6B 模型和 "Untuned Qwen3-0.6B" 对比，后者对迷宫每个格子的四个布尔问题读 A/B 两个字母的 logits。我们复刻了这个读法，把它放进 NanoJev 的 scaled_maze 流水线（[docs/SCALED_GAMES.md](https://github.com/TianyuCodings/NanoJev/blob/main/docs/SCALED_GAMES.md)）里跑，用它的 15 个测试和分布外 episode、尺寸 8 到 50、它自己冻结的探索代码和它 pin 的 Qwen3-0.6B revision，只换回答布尔问题的引擎。这**不是** NanoJev held-out gameplay 表里那个 2/10 迷宫成绩所对应的评测 —— 那个数字来自另一个 274-case 套件，我们没有跑过，所以上面的行既不复述也不反驳它。NanoJev 没有在 scaled 套件上发布过 untuned Qwen 基线，所以最后一行是我们对其协议的复刻，不是他们的数字。
-
-**两件事同时成立。** 未训练读法的结果高度依赖读法：同一个 Qwen3-0.6B，在 A/B 读法下是 13/15 个迷宫、20,555 步，在 AnyJev 的 raw Yes/No 读法下是 15/15、5,825 步。同时，没有任何一种 LLM 读法，包括 Qwen3-8B，在"向北走一步是否畅通"这个问题上比一直回答多数类更准（边判断准确率 0.40 到 0.56，多数类基线 0.54 到 0.62）。其中 raw 那行最接近，0.537 对 0.539，是打平而不是取胜。迷宫上的差异来自各种读法的平均概率与控制器 `p >= 0.5` 探测规则的相互作用，而不是读懂了地图。我们报告它，因为这是 NanoJev 发起的对比；我们不拿它做标题。完整表：[docs/results_maze.md](docs/results_maze.md)。
+完整表和协议：[docs/results_maze.md](docs/results_maze.md)。
 
 ---
 
@@ -225,17 +176,15 @@ NanoJev 的 README 把它训练的 0.6B 模型和 "Untuned Qwen3-0.6B" 对比，
 这些我们宁可你在这里看到，而不是在生产环境里撞上。
 
 - **L0 不是每个任务都稳赢。** 在 Qwen3-8B 的 prompt-injection 切分上，L0 的 5% 风险覆盖率（0.160）反而*低于* raw（0.297）。content-free 先验的方差最大：在某个 `noul` 任务上 +8 到 +12 个点，在有序 `score` 上 −3，在另一个模型的 `noul` 上 −9。请在你自己的任务上测 —— bench 的所有消融行都来自同一批前向，不额外花钱。
-- **batch 先验需要"一批"数据。** 它要攒够 `min_prior_n`（默认 8）条同一问题的样本才启用，并且假设这批数据的标签边缘分布不极端。边缘分布偏斜时它会过度校正 —— 一个收缩系数是路线图上的开放研究项。
+- **batch 先验需要"一批"数据。** 它要攒够 `min_prior_n`（默认 8）条同一问题的样本才启用，并且假设这批数据的标签边缘分布不极端。边缘分布偏斜时它会过度校正 —— 一个收缩系数是开放研究项。
 - **校准救不了答不出来的模型。** 在迷宫 harness 里，没有任何读法能在边判断上打过多数类基线。AnyJev 让不确定性变得*可读*，而不是变小。
-- **当前字母读法最多 26 个选项。** span 读法会解除这个上限，是路线图上的下一项。
+- **当前字母读法最多 26 个选项**，span 读法会解除这个上限。
 - **L1 扛不住分布偏移**，而且它只重塑置信度、不改变排序。
 - **目前表里只有一个模型家族。** 上面全部是 Qwen，Llama 和 Gemma 行在路线图上。
 
 ## 状态
 
-**v0.0.2。** 库、两个后端、三个 benchmark 都是真实可运行、实测过的；每一张表都由提交的 JSON 重新生成。持续开发中 —— 带日期的计划在 [ROADMAP.md](ROADMAP.md)。
-
-**接下来：** 超过 26 个选项的 span 读法、conformal 弃答、延迟列、在线 demo、Llama 和 Gemma 行。**再之后：** Jev 兼容的 HTTP 服务端、更多后端、多模态 state。
+**v0.0.2。** 库、两个后端、三个 benchmark 都是真实可运行、实测过的。持续开发中 —— 带日期的计划在 [ROADMAP.md](ROADMAP.md)。**接下来：** 超过 26 个选项的 span 读法、conformal 弃答、延迟列、在线 demo、Llama 和 Gemma 行。**再之后：** Jev 兼容的 HTTP 服务端、更多后端、多模态 state。
 
 后端和 benchmark provider 都是一个文件一个，其中几项标了 **help wanted** —— 见 [CONTRIBUTING.md](CONTRIBUTING.md)。已完成的改动：[CHANGELOG.md](CHANGELOG.md)。我们站在谁的肩膀上：[CREDITS.md](CREDITS.md)。
 

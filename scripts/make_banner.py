@@ -2,7 +2,7 @@
 
 The three stats on the banner are read from the same files bench.table reads,
 so the header cannot drift away from the measured numbers. Two themes are
-written so the README can follow the reader's GitHub colour scheme.
+written; it sits on the page rather than punching a dark block into it.
 
     python scripts/make_banner.py [results_dir]
 """
@@ -22,14 +22,9 @@ from matplotlib.patches import FancyBboxPatch
 DEFAULT_DIR = "bench/results_batchprior_v0/2026-09-20"
 HEADLINE = ("Qwen3-8B", "banking20")
 
-THEMES = {
-    "light": dict(bg_top="#ffffff", bg_bottom="#e8eefb", ink="#0f172a", dim="#64748b",
-                  faint="#94a3b8", accent="#2563eb", good="#0f9d76",
-                  strip="#0f172a", strip_alpha=0.035, rule=0.10, dots=0.055, glow=0.016),
-    "dark": dict(bg_top="#121d30", bg_bottom="#1e3350", ink="#f1f5f9", dim="#9fb3cd",
-                 faint="#64798f", accent="#7ab0ff", good="#3ae0ab",
-                 strip="#ffffff", strip_alpha=0.055, rule=0.12, dots=0.05, glow=0.013),
-}
+THEME = dict(bg_top="#ffffff", bg_bottom="#e8eefb", ink="#0f172a", dim="#64748b",
+             faint="#94a3b8", accent="#2563eb", good="#0f9d76",
+             strip="#0f172a", strip_alpha=0.035, rule=0.10, dots=0.055, glow=0.016)
 
 
 def load_headline(results_dir: Path) -> dict:
@@ -57,8 +52,8 @@ def stat(ax, t, x, label, before, after, *, pct=False):
             fontweight="bold", transform=ax.transAxes, zorder=3)
 
 
-def render(lv: dict, theme: str, out: Path) -> None:
-    t = THEMES[theme]
+def render(lv: dict, out: Path) -> None:
+    t = THEME
     plt.rcParams["font.family"] = "DejaVu Sans"
     fig = plt.figure(figsize=(16, 4.4), dpi=200)
     ax = fig.add_axes((0, 0, 1, 1))
@@ -110,16 +105,16 @@ def render(lv: dict, theme: str, out: Path) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("results_dir", nargs="?", default=DEFAULT_DIR)
+    ap.add_argument("-o", "--out", default="assets/banner.png")
     args = ap.parse_args()
 
     root = Path(__file__).resolve().parents[1]
     results_dir = Path(args.results_dir)
     if not results_dir.is_absolute():
         results_dir = root / results_dir
-    lv = load_headline(results_dir)
 
-    for theme in THEMES:
-        render(lv, theme, root / f"assets/banner-{theme}.png")
+    out = Path(args.out)
+    render(load_headline(results_dir), out if out.is_absolute() else root / out)
 
 
 if __name__ == "__main__":
