@@ -1,0 +1,34 @@
+# python handoff/games/maze_sim.py handoff/games/dev_probs.Qwen3-8B.json
+done 20000
+done 20001
+done 20002
+done 20003
+done 20004
+== policy threshold wall_cost 0
+  20000 raw=1683/685  L0=5456/2024  L1=4967/1833  always_yes=611/301
+  20001 raw=5312/2148  L0=6863/2441  L1=6931/2421  always_yes=1392/704
+  20002 raw=4540/1802  L0=5694/2010  L1=5502/2012  always_yes=509/253
+  20003 raw=1828/736  L0=3799/1451  L1=2271/889  always_yes=686/340
+  20004 raw=3420/1402  L0=2518/930  L1=2547/967  always_yes=3356/1672
+  solved: {'raw': 5, 'L0': 5, 'L1': 5, 'always_yes': 5} mean steps (solved): {'raw': 3357, 'L0': 4866, 'L1': 4444, 'always_yes': 1311}
+== policy expected_cost wall_cost 0
+  20000 raw=4528/986  L0=5519/1093  L1=5416/1568  always_yes=611/301
+  20001 raw=7136/1644  L0=8170/1754  L1=3399/1071  always_yes=1392/704
+  20002 raw=6640/1436  L0=7387/1635  L1=4158/1384  always_yes=509/253
+  20003 raw=5034/1122  L0=3306/818  L1=1418/472  always_yes=686/340
+  20004 raw=7238/1558  L0=6580/1486  L1=3658/1106  always_yes=3356/1672
+  solved: {'raw': 5, 'L0': 5, 'L1': 5, 'always_yes': 5} mean steps (solved): {'raw': 6115, 'L0': 6192, 'L1': 3610, 'always_yes': 1311}
+== policy threshold wall_cost 10
+  20000 raw=8533/685  L0=FAIL/825  L1=FAIL/825  always_yes=3621/301
+  20001 raw=FAIL/841  L0=FAIL/826  L1=FAIL/825  always_yes=8432/704
+  20002 raw=FAIL/833  L0=FAIL/829  L1=FAIL/833  always_yes=3039/253
+  20003 raw=9188/736  L0=FAIL/826  L1=FAIL/828  always_yes=4086/340
+  20004 raw=FAIL/842  L0=FAIL/819  L1=FAIL/826  always_yes=FAIL/866
+  solved: {'raw': 2, 'L0': 0, 'L1': 0, 'always_yes': 4} mean steps (solved): {'raw': 8860, 'L0': 0, 'L1': 0, 'always_yes': 4794}
+== policy expected_cost wall_cost 10
+  20000 raw=FAIL/678  L0=FAIL/676  L1=FAIL/732  always_yes=3621/301
+  20001 raw=FAIL/671  L0=FAIL/659  L1=FAIL/743  always_yes=8432/704
+  20002 raw=FAIL/693  L0=FAIL/684  L1=8989/651  always_yes=3039/253
+  20003 raw=FAIL/699  L0=FAIL/684  L1=8114/590  always_yes=4086/340
+  20004 raw=FAIL/676  L0=FAIL/690  L1=FAIL/743  always_yes=FAIL/866
+  solved: {'raw': 0, 'L0': 0, 'L1': 2, 'always_yes': 4} mean steps (solved): {'raw': 0, 'L0': 0, 'L1': 8552, 'always_yes': 4794}

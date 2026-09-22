@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Bench (WIP): `bench.games.maze` + `bench.run_maze` play a seeded grid maze on raw / L0 / L1 P(open) answers with full trajectories, `scripts/make_maze_gif.py` replays them; on Qwen3-8B no readout beats blind trying yet. Status and next steps (snake, ViZDoom) in `handoff/games/HANDOFF.md`.
+
 ## 0.0.2
 
 - README GIF: `scripts/find_flip_example.py` finds real items where raw readout flips under option reversal and L0 does not; `scripts/make_flip_gif.py` renders them (`assets/flip.gif`, Qwen3-8B on BANKING77). `space/` holds the Hugging Face Space entry point.
