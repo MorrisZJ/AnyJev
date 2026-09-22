@@ -1,3 +1,27 @@
+# Small open models, 1.7B to 8B, seven architectures
+
+Same three tasks and the same typed-decisions set as the main tables, same protocol, one H100 per model, bf16. Regenerate with `bash scripts/regen_docs.sh`.
+
+## One row per model
+
+| model | label mass | choice flip raw→L0 | choice acc raw→L0 | injection acc raw→L0 | L1 ECE (mean) | typed acc raw / L0 / L1 | typed L1 ECE |
+|---|---|---|---|---|---|---|---|
+| SmolLM2-1.7B-Instruct | 0.408 | 0.89→0.18 | 0.332→0.677 | 0.593→0.670 | 0.095 | 0.411 / 0.420 / 0.415 | 0.055 |
+| Qwen2.5-7B-Instruct | 0.998 | 0.22→0.10 | 0.693→0.733 | 0.737→0.790 | 0.072 | 0.620 / 0.628 / 0.628 | 0.038 |
+| Qwen3-1.7B | 0.992 | 0.37→0.21 | 0.588→0.640 | 0.657→0.683 | 0.121 | 0.468 / 0.494 / 0.499 | 0.055 |
+| Qwen3-30B-A3B-Instruct-2507 | 0.995 | 0.14→0.10 | 0.733→0.755 | 0.730→0.757 | 0.091 | 0.599 / 0.630 / 0.630 | 0.047 |
+| Qwen3-32B | 0.999 | 0.19→0.08 | 0.718→0.758 | 0.857→0.827 | 0.065 | 0.684 / 0.700 / 0.699 | 0.036 |
+| Qwen3-4B | 1.000 | 0.23→0.15 | 0.683→0.713 | 0.683→0.797 | 0.106 | 0.547 / 0.564 / 0.567 | 0.043 |
+| Qwen3-8B | 0.999 | 0.23→0.12 | 0.692→0.732 | 0.693→0.700 | 0.131 | 0.626 / 0.647 / 0.648 | 0.055 |
+| OLMo-2-1124-7B-Instruct | 0.710 | 0.43→0.20 | 0.587→0.682 | 0.593→0.593 | 0.079 | 0.452 / 0.499 / 0.494 | 0.052 |
+| granite-3.3-8b-instruct | 0.976 | 0.33→0.15 | 0.658→0.750 | 0.627→0.647 | 0.089 | 0.621 / 0.643 / 0.643 | 0.049 |
+| Phi-4-mini-instruct | 0.994 | 0.29→0.17 | 0.650→0.700 | 0.707→0.807 | 0.094 | 0.632 / 0.631 / 0.633 | 0.051 |
+| Mistral-7B-Instruct-v0.3 | 0.995 | 0.30→0.15 | 0.670→0.707 | 0.697→0.733 | 0.093 | 0.552 / 0.608 / 0.597 | 0.042 |
+
+choice = mean over banking20 and newsgroups (K=20, n=300 each); injection n=300; typed-decisions n=2000. label mass = lowest mean probability the model put on the label tokens across tasks (1.0 = always answered in the format).
+
+## Every task, every level
+
 | model | task | K | n | level | acc | brier | ece | flip | cov@5% |
 |---|---|---|---|---|---|---|---|---|---|
 | SmolLM2-1.7B-Instruct | newsgroups | 20 | 300 | raw | 0.257 | 0.873 | 0.097 | 0.920 | 0.003 |
@@ -266,3 +290,47 @@
 |  |  |  |  | L1 | 0.733 | 0.396 | 0.113 | 0.140 | 0.347 |
 
 Environment: {"gpu": "NVIDIA H100 NVL", "torch": "2.5.1+cu124", "transformers": "4.55.4"}. Dates: 2026-09-22. Test items sampled with seed 0; L1 temperature fit on a disjoint calibration split.
+
+## typed-decisions
+
+| system | acc | soft_acc | ece | brier_mean | score_mae |
+|---|---|---|---|---|---|
+| laya-multilingual (zero-shot), measured here | 0.340 | 0.325 | 0.287 | 0.269 | 0.688 |
+| laya (zero-shot), measured here | 0.359 | 0.331 | 0.177 | 0.227 | 0.694 |
+| SmolLM2-1.7B-Instruct + raw logits (clone baseline) | 0.411 | 0.353 | 0.099 | 0.217 | 0.639 |
+| SmolLM2-1.7B-Instruct + AnyJev L1, temperature from 200 train cases | 0.415 | 0.382 | 0.055 | 0.182 | 0.618 |
+| SmolLM2-1.7B-Instruct + AnyJev L0, zero-shot | 0.420 | 0.336 | 0.073 | 0.198 | 0.673 |
+| OLMo-2-1124-7B-Instruct + raw logits (clone baseline) | 0.452 | 0.412 | 0.233 | 0.218 | 0.660 |
+| Qwen3-1.7B + raw logits (clone baseline) | 0.468 | 0.434 | 0.484 | 0.299 | 0.664 |
+| Qwen3-1.7B + AnyJev L0, zero-shot | 0.494 | 0.441 | 0.396 | 0.261 | 0.657 |
+| OLMo-2-1124-7B-Instruct + AnyJev L1, temperature from 200 train cases | 0.494 | 0.420 | 0.052 | 0.165 | 0.554 |
+| OLMo-2-1124-7B-Instruct + AnyJev L0, zero-shot | 0.499 | 0.403 | 0.039 | 0.178 | 0.562 |
+| Qwen3-1.7B + AnyJev L1, temperature from 200 train cases | 0.499 | 0.403 | 0.055 | 0.172 | 0.600 |
+| Qwen3-4B + raw logits (clone baseline) | 0.547 | 0.484 | 0.411 | 0.262 | 0.656 |
+| Mistral-7B-Instruct-v0.3 + raw logits (clone baseline) | 0.552 | 0.482 | 0.342 | 0.229 | 0.713 |
+| Qwen3-4B + AnyJev L0, zero-shot | 0.564 | 0.494 | 0.373 | 0.243 | 0.622 |
+| Qwen3-4B + AnyJev L1, temperature from 200 train cases | 0.567 | 0.434 | 0.043 | 0.159 | 0.500 |
+| Mistral-7B-Instruct-v0.3 + AnyJev L1, temperature from 200 train cases | 0.597 | 0.448 | 0.042 | 0.149 | 0.504 |
+| Qwen3-30B-A3B-Instruct-2507 + raw logits (clone baseline) | 0.599 | 0.508 | 0.343 | 0.221 | 0.755 |
+| Mistral-7B-Instruct-v0.3 + AnyJev L0, zero-shot | 0.608 | 0.499 | 0.234 | 0.181 | 0.671 |
+| Qwen2.5-7B-Instruct + raw logits (clone baseline) | 0.620 | 0.514 | 0.287 | 0.209 | 0.437 |
+| granite-3.3-8b-instruct + raw logits (clone baseline) | 0.621 | 0.516 | 0.277 | 0.190 | 0.635 |
+| Qwen3-8B + raw logits (clone baseline) | 0.626 | 0.520 | 0.328 | 0.210 | 0.621 |
+| Qwen2.5-7B-Instruct + AnyJev L0, zero-shot | 0.628 | 0.512 | 0.234 | 0.188 | 0.439 |
+| Qwen2.5-7B-Instruct + AnyJev L1, temperature from 200 train cases | 0.628 | 0.461 | 0.038 | 0.148 | 0.425 |
+| Qwen3-30B-A3B-Instruct-2507 + AnyJev L0, zero-shot | 0.630 | 0.524 | 0.287 | 0.194 | 0.689 |
+| Qwen3-30B-A3B-Instruct-2507 + AnyJev L1, temperature from 200 train cases | 0.630 | 0.459 | 0.047 | 0.144 | 0.448 |
+| Phi-4-mini-instruct + AnyJev L0, zero-shot | 0.631 | 0.470 | 0.062 | 0.150 | 0.466 |
+| Phi-4-mini-instruct + raw logits (clone baseline) | 0.632 | 0.496 | 0.151 | 0.165 | 0.554 |
+| Phi-4-mini-instruct + AnyJev L1, temperature from 200 train cases | 0.633 | 0.456 | 0.051 | 0.145 | 0.452 |
+| granite-3.3-8b-instruct + AnyJev L0, zero-shot | 0.643 | 0.513 | 0.197 | 0.164 | 0.541 |
+| granite-3.3-8b-instruct + AnyJev L1, temperature from 200 train cases | 0.643 | 0.450 | 0.049 | 0.143 | 0.445 |
+| Qwen3-8B + AnyJev L0, zero-shot | 0.647 | 0.530 | 0.290 | 0.198 | 0.591 |
+| Qwen3-8B + AnyJev L1, temperature from 200 train cases | 0.648 | 0.468 | 0.055 | 0.140 | 0.444 |
+| Qwen3-32B + raw logits (clone baseline) | 0.684 | 0.556 | 0.206 | 0.144 | 0.488 |
+| Qwen3-32B + AnyJev L1, temperature from 200 train cases | 0.699 | 0.508 | 0.036 | 0.119 | 0.416 |
+| Qwen3-32B + AnyJev L0, zero-shot | 0.700 | 0.555 | 0.149 | 0.129 | 0.449 |
+| Jev 1.13.0 (published by TypeSafe / Laya; not rerun) | 0.727 | 0.580 | 0.144 | 0.148 | 0.391 |
+| laya-typed-decisions (fine-tuned on this set's train split), measured here | 0.768 | 0.471 | 0.215 | 0.118 | 0.243 |
+
+LocalLLaMA/typed-decisions test split, 400 cases, 2,000 decisions, all rows except Jev measured on the same decisions. soft_acc = sum of predicted x teacher probabilities. brier_mean divides by the number of options, as Laya reports it.

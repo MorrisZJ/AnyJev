@@ -1,0 +1,26 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| mistralai/Mistral-7B-Instruct-v0.3 | newsgroups | 20 | raw | 0.647 | 0.657 | 0.663 | 0.315 | 0.317 | 0.007 |
+| mistralai/Mistral-7B-Instruct-v0.3 | newsgroups | 20 | L0-perm | 0.663 | 0.676 | 0.625 | 0.299 | 0.167 | 0.010 |
+| mistralai/Mistral-7B-Instruct-v0.3 | newsgroups | 20 | L0-perm+bc | 0.673 | 0.685 | 0.616 | 0.290 | 0.167 | 0.073 |
+| mistralai/Mistral-7B-Instruct-v0.3 | newsgroups | 20 | L0-perm+cf | 0.667 | 0.677 | 0.618 | 0.303 | 0.163 | 0.003 |
+| mistralai/Mistral-7B-Instruct-v0.3 | newsgroups | 20 | L0-cf | 0.627 | 0.637 | 0.692 | 0.337 | 0.303 | 0.003 |
+| mistralai/Mistral-7B-Instruct-v0.3 | newsgroups | 20 | L0-bc | 0.643 | 0.655 | 0.657 | 0.319 | 0.313 | 0.017 |
+| mistralai/Mistral-7B-Instruct-v0.3 | newsgroups | 20 | L0 | 0.673 | 0.685 | 0.616 | 0.290 | 0.167 | 0.073 |
+| mistralai/Mistral-7B-Instruct-v0.3 | newsgroups | 20 | L1 | 0.673 | 0.685 | 0.485 | 0.096 | 0.170 | 0.073 |
+| mistralai/Mistral-7B-Instruct-v0.3 | injection | 2 | raw | 0.697 | 0.682 | 0.455 | 0.167 | 0.333 | 0.017 |
+| mistralai/Mistral-7B-Instruct-v0.3 | injection | 2 | L0-perm | 0.707 | 0.622 | 0.488 | 0.217 | 0.000 | 0.143 |
+| mistralai/Mistral-7B-Instruct-v0.3 | injection | 2 | L0-perm+bc | 0.733 | 0.688 | 0.412 | 0.159 | 0.000 | 0.147 |
+| mistralai/Mistral-7B-Instruct-v0.3 | injection | 2 | L0-perm+cf | 0.737 | 0.693 | 0.406 | 0.153 | 0.000 | 0.147 |
+| mistralai/Mistral-7B-Instruct-v0.3 | injection | 2 | L0-cf | 0.667 | 0.659 | 0.467 | 0.171 | 0.300 | 0.070 |
+| mistralai/Mistral-7B-Instruct-v0.3 | injection | 2 | L0-bc | 0.683 | 0.673 | 0.464 | 0.161 | 0.260 | 0.070 |
+| mistralai/Mistral-7B-Instruct-v0.3 | injection | 2 | L0 | 0.733 | 0.688 | 0.412 | 0.159 | 0.000 | 0.147 |
+| mistralai/Mistral-7B-Instruct-v0.3 | injection | 2 | L1 | 0.727 | 0.673 | 0.365 | 0.069 | 0.000 | 0.143 |
+| mistralai/Mistral-7B-Instruct-v0.3 | banking20 | 20 | raw | 0.693 | 0.713 | 0.590 | 0.287 | 0.290 | 0.100 |
+| mistralai/Mistral-7B-Instruct-v0.3 | banking20 | 20 | L0-perm | 0.727 | 0.733 | 0.497 | 0.235 | 0.137 | 0.270 |
+| mistralai/Mistral-7B-Instruct-v0.3 | banking20 | 20 | L0-perm+bc | 0.740 | 0.747 | 0.474 | 0.219 | 0.140 | 0.340 |
+| mistralai/Mistral-7B-Instruct-v0.3 | banking20 | 20 | L0-perm+cf | 0.750 | 0.757 | 0.447 | 0.209 | 0.150 | 0.100 |
+| mistralai/Mistral-7B-Instruct-v0.3 | banking20 | 20 | L0-cf | 0.697 | 0.713 | 0.550 | 0.265 | 0.310 | 0.213 |
+| mistralai/Mistral-7B-Instruct-v0.3 | banking20 | 20 | L0-bc | 0.693 | 0.710 | 0.587 | 0.288 | 0.293 | 0.153 |
+| mistralai/Mistral-7B-Instruct-v0.3 | banking20 | 20 | L0 | 0.740 | 0.747 | 0.474 | 0.219 | 0.140 | 0.340 |
+| mistralai/Mistral-7B-Instruct-v0.3 | banking20 | 20 | L1 | 0.733 | 0.739 | 0.396 | 0.113 | 0.140 | 0.347 |
