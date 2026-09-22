@@ -1,9 +1,8 @@
 <div align="center">
 
-# AnyJev
+<img src="assets/banner.png" width="100%" alt="AnyJev —— 把任意 LLM 变成 Jev 风格的决策模型。类型化的决策、真实的概率、不需要训练。选项顺序翻转率 0.227 降到 0.077，校准误差 0.235 降到 0.100，5% 风险下可自动决策比例 7.7% 升到 54.3%。">
 
-**把任意 LLM 变成 Jev 风格的决策模型。**
-*类型化的决策。真实的概率。不需要训练。*
+<br>
 
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
@@ -30,12 +29,12 @@
 
 ![把选项顺序倒过来：直接读 logits 会以 1.00 的置信度翻转答案，AnyJev L0 两种顺序给出同一个答案](assets/flip.gif)
 
-<div align="center"><sub>
-
-Qwen3-8B，一条真实的 BANKING77 样本，真实输出。**左：** 直接读 next-token logits —— 把选项倒过来，答案就翻了，置信度还是 1.00。
-**右：** AnyJev L0，零标签 —— 两种顺序同一个答案。用 `scripts/find_flip_example.py` 和 `scripts/make_flip_gif.py` 重新生成。
-
-</sub></div>
+<div align="center">
+<sub>Qwen3-8B，一条真实的 BANKING77 样本，真实输出。</sub><br>
+<sub><b>左：</b>直接读 next-token logits —— 把选项倒过来，答案就翻了，置信度还是 1.00。</sub><br>
+<sub><b>右：</b>AnyJev L0，零标签 —— 两种顺序同一个答案。</sub><br>
+<sub>用 <code>scripts/find_flip_example.py</code> 和 <code>scripts/make_flip_gif.py</code> 重新生成。</sub>
+</div>
 
 ---
 
@@ -168,11 +167,9 @@ python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20
 
 ![四个面板，覆盖三个开源模型和三个任务：选项顺序翻转率、期望校准误差、准确率、5% 风险下的覆盖率，对比直接读 logits 与 AnyJev L0 / L1](assets/results.png)
 
-<div align="center"><sub>
-
-用 `python scripts/make_results_figure.py` 重新生成 —— 它读的是和 `bench.table` 同一批已提交的 JSON。
-
-</sub></div>
+<div align="center">
+<sub>用 <code>python scripts/make_results_figure.py</code> 重新生成 —— 它读的是和 <code>bench.table</code> 同一批已提交的 JSON。</sub>
+</div>
 
 ### 把选项顺序倒过来，五分之一的答案会变
 

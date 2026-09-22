@@ -1,9 +1,8 @@
 <div align="center">
 
-# AnyJev
+<img src="assets/banner.png" width="100%" alt="AnyJev — turn any LLM into a Jev-style decision model. Typed decisions, real probabilities, no training. Order-flip rate 0.227 to 0.077, calibration error 0.235 to 0.100, auto-decidable at 5% risk 7.7% to 54.3%.">
 
-**Turn any LLM into a Jev-style decision model.**
-*Typed decisions. Real probabilities. No training.*
+<br>
 
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
@@ -30,12 +29,12 @@
 
 ![Reverse the option order: raw logit readout flips its answer with 1.00 confidence, AnyJev L0 gives the same answer both ways](assets/flip.gif)
 
-<div align="center"><sub>
-
-Qwen3-8B, a real BANKING77 item, real outputs. **Left:** raw next-token readout — reverse the options and the answer flips, at 1.00 confidence.
-**Right:** AnyJev L0, zero labels — same answer both ways. Regenerate with `scripts/find_flip_example.py` and `scripts/make_flip_gif.py`.
-
-</sub></div>
+<div align="center">
+<sub>Qwen3-8B, a real BANKING77 item, real outputs.</sub><br>
+<sub><b>Left:</b> raw next-token readout — reverse the options and the answer flips, at 1.00 confidence.</sub><br>
+<sub><b>Right:</b> AnyJev L0, zero labels — same answer both ways.</sub><br>
+<sub>Regenerate with <code>scripts/find_flip_example.py</code> and <code>scripts/make_flip_gif.py</code>.</sub>
+</div>
 
 ---
 
@@ -168,15 +167,13 @@ Results land in `bench/results/<date>/` as Markdown and JSON with hardware and l
 
 ![Four panels across three open models and three tasks: order-flip rate, expected calibration error, accuracy, and coverage at 5% risk, comparing raw logit readout against AnyJev L0 and L1](assets/results.png)
 
-<div align="center"><sub>
-
-Regenerate with `python scripts/make_results_figure.py` — it reads the same committed JSON as `bench.table`.
-
-</sub></div>
+<div align="center">
+<sub>Regenerate with <code>python scripts/make_results_figure.py</code> — it reads the same committed JSON as <code>bench.table</code>.</sub>
+</div>
 
 ### Reorder the options and one in five answers changes
 
-Three open models, three tasks, 300 test items each. `flip` is the fraction of items whose answer changes when the option list is reversed (`choice`) or the phrasing is swapped between "Yes or No" and "No or Yes" (`noul`). `raw` is what every logit-reading clone does. `L0` is AnyJev's default, zero labels. `L1` adds one temperature fit on 200 labels.
+Three open models, three tasks, 300 test items each. `flip` is the fraction of items whose answer changes when the option list is reversed (`choice`) or the Yes/No phrasing order is swapped (`noul`).
 
 | model | task | K | raw flip | L0 flip | raw acc | L0 acc | raw ECE | L1 ECE |
 |---|---|---|---|---|---|---|---|---|
