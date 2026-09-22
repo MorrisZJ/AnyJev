@@ -1,5 +1,6 @@
-anyjev>=0.0.1
-gradio>=4.0
+spaces
+anyjev>=0.0.2
+gradio>=5.50,<6
 torch>=2.3
 transformers>=4.51
 accelerate

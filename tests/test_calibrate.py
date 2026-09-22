@@ -96,3 +96,13 @@ def test_temperature_scaling_recovers_temperature():
     np.testing.assert_allclose(p.sum(1), 1.0)
     rt = TemperatureScaler.from_dict(s.to_dict())
     assert rt.temperature == s.temperature
+
+
+def test_spread_order_is_a_permutation_that_starts_wide():
+    from anyjev.calibrate import spread_order
+    for k in (3, 4, 5, 8, 20, 26):
+        o = spread_order(k)
+        assert sorted(o) == list(range(k)), k
+        assert o[0] == 0
+    assert spread_order(20)[:4] == [0, 10, 5, 15]
+    assert spread_order(8)[:4] == [0, 4, 2, 6]

@@ -16,6 +16,35 @@ import sys
 import time
 
 
+def summarize_edges(result):
+    """Majority baseline and mean predicted p(clear) over every visited cell, added to the summary
+    so the maze table can be regenerated from this file alone. Computed before observations are
+    dropped from the artifact."""
+    obs = [o for e in result["episodes"] for o in e.get("observations", [])]
+    dirs = ("north", "east", "south", "west")
+    clear = [bool(o["truth"][a]) for o in obs for a in dirs]
+    pm = [o["probabilities"][a] for o in obs for a in dirs]
+    if clear:
+        result["summary"]["edge_majority"] = max(sum(clear), len(clear) - sum(clear)) / len(clear)
+        result["summary"]["mean_p_true"] = sum(pm) / len(pm)
+        result["summary"]["edge_questions"] = len(clear)
+
+
+def checkout_info(nanojev_dir, episodes):
+    """The NanoJev commit and the episodes file hash, so the comparison is pinned."""
+    import hashlib
+    import subprocess
+    info = {"nanojev_dir": os.path.abspath(nanojev_dir)}
+    try:
+        info["nanojev_commit"] = subprocess.run(["git", "-C", nanojev_dir, "rev-parse", "HEAD"], capture_output=True,
+                                                text=True, timeout=10).stdout.strip() or None
+    except Exception:
+        info["nanojev_commit"] = None
+    with open(episodes, "rb") as f:
+        info["episodes_sha256"] = hashlib.sha256(f.read()).hexdigest()
+    return info
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--nanojev", required=True)
@@ -26,6 +55,8 @@ def main(argv=None):
     ap.add_argument("--batch-states", type=int, default=2)
     ap.add_argument("--max-length", type=int, default=2048)
     ap.add_argument("--out", default="bench/results_nanojev")
+    ap.add_argument("--keep-observations", action="store_true",
+                    help="keep every per-cell observation in the JSON (~10 MB per run); off by default")
     args = ap.parse_args(argv)
 
     sys.path.insert(0, os.path.join(args.nanojev, "scripts"))
@@ -57,8 +88,13 @@ def main(argv=None):
     result = core.run_exploration(selected, engine, args.window_size, args.max_steps, args.batch_states, 0)
     result.update(model=nav.MODEL, revision=nav.REVISION, level="native_AB_readout", engine="nanojev_native",
                   elapsed_seconds=time.time() - t0, date=dt.datetime.now().isoformat())
+    summarize_edges(result)
+    result.update(checkout_info(args.nanojev, args.episodes))
     for ep in result["episodes"]:
         ep.pop("steps", None)
+        if not args.keep_observations:
+            ep.pop("observations", None)
+            ep.pop("verified_edges", None)
     outdir = os.path.join(args.out, dt.datetime.now().strftime("%Y-%m-%d"))
     os.makedirs(outdir, exist_ok=True)
     with open(os.path.join(outdir, "nanojev_native.Qwen3-0.6B.json"), "w") as f:

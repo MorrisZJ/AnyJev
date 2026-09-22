@@ -4,7 +4,11 @@
 
 Columns per (model, task, level): acc, macro-F1, Brier, ECE, flip rate under
 option reversal, coverage at 5% risk. raw and L0 come from the same forward
-passes; L1 fits a temperature on the calibration split.
+passes; L1 fits a temperature on the calibration split. The flip rate compares
+each level's answer on the original option order with its answer on the reversed
+order; at L1 the reversed layout is calibrated on the same split (its own frozen
+prior and temperature), so the number is the disagreement of two independently
+calibrated deployments.
 """
 from __future__ import annotations
 
@@ -15,7 +19,7 @@ import os
 import platform
 import subprocess
 import time
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 
@@ -29,12 +33,16 @@ def reversed_question(q: Question) -> Question:
     """Same question, options listed in reverse: the order-flip probe."""
     if q.kind == "noul":
         return q
-    return Q(q.kind, q.text, tuple(reversed(q.options)), q.name, q.scale, q.ordered)
+    # score questions with explicit levels carry `centers`: reverse them alongside the options,
+    # or the reversed layout silently rescales the value (found by the reproduction check)
+    centers = tuple(reversed(q.centers)) if q.centers is not None else None
+    return Q(q.kind, q.text, tuple(reversed(q.options)), q.name, q.scale, q.ordered, centers)
 
 
-def _rows_from_diagnostics(decs, combine: str):
+def _rows_from_diagnostics(decs, combine: str, bc_strength: float = 0.75):
     """Ablation readouts in option space, all from the same forward passes.
-    L0 is whatever the decider's configured prior produced (default: perm + batch prior)."""
+    L0 is whatever the decider's configured prior produced (default: perm + batch prior at
+    strength 0.75); the `bc` rows use `bc_strength` so they match the default L0."""
     from anyjev.calibrate import apply_contextual, marginalize
     rows = {"raw": [], "L0-perm": [], "L0-perm+bc": [], "L0-perm+cf": [], "L0-cf": [], "L0-bc": [], "L0": []}
     for d in decs:
@@ -43,8 +51,9 @@ def _rows_from_diagnostics(decs, combine: str):
         rows["raw"].append(marginalize(P[:1], perms[:1]))
         rows["L0-perm"].append(marginalize(P, perms, combine))
         if g.get("batch_prior") is not None:
-            rows["L0-perm+bc"].append(marginalize(apply_contextual(P, g["batch_prior"]), perms, combine))
-            rows["L0-bc"].append(marginalize(apply_contextual(P[:1], g["batch_prior"][:1]), perms[:1]))
+            bp = np.power(g["batch_prior"], bc_strength)
+            rows["L0-perm+bc"].append(marginalize(apply_contextual(P, bp), perms, combine))
+            rows["L0-bc"].append(marginalize(apply_contextual(P[:1], bp[:1]), perms[:1]))
         if g.get("cf_prior") is not None:
             rows["L0-cf"].append(marginalize(apply_contextual(P[:1], g["cf_prior"][:1]), perms[:1]))
             rows["L0-perm+cf"].append(marginalize(apply_contextual(P, g["cf_prior"]), perms, combine))
@@ -78,7 +87,7 @@ def _noul_other_phrasing(decs, rows) -> Dict[str, np.ndarray]:
 
 
 def run_task(decider: Decider, task_name: str, n_test: int, n_calib: int, seed: int,
-             levels: List[str]) -> Dict[str, Any]:
+             levels: List[str], dump: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     task = get_task(task_name)
     test, calib = task.split(n_test, n_calib, seed)
     states = [s for s, _ in test]
@@ -91,7 +100,13 @@ def run_task(decider: Decider, task_name: str, n_test: int, n_calib: int, seed: 
     decs = decider.decide_batch(states, q, level="L0")
     t_l0 = time.time() - t0
     answer_mass = float(np.mean([d.diagnostics["answer_mass"] for d in decs]))
-    rows = _rows_from_diagnostics(decs, decider.combine)
+    if dump is not None:
+        dump[task_name] = {"kind": q.kind, "k": q.k, "perms": decs[0].diagnostics["perms"], "gold": labels,
+                           "p_pos_raw": [d.diagnostics["p_pos_raw"].round(6).tolist() for d in decs],
+                           "cf_prior": (decs[0].diagnostics["cf_prior"].round(6).tolist()
+                                        if decs[0].diagnostics.get("cf_prior") is not None else None)}
+    bc_strength = decider.strength() if decider.prior == "batch" else 0.75
+    rows = _rows_from_diagnostics(decs, decider.combine, bc_strength)
 
     # order-flip probe: reversed option list for choice; the other phrasing for noul
     if q.kind == "noul":
@@ -99,7 +114,7 @@ def run_task(decider: Decider, task_name: str, n_test: int, n_calib: int, seed: 
     else:
         qr = reversed_question(q)
         decs_r = decider.decide_batch(states, qr, level="L0")
-        rows_r = {k: v[:, ::-1] for k, v in _rows_from_diagnostics(decs_r, decider.combine).items()}
+        rows_r = {k: v[:, ::-1] for k, v in _rows_from_diagnostics(decs_r, decider.combine, bc_strength).items()}
 
     for name, P in rows.items():
         if name == "raw" and "raw" not in levels:
@@ -112,17 +127,26 @@ def run_task(decider: Decider, task_name: str, n_test: int, n_calib: int, seed: 
         out["levels"]["L0"].update({
             "cyclic_flip_raw": float(np.mean([d.diagnostics["order_flip_raw"] for d in decs])),
             "cyclic_flip_l0": float(np.mean([d.diagnostics["order_flip_l0"] for d in decs])),
-            "prior_method": decs[0].diagnostics.get("prior_method")})
+            "prior_method": decs[0].diagnostics.get("prior_method"),
+            "prior_strength": decs[0].diagnostics.get("prior_strength"),
+            "mean_shifts": float(np.mean([d.diagnostics.get("shifts_used", d.diagnostics["permutations"])
+                                          for d in decs])),
+            "adaptive": bool(decs[0].diagnostics.get("adaptive", False))})
 
     if "L1" in levels and calib:
         art = decider.calibrate(q, [s for s, _ in calib], [y for _, y in calib])
         l1 = np.stack([d.probs for d in decider.decide_batch(states, q, level="L1")])
         if q.kind == "noul":
-            l1_r = l1
+            l1_r, art_r = l1, None
         else:
-            decider.load_artifact(qr, art)  # same temperature, reversed layout
+            # The reversed layout is its own deployment: calibrated on the same labeled set, with
+            # its own frozen prior and temperature. An artifact's prior is tied to the option
+            # order it was fit on, so the original artifact cannot be loaded onto the reversed
+            # question (the library refuses it).
+            art_r = decider.calibrate(qr, [s for s, _ in calib], [q.k - 1 - y for _, y in calib])
             l1_r = np.stack([d.probs for d in decider.decide_batch(states, qr, level="L1")])[:, ::-1]
-        out["levels"]["L1"] = {**metrics.summarize(l1, labels, l1_r), "temperature": art["temperature"]}
+        out["levels"]["L1"] = {**metrics.summarize(l1, labels, l1_r), "temperature": art["temperature"],
+                               "temperature_reversed": None if art_r is None else art_r["temperature"]}
         out["artifact"] = art
     out["answer_mass"] = answer_mass
     out["seconds_l0_pass"] = t_l0
@@ -141,8 +165,19 @@ def markdown_table(results: Dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def environment() -> Dict[str, Any]:
-    env: Dict[str, Any] = {"python": platform.python_version(), "date": dt.datetime.now().isoformat()}
+def environment(**run_settings: Any) -> Dict[str, Any]:
+    """Library versions, hardware, and every setting that changes the numbers. The repro check
+    found that bf16 logits move with --batch-size (0.0105 on raw at n=300), so it is recorded."""
+    import anyjev
+
+    env: Dict[str, Any] = {"python": platform.python_version(), "date": dt.datetime.now().isoformat(),
+                           "anyjev": anyjev.__version__, **run_settings}
+    try:
+        env["git_commit"] = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True,
+                                           timeout=10, cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                                           ).stdout.strip() or None
+    except Exception:
+        env["git_commit"] = None
     try:
         import torch  # noqa: E401
         import transformers
@@ -173,19 +208,31 @@ def main(argv=None):
     ap.add_argument("--max-permutations", type=int, default=None)
     ap.add_argument("--combine", default="logmean", choices=["logmean", "mean"])
     ap.add_argument("--prior", default="batch", choices=["batch", "content_free", "none"])
+    ap.add_argument("--prior-strength", type=float, default=None,
+                    help="exponent on the prior; default 0.75 for batch, 1.0 for content_free")
+    ap.add_argument("--adaptive", action="store_true", help="opt-in adaptive cyclic shifts for choice questions")
+    ap.add_argument("--adaptive-margin", type=float, default=0.1)
+    ap.add_argument("--adaptive-min-shifts", type=int, default=2)
     ap.add_argument("--out", default="bench/results")
+    ap.add_argument("--dump-items", action="store_true", help="also write per-item raw distributions (items JSON)")
     args = ap.parse_args(argv)
 
     from anyjev.backends.hf import HFBackend
     backend = HFBackend(args.model, batch_size=args.batch_size)
     decider = Decider(backend, max_permutations=args.max_permutations, combine=args.combine,
-                      prior=args.prior, record_content_free=True)
+                      prior=args.prior, prior_strength=args.prior_strength,
+                      record_content_free=True, adaptive_shifts=args.adaptive,
+                      adaptive_margin=args.adaptive_margin, adaptive_min_shifts=args.adaptive_min_shifts)
     levels = args.levels.split(",")
 
     results: Dict[str, Any] = {"model": args.model, "backend": args.backend, "seed": args.seed,
                                "n": args.n, "calib": args.calib,
                                "max_permutations": args.max_permutations, "combine": args.combine, "prior": args.prior,
-                               "env": environment(), "tasks": []}
+                               "adaptive": args.adaptive, "adaptive_margin": args.adaptive_margin,
+                               "prior_strength": args.prior_strength,
+                               "env": environment(batch_size=args.batch_size, dtype=getattr(backend, "dtype", None),
+                                                  backend=args.backend, shared_prefix=str(decider.shared_prefix)),
+                               "tasks": []}
     stamp = dt.datetime.now().strftime("%Y-%m-%d")
     outdir = os.path.join(args.out, stamp)
     os.makedirs(outdir, exist_ok=True)
@@ -209,12 +256,16 @@ def main(argv=None):
         with open(os.path.join(outdir, f"{slug}.md"), "w") as f:
             f.write(markdown_table(merged) + "\n")
 
+    dump: Optional[Dict[str, Any]] = {} if args.dump_items else None
     for t in args.tasks.split(","):
         print(f"== {t}", flush=True)
-        r = run_task(decider, t, args.n, args.calib, args.seed, levels)
+        r = run_task(decider, t, args.n, args.calib, args.seed, levels, dump)
         results["tasks"].append(r)
         print(json.dumps(r["levels"], indent=1), flush=True)
         save()   # a crash on a later task keeps what is done
+        if dump is not None:
+            with open(os.path.join(outdir, f"{slug}.items.json"), "w") as f:
+                json.dump({"model": args.model, "tasks": dump}, f, default=float)
     print(markdown_table(results))
 
 

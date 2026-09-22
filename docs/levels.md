@@ -25,10 +25,13 @@ Two training-free corrections, on by default.
 **Prior correction.** Estimate the model's prior over the labels without
 labels, divide the real distribution by it, renormalize. Two estimators:
 
-- *Batch calibration* (Zhou et al., 2024), the default. The prior is the mean
+- *Batch calibration* (Zhou et al., 2024), the default, applied at strength 0.75 (the prior is
+  raised to `prior_strength` before dividing; 1.0 is the full correction). The prior is the mean
   predicted distribution over real inputs, kept running per question across
   calls and used once it has seen `min_prior_n` items (default 8). Before
   that, no prior correction is applied and `diagnostics["prior_method"]`
+
+When each correction helps and when the prior hurts, measured over 221 (model, question) points: [when_l0_helps.md](when_l0_helps.md). Short version: permutation is the safe half, the batch prior hurts on questions whose true label marginal is skewed.
   says `none`. In the bench it was the low-variance choice: +1 to +2
   accuracy points and a large ECE improvement on every model and task, with
   no task where it hurt by more than a point. It assumes the label marginal
@@ -36,7 +39,8 @@ labels, divide the real distribution by it, renormalize. Two estimators:
 - *Contextual calibration* (Zhao et al., 2021), opt-in via
   `prior="content_free"`. The prior is the answer distribution on
   content-free inputs (`N/A`, empty, `[MASK]`), computed once per question
-  and cached. High variance: +8 to +12 points on a prompt-injection `noul`
+  and cached, in a forward call of their own so the probes never change the
+  batch composition (and with it the bf16 logits) of the real states. High variance: +8 to +12 points on a prompt-injection `noul`
   on three models, but -3 on ordinal `score` questions and -9 on one model's
   `noul` questions in the typed-decisions set. For some questions the model's
   answer to an empty input is an honest answer, not a label prior, and
@@ -64,8 +68,18 @@ after L0. That needs labels.
 ## L1: calibrated on labels
 
 Temperature scaling fit on 100 to 500 labeled examples of the same question,
-applied on top of L0. The fitted temperature is a small JSON artifact keyed by
-(model, question hash). Loading an artifact fit on a different model is an
+applied on top of L0. The prior used to score the calibration set is estimated from that set
+alone and frozen into the artifact, so the artifact is a pure function of (model, question,
+calibration set) and L1 decisions do not depend on what else the decider has scored (an
+independent reproduction found the earlier running prior made L1 drift by up to 0.007 in
+coverage at 5% risk). Two consequences worth knowing. The prior needs no labels but it does
+need states: with 200 calibration items on a 20-way question it is a noisier estimate than the
+batch prior L0 accumulates over everything it has seen, which on the smallest models costs up to
+two points of AURC against the earlier, history-dependent L1 while ECE still improves; a larger
+calibration set tightens it. And the prior is indexed by (permutation, position), so it belongs
+to the option order it was fit on: `load_artifact` refuses an artifact whose prior was fit on a
+different layout of the same question. The fitted temperature and the prior form a small JSON
+artifact keyed by (model, question hash). Loading an artifact fit on a different model is an
 error.
 
 What L1 does not do: survive distribution shift beyond the calibration set,

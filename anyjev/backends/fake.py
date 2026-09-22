@@ -54,6 +54,8 @@ class FakeBackend:
         self.temperature = temperature
         self.calls = 0
         self.prompts_seen = 0
+        self.shared_calls = 0
+        self.shared_groups = 0
 
     def _parse(self, prompt: str):
         state = prompt.split("State:\n", 1)[1].split("\n\nQuestion:", 1)[0]
@@ -70,6 +72,13 @@ class FakeBackend:
                 labels = [m.group(1), m.group(2)]
                 options = list(labels)
         return state, labels, options
+
+    def score_shared(self, groups, token_ids):
+        """Same answers as the flat path; exists so the Decider's grouping is testable."""
+        self.shared_calls += 1
+        self.shared_groups += len(groups)
+        return [self.next_token_logprobs([pre + suf for suf in sfx], [ids] * len(sfx))
+                for (pre, sfx), ids in zip(groups, token_ids)]
 
     def next_token_logprobs(self, prompts: Sequence[str],
                             token_ids: Sequence[Sequence[int]]) -> List[np.ndarray]:

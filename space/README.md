@@ -23,4 +23,4 @@ the option order in the textbox and click again. The left column is the raw read
 AnyJev L0. The bars that move are the bug; the bars that do not are the fix.
 
 Model: set by the `MODEL` variable (default `Qwen/Qwen3-1.7B` for CPU; use `Qwen/Qwen3-8B` on a GPU).
-Library and benchmark: https://github.com/MorrisZJ/AnyJev . `pip install anyjev`.
+Library and benchmark: https://github.com/nokia-applied-research/AnyJev . `pip install anyjev`.

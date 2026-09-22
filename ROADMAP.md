@@ -11,12 +11,20 @@ AnyJev is under active development. This file is the plan; `CHANGELOG.md` is wha
 
 ## Next (v0.1, target week of 2026-09-28)
 
-1. **`pip install anyjev`** on PyPI, with a CPU-only extra so the tests and the fake backend run anywhere.
-2. **Span readout for more than 26 options.** Score each option string under the prompt (teacher-forced), which also gives exact PMI correction for multi-word labels and lifts the letter-label cap. Needed for the full 77-way BANKING77 and for Jev's 255-option Choice.
-3. **Conformal abstention (L1).** Split-conformal threshold with a user-set target error rate; `decision.abstained` plus a coverage-risk curve in the bench.
-4. **Latency and throughput column.** p50 / p95 per decision for the transformers and vLLM backends, with prefix caching on, on a documented GPU. Today the HF path at 20 permutations is about 0.25 s per decision at batch 32 on one H100; the vLLM path is the fast one and has no published number yet.
-5. **Live demo.** The Gradio flip demo (`demo/app.py`) as a Hugging Face Space, and a GIF of it at the top of the README.
-6. **Llama and Gemma rows** in every table, so the claims are not one model family.
+Landed since v0.0.2 (in `main` as unreleased):
+
+- **Latency column.** `bench.latency`, never-seen states, transformers and vLLM: [docs/results_latency.md](docs/results_latency.md). L0 at K=20 on a 1000-token state went from 16.6x raw to 4.4x (transformers, shared prefix) and from 12.1x to 3.3x (vLLM, prefix caching on).
+- **Shared-prefix scoring.** `HFBackend.score_shared`: the state is computed once, the K option layouts are scored against its KV. One optional method on the backend protocol; automatic for prefixes of 256+ tokens.
+- **Adaptive shifts (opt-in).** `Decider(adaptive_shifts=True)` reads the cyclic shifts in a spread order and stops when the ones read so far agree after prior correction. `bench.adaptive_table` shows what it costs.
+- **Enforceable levels.** `decide(..., require="L1")` raises `LevelError` below the asked level.
+- **When L0 helps, and a safer default.** 221-point diagnostic plus a 164-unit offline replay of every prior rule: [docs/when_l0_helps.md](docs/when_l0_helps.md). Permutation is always safe; the batch prior hurts on skewed label marginals; the default is now the batch prior at strength 0.75 (`prior_strength`), the best mean gain with the smallest worst case.
+
+Still to do for v0.1:
+
+1. **Span readout for more than 26 options.** Score each option string under the prompt (teacher-forced), which also gives exact PMI correction and lifts the letter-label cap. Needed for the full 77-way BANKING77 and for Jev's 255-option Choice.
+2. **Conformal abstention (L1).** Split-conformal threshold with a user-set target error rate; `decision.abstained` plus a coverage-risk curve in the bench.
+3. **Llama and Gemma rows** (gated weights; seven other architectures are already in the tables).
+4. **Release 0.1.0** with the above and the `__version__` fix.
 
 ## After that (v0.2, October)
 

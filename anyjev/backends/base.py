@@ -19,3 +19,13 @@ class Backend(Protocol):
         Decision mode never samples; a backend that cannot expose restricted
         next-token logits is not a supported backend."""
         ...
+
+    # Optional. The K permutations of one state share everything up to the option
+    # list, so a backend that can reuse a prefix KV cache may implement
+    #
+    #     score_shared(groups: Sequence[Tuple[str, Sequence[str]]],
+    #                  token_ids: Sequence[Sequence[int]]) -> List[List[np.ndarray]]
+    #
+    # returning, for group g and suffix j, log p(token | groups[g][0] + groups[g][1][j])
+    # for token_ids[g], identical to next_token_logprobs on the concatenated text.
+    # The Decider uses it when present and falls back to next_token_logprobs otherwise.

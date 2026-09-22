@@ -27,6 +27,24 @@ def cyclic_shifts(k: int, max_permutations: Optional[int] = None) -> List[List[i
     return [[(j + s) % k for j in range(k)] for s in range(n)]
 
 
+def spread_order(k: int) -> List[int]:
+    """The order in which to read cyclic shifts when you may stop early: 0, k/2, k/4, 3k/4, k/8, ...
+    (the van der Corput sequence scaled to k). Consecutive shifts move every option by one
+    position, so the first few are nearly the same layout; spread shifts put each option in well
+    separated positions, so a short prefix of this order already approximates the full marginal."""
+    order, seen = [0], {0}
+    d = 2
+    while len(order) < k and d <= 4 * k:
+        for num in range(1, d, 2):
+            s = int(k * num / d) % k
+            if s not in seen:
+                seen.add(s)
+                order.append(s)
+        d *= 2
+    order.extend(s for s in range(k) if s not in seen)   # rounding can skip values
+    return order[:k]
+
+
 def marginalize(p_by_perm: np.ndarray, perms: Sequence[Sequence[int]],
                 combine: str = "logmean") -> np.ndarray:
     """p_by_perm: [P, K] distributions indexed by *position*.

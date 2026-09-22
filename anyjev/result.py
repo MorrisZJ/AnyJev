@@ -52,6 +52,11 @@ class Decision:
         centers = np.asarray(self.question.bin_centers())
         return float(np.dot(self.probs, centers))
 
+    def require(self, level: str) -> "Decision":
+        """Raise LevelError unless this decision carries at least `level`. Lets downstream
+        code refuse to act on an L0 probability where it needs an L1 one."""
+        return require_level(self, level)
+
     def to_dict(self) -> Dict[str, Any]:
         out: Dict[str, Any] = {
             "kind": self.question.kind,
@@ -72,6 +77,24 @@ class Decision:
         return f"Decision({self.question.id}: {self.answer!r}, conf={self.confidence:.3f}, level={self.level})"
 
 
+LEVEL_ORDER = {"raw": 0, "L0": 1, "L1": 2}
+
+
+class LevelError(ValueError):
+    """Raised when a decision does not carry the calibration level the caller required."""
+
+
+def require_level(decision: "Decision", level: str) -> "Decision":
+    if level not in LEVEL_ORDER:
+        raise ValueError(f"unknown level {level!r}; expected one of {list(LEVEL_ORDER)}")
+    if LEVEL_ORDER[decision.level] < LEVEL_ORDER[level]:
+        raise LevelError(
+            f"question {decision.question.id!r} is at level {decision.level}, caller requires {level}; "
+            + ("calibrate() it first" if level == "L1" else "decide() at a higher level")
+        )
+    return decision
+
+
 class DecisionSet:
     """Results for one state, addressable by question name or index."""
 
@@ -90,6 +113,12 @@ class DecisionSet:
 
     def __len__(self) -> int:
         return len(self._items)
+
+    def require(self, level: str) -> "DecisionSet":
+        """Raise LevelError unless every decision carries at least `level`."""
+        for d in self._items:
+            require_level(d, level)
+        return self
 
     def to_dict(self) -> Dict[str, Any]:
         return {"level": self.level, "questions": {d.question.id: d.to_dict() for d in self._items}}
