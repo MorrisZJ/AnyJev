@@ -86,6 +86,28 @@ art = d.calibrate(safe, calib_states, calib_labels)   # 100-500 条样本 -> L1 
 r = d.decide(state, [safe], level="L1")
 ```
 
+**State 里放图片。** 问题类型、级别都不变，换成视觉语言后端即可（`pip install "anyjev[vlm]"`，Qwen3-VL 需要 transformers ≥ 4.57）：
+
+```python
+from anyjev import Decider, Image, Question
+from anyjev.backends.hf_vlm import VLMBackend
+
+d = Decider(VLMBackend("Qwen/Qwen3-VL-2B-Instruct"))
+
+page = Question.choice("What is the user's screen showing?",
+                       ["a login form", "a payment page", "an error message", "something else"], name="page")
+stuck = Question.noul("Is the user blocked from continuing?", name="stuck")
+
+state = {"screenshot": Image("screenshot.png"), "note": "user says the app is stuck"}
+r = d.decide(state, [page, stuck])
+
+r["page"].distribution     # {"an error message": 0.99..., ...}
+r["stuck"].p_true
+r.level                    # "L0"
+```
+
+`Image` 接受路径、URL、bytes 或 PIL 图片，可以放在 state 的任何位置。位置去偏原样适用；是否使用 content-free 先验要看任务，契约和注意事项见 [docs/multimodal.md](docs/multimodal.md)。
+
 Benchmark 不在 wheel 里 —— 它需要数据集、结果目录和其他项目的代码，所以要从仓库里跑：
 
 ```bash
@@ -184,7 +206,7 @@ python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20
 
 ## 状态
 
-**v0.0.2。** 库、两个后端、三个 benchmark 都是真实可运行、实测过的。持续开发中 —— 带日期的计划在 [ROADMAP.md](ROADMAP.md)。**接下来：** 超过 26 个选项的 span 读法、conformal 弃答、延迟列、在线 demo、Llama 和 Gemma 行。**再之后：** Jev 兼容的 HTTP 服务端、更多后端、多模态 state。
+**v0.0.2。** 库、两个后端、三个 benchmark 都是真实可运行、实测过的。持续开发中 —— 带日期的计划在 [ROADMAP.md](ROADMAP.md)。**接下来：** 超过 26 个选项的 span 读法、conformal 弃答、延迟列、在线 demo、Llama 和 Gemma 行。**再之后：** Jev 兼容的 HTTP 服务端、更多后端。**v0.0.2 之后已合入：** 多模态 state（[docs/multimodal.md](docs/multimodal.md)）。
 
 后端和 benchmark provider 都是一个文件一个，其中几项标了 **help wanted** —— 见 [CONTRIBUTING.md](CONTRIBUTING.md)。已完成的改动：[CHANGELOG.md](CHANGELOG.md)。我们站在谁的肩膀上：[CREDITS.md](CREDITS.md)。
 

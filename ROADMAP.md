@@ -26,7 +26,7 @@ AnyJev is under active development. This file is the plan; `CHANGELOG.md` is wha
 - **Dirichlet calibration and histogram binning** as L1 alternatives to temperature scaling; per-question artifact files that can be shipped with a model.
 - **Multilingual slices** in the bench (MASSIVE intents, Chinese and Korean where the datasets allow).
 - **Batch-prior strength.** The batch prior over-corrects when the label marginal is skewed (seen on the maze). A shrinkage knob, and a way to estimate it without labels, is the open research item.
-- **Multimodal state.** A state can carry images (and later video frames or audio) next to text; the typed question and the readout do not change, only the prompt builder and the backend. Vision-language backends for transformers (`AutoModelForImageTextToText`: Qwen2.5-VL / Qwen3-VL, Gemma 3, LLaVA) and vLLM's multimodal server. Same L0 debiasing, same L1 artifacts, same level field. The open vision decision models (Laya Vision, PlayJev) become bench providers on the same inputs.
+- **Multimodal state** — *images landed early, see [docs/multimodal.md](docs/multimodal.md); transformers backend only so far, vLLM multimodal, video and audio still open.* A state can carry images (and later video frames or audio) next to text; the typed question and the readout do not change, only the prompt builder and the backend. Vision-language backends for transformers (`AutoModelForImageTextToText`: Qwen2.5-VL / Qwen3-VL, Gemma 3, LLaVA) and vLLM's multimodal server. Same L0 debiasing, same L1 artifacts, same level field. The open vision decision models (Laya Vision, PlayJev) become bench providers on the same inputs.
 
 ## Later (v0.3)
 

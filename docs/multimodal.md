@@ -1,0 +1,162 @@
+# Multimodal state
+
+A state can carry pictures next to its text. Nothing above the prompt builder
+changes: the same three typed questions, the same single-prefill readout, the
+same cyclic-shift marginalization, the same L1 artifacts, the same mandatory
+`level` on every `Decision`.
+
+```python
+from anyjev import Decider, Image, Question
+from anyjev.backends.hf_vlm import VLMBackend
+
+d = Decider(VLMBackend("Qwen/Qwen3-VL-2B-Instruct"))
+
+q = Question.choice("What is the user's screen showing?",
+                    ["a login form", "a payment page", "an error", "something else"],
+                    name="screen")
+r = d.decide({"screenshot": Image("shot.png"), "note": "user says it is stuck"}, [q])
+
+r["screen"].distribution
+r.level                      # "L0"
+```
+
+## Putting an image in a state
+
+`anyjev.Image` takes a path, a URL, a `data:` URI, raw bytes, or a PIL image.
+Nothing is decoded until a backend asks for it.
+
+Images may sit anywhere in the state — on their own, as a dict value, or in a
+chat transcript. `split_state` walks the structure, replaces each picture with
+an `<image i>` marker in traversal order, and returns the text and the ordered
+images separately. The readout then splits the user turn at those markers, so
+a picture lands in the prompt where it sat in the state rather than all of
+them bundled up front.
+
+```python
+Image("shot.png")                                   # on its own
+{"screenshot": Image("shot.png"), "note": "..."}    # a field of a dict
+[{"role": "user", "content": [                      # a chat turn
+    {"type": "image", "image": "shot.png"},
+    {"type": "text", "text": "what is wrong here?"}]}]
+```
+
+PIL images are recognized directly. A bare string is *not*: a path and a
+sentence look the same to a walker, so strings must be wrapped in `Image` or
+declared with a `{"type": "image", ...}` content part.
+
+If your own text already contains something that looks like a marker — an
+MMMU question that says "look at `<image 1>`", a note that mentions
+`<image 2>` — nothing breaks: each picture is placed once, at the first marker
+that names it, a repeat or a marker with no such picture stays as text, and
+the backend receives the pictures in exactly the order their placeholders
+appear (`anyjev.readout.prompt_images`).
+
+A state with no pictures renders exactly as it did before there was a
+`split_state`, and text-only backends are untouched.
+
+## What the corrections mean when the state is pixels
+
+**Position bias** is unchanged: the option list is still text, still shown in
+K cyclic rotations, still combined in log space. Whether a vision model's
+position bias is as large as a text model's is an empirical question, and the
+bench reports it the same way — `flip` is still the fraction of items whose
+answer changes when the option list is reversed.
+
+**Prior correction** needed one decision. The content-free probe exists to ask
+"what does this model answer when the input carries no information?", and with
+a picture in the state, blanking only the text does not do that — the image
+still carries the content. So the probe blanks *every* modality: the text
+becomes `N/A` / empty / `[MASK]` as before, and each picture is replaced by a
+flat grey image of a fixed size (`anyjev.media.CF_IMAGE_SIZE`). The probe
+keeps the shape of a real prompt — same question, same number of images — so
+the prior it measures is comparable to the real distribution it divides out.
+
+The probe is cached per `(question, number of images)` rather than per
+question, and shared across every state with that many pictures, so a
+300-item bench pays for it once.
+
+The batch prior needs no change: it is the mean prediction over real inputs
+and does not care what those inputs are made of.
+
+## Which prior to use: measured, and it depends on the task
+
+The default does not change with the modality: L0 uses the batch prior, as on
+text, and the multimodal bench reports that default exactly as the text bench
+does, with the content-free prior as an ablation row from the same forward
+passes ([results](results_multimodal.md)). What follows is guidance for
+opting in. Position debiasing helped on every task; the content-free prior
+did not behave like something you can switch on blind:
+
+- **POPE** (is this object in the image?): the content-free prior is the
+  largest win in the whole multimodal bench — 8B accuracy 0.843 → 0.903, ECE
+  0.143 → 0.060. The batch prior does almost nothing, because the true Yes
+  rate is exactly 0.5 and the model's *mean* prediction sits close to it: the
+  Yes-lean only shows when the picture is blanked.
+- **pets20** (which breed?): the batch prior helps and the content-free prior
+  changes nothing.
+- **AI2D** (per-item science-diagram questions): the content-free prior costs
+  8 to 24 accuracy points. The question and its options often give the answer
+  away without the diagram, so the blank-image probe measures what the model
+  knows, and dividing that out throws the knowledge away.
+
+The working rule for opting in: the content-free prior is only safe when the
+text half of the prompt carries no answer on its own, and only useful when
+there is a label prior to remove. It is a per-task choice — the bench prints
+the row for free, so measure it rather than assume it.
+
+**L1 has a limit here too.** Temperature scaling minimizes NLL. On POPE the
+4B and 8B errors are confident hallucinations ("yes, there is a snowboard", at
+0.999), which dominate the NLL, so the fitted temperature flattens every
+answer to shrink them: test NLL falls (8B 0.653 → 0.376) while ECE *rises*
+(0.060 → 0.150). One scalar cannot fix confident wrong answers, which is the
+README's "calibration cannot fix a model that cannot answer" in a new form.
+
+## Backends
+
+The backend contract grows one optional argument:
+
+```python
+next_token_logprobs(prompts, token_ids, images=None)
+```
+
+`images[i]` is the ordered list of `Image` for prompt `i`, one per placeholder
+the chat template rendered. A backend that handles them sets
+`accepts_images = True`; the decider only passes the argument when a state
+actually carries a picture, and raises a clear error if a state has images and
+the backend does not. Text-only backends are unchanged.
+
+Vision models keep their chat template on the processor rather than the
+tokenizer, because only the processor knows how many tokens a picture expands
+to. A backend can point at it with `chat_renderer`; the decider falls back to
+the tokenizer.
+
+`anyjev.backends.hf_vlm.VLMBackend` is the transformers implementation
+(`AutoModelForImageTextToText`, so Qwen2.5-VL / Qwen3-VL, Gemma 3, LLaVA and
+the rest load through the same path). It needs transformers ≥ 4.57 for
+Qwen3-VL.
+
+### One thing that would have been a silent bug
+
+The text backend passes explicit `position_ids` so that left padding does not
+shift positions. A vision model with multimodal rope derives its position ids
+from the image grid, and handing it the text backend's positions corrupts
+them. `VLMBackend` therefore does not pass `position_ids` and lets the model
+compute them.
+
+`scripts/smoke_vlm.py` checks this by running the same prompts at batch size 1
+and at batch size 8, with image sizes and caption lengths chosen to differ so
+that padding actually varies within a batch. On Qwen3-VL-2B-Instruct the
+answer distributions agree to `5.6e-10` and the argmax agrees 9/9. The raw
+log-probabilities differ by up to 0.25 nats, but only on labels below `1e-9`
+probability, which is bf16 rounding and not a disagreement that can reach a
+decision — the same caveat the vLLM parity check reports.
+
+## Cost
+
+A `choice` with K options still costs K prefills per decision, all sharing the
+state prefix. The difference is that the prefix now contains the image tokens,
+so the prefill is longer: at the processor's default budget a single image is
+several hundred tokens, and `VLMBackend(max_pixels=...)` caps it. Images are
+decoded once per distinct prompt, not once per permutation — the decider
+deduplicates on `(text, image keys)`, so the K rotations of one state reuse
+one decoded picture.

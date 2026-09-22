@@ -86,6 +86,28 @@ art = d.calibrate(safe, calib_states, calib_labels)   # 100-500 examples -> L1 a
 r = d.decide(state, [safe], level="L1")
 ```
 
+**Images in the state.** Same questions, same levels, a vision-language backend (`pip install "anyjev[vlm]"`, transformers ≥ 4.57 for Qwen3-VL):
+
+```python
+from anyjev import Decider, Image, Question
+from anyjev.backends.hf_vlm import VLMBackend
+
+d = Decider(VLMBackend("Qwen/Qwen3-VL-2B-Instruct"))
+
+page = Question.choice("What is the user's screen showing?",
+                       ["a login form", "a payment page", "an error message", "something else"], name="page")
+stuck = Question.noul("Is the user blocked from continuing?", name="stuck")
+
+state = {"screenshot": Image("screenshot.png"), "note": "user says the app is stuck"}
+r = d.decide(state, [page, stuck])
+
+r["page"].distribution     # {"an error message": 0.99..., ...}
+r["stuck"].p_true
+r.level                    # "L0"
+```
+
+`Image` takes a path, URL, bytes, or a PIL image, anywhere in the state. Position debiasing carries over unchanged; whether to use the content-free prior depends on the task — contract and caveats in [docs/multimodal.md](docs/multimodal.md).
+
 The benchmark is not in the wheel — it needs the datasets, the results directory, and the other projects' code, so it runs from a checkout:
 
 ```bash
@@ -184,7 +206,7 @@ We would rather you find these here than in production.
 
 ## Status
 
-**v0.0.2.** The library, both backends, and all three benches are real and measured. Actively developed — the plan with dates is in [ROADMAP.md](ROADMAP.md). **Next up:** span readout beyond 26 options, conformal abstention, a latency column, a live demo, Llama and Gemma rows. **After that:** a Jev-compatible HTTP server, more backends, multimodal state.
+**v0.0.2.** The library, both backends, and all three benches are real and measured. Actively developed — the plan with dates is in [ROADMAP.md](ROADMAP.md). **Next up:** span readout beyond 26 options, conformal abstention, a latency column, a live demo, Llama and Gemma rows. **After that:** a Jev-compatible HTTP server, more backends. **Landed since v0.0.2:** multimodal state ([docs/multimodal.md](docs/multimodal.md)).
 
 Backends and bench providers are one file each and several are marked **help wanted** — see [CONTRIBUTING.md](CONTRIBUTING.md). What landed: [CHANGELOG.md](CHANGELOG.md). Who we build on: [CREDITS.md](CREDITS.md).
 
