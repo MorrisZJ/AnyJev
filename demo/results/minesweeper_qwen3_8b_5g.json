@@ -1,0 +1,260 @@
+{
+ "game": "minesweeper",
+ "model": "Qwen/Qwen3-8B",
+ "levels": [
+  "raw",
+  "L0",
+  "L1"
+ ],
+ "board": [
+  8,
+  8,
+  10
+ ],
+ "games": [
+  {
+   "seed": 0,
+   "raw \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.42592592592592593,
+    "turns": 3,
+    "death": {
+     "turn": 3,
+     "p_mine_true": 0.2,
+     "safest_available": 0.0
+    }
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.5370370370370371,
+    "turns": 9,
+    "death": {
+     "turn": 9,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.5370370370370371,
+    "turns": 9,
+    "death": {
+     "turn": 9,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   }
+  },
+  {
+   "seed": 1,
+   "raw \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7592592592592593,
+    "turns": 3,
+    "death": {
+     "turn": 3,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7222222222222222,
+    "turns": 1,
+    "death": {
+     "turn": 1,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7222222222222222,
+    "turns": 1,
+    "death": {
+     "turn": 1,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   }
+  },
+  {
+   "seed": 2,
+   "raw \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.8518518518518519,
+    "turns": 8,
+    "death": {
+     "turn": 8,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7777777777777778,
+    "turns": 6,
+    "death": {
+     "turn": 6,
+     "p_mine_true": 0.5,
+     "safest_available": 0.0
+    }
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7777777777777778,
+    "turns": 6,
+    "death": {
+     "turn": 6,
+     "p_mine_true": 0.5,
+     "safest_available": 0.0
+    }
+   }
+  },
+  {
+   "seed": 3,
+   "raw \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7037037037037037,
+    "turns": 1,
+    "death": {
+     "turn": 1,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7407407407407407,
+    "turns": 3,
+    "death": {
+     "turn": 3,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7407407407407407,
+    "turns": 3,
+    "death": {
+     "turn": 3,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   }
+  },
+  {
+   "seed": 4,
+   "raw \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7777777777777778,
+    "turns": 2,
+    "death": {
+     "turn": 2,
+     "p_mine_true": 0.3333333333333333,
+     "safest_available": 0.0
+    }
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7962962962962963,
+    "turns": 3,
+    "death": {
+     "turn": 3,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   },
+   "L1 \u00b7 Qwen3-8B": {
+    "won": false,
+    "cleared": 0.7962962962962963,
+    "turns": 3,
+    "death": {
+     "turn": 3,
+     "p_mine_true": 1.0,
+     "safest_available": 0.0
+    }
+   }
+  }
+ ],
+ "baselines": {
+  "random": [
+   {
+    "won": false,
+    "cleared": 0.42592592592592593,
+    "turns": 3
+   },
+   {
+    "won": false,
+    "cleared": 0.7222222222222222,
+    "turns": 1
+   },
+   {
+    "won": false,
+    "cleared": 0.7777777777777778,
+    "turns": 4
+   },
+   {
+    "won": false,
+    "cleared": 0.7037037037037037,
+    "turns": 1
+   },
+   {
+    "won": false,
+    "cleared": 0.7592592592592593,
+    "turns": 1
+   }
+  ],
+  "oracle": [
+   {
+    "won": true,
+    "cleared": 1.0,
+    "turns": 19
+   },
+   {
+    "won": true,
+    "cleared": 1.0,
+    "turns": 15
+   },
+   {
+    "won": true,
+    "cleared": 1.0,
+    "turns": 14
+   },
+   {
+    "won": true,
+    "cleared": 1.0,
+    "turns": 16
+   },
+   {
+    "won": true,
+    "cleared": 1.0,
+    "turns": 13
+   }
+  ]
+ },
+ "summary": {
+  "raw \u00b7 Qwen3-8B": {
+   "decisions": 17,
+   "agree": 0.7058823529411765,
+   "regret": 0.20784313725490197,
+   "ece": 0.29804483500364337,
+   "brier": 0.5779610370172401
+  },
+  "L0 \u00b7 Qwen3-8B": {
+   "decisions": 22,
+   "agree": 0.5454545454545454,
+   "regret": 0.2537878787878788,
+   "ece": 0.28110915270453024,
+   "brier": 0.34993612927472256
+  },
+  "L1 \u00b7 Qwen3-8B": {
+   "decisions": 22,
+   "agree": 0.5454545454545454,
+   "regret": 0.2537878787878788,
+   "ece": 0.3067671300032547,
+   "brier": 0.4575255562982345
+  }
+ }
+}

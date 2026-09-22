@@ -1,0 +1,97 @@
+{
+ "game": "2048",
+ "model": "Qwen/Qwen3-8B",
+ "levels": [
+  "raw",
+  "L0"
+ ],
+ "oracle_depth": 2,
+ "games": [
+  {
+   "seed": 0,
+   "steps": 55,
+   "raw \u00b7 Qwen3-8B": {
+    "score": 304,
+    "max_tile": 32,
+    "moves": 55
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "score": 208,
+    "max_tile": 16,
+    "moves": 47
+   }
+  },
+  {
+   "seed": 1,
+   "steps": 71,
+   "raw \u00b7 Qwen3-8B": {
+    "score": 448,
+    "max_tile": 32,
+    "moves": 71
+   },
+   "L0 \u00b7 Qwen3-8B": {
+    "score": 348,
+    "max_tile": 32,
+    "moves": 60
+   }
+  }
+ ],
+ "baselines": {
+  "random": [
+   {
+    "score": 1100,
+    "max_tile": 128,
+    "moves": 115
+   },
+   {
+    "score": 1372,
+    "max_tile": 128,
+    "moves": 139
+   }
+  ],
+  "first-listed": [
+   {
+    "score": 420,
+    "max_tile": 32,
+    "moves": 68
+   },
+   {
+    "score": 1428,
+    "max_tile": 128,
+    "moves": 147
+   }
+  ],
+  "oracle": [
+   {
+    "score": 6220,
+    "max_tile": 512,
+    "moves": 400
+   },
+   {
+    "score": 6220,
+    "max_tile": 512,
+    "moves": 400
+   }
+  ]
+ },
+ "summary": {
+  "raw \u00b7 Qwen3-8B": {
+   "decisions": 126,
+   "agree": 0.18253968253968253,
+   "regret": 0.6385492139214526,
+   "ece": 0.7396732130358911,
+   "brier": 1.5106528976636469,
+   "flip": 0.4603174603174603,
+   "illegal_mass": 0.0001349068747466392
+  },
+  "L0 \u00b7 Qwen3-8B": {
+   "decisions": 107,
+   "agree": 0.21495327102803738,
+   "regret": 0.5814692684488889,
+   "ece": 0.5689490723964181,
+   "brier": 1.256313010239764,
+   "flip": 0.4953271028037383,
+   "illegal_mass": 0.00029541272734705964
+  }
+ }
+}
