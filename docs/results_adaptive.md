@@ -1,10 +1,12 @@
 # Adaptive cyclic shifts: what early stopping costs
 
 Opt-in: `Decider(adaptive_shifts=True, adaptive_min_shifts=2, adaptive_margin=0.1, adaptive_order="spread")`.
-The shifts are read one at a time; after each, every shift read so far is prior-corrected and the item stops
+From `bench/results_adaptive_m0.05`, `bench/results_adaptive_m0.1`, `bench/results_adaptive_m0.2` and
+`bench/results_adaptive_spread_m0.1` (2026-09-21). The shifts are read one at a time; after each, every shift read so far is prior-corrected and the item stops
 when they all agree on the winner and the running marginal's top-1 minus top-2 probability clears the
 margin. The marginal is then an average over the shifts actually read. Two tasks (K=20, n=300), full L0 as
-the reference, batch prior, one H100. Regenerate with `bench.run --adaptive` and `bench.adaptive_table`.
+the reference, batch prior, one H100. Regenerate with `bench.run --adaptive` (add `--adaptive-order consecutive` for the consecutive column;
+`--adaptive-order spread` is the default) and `bench.adaptive_table`.
 
 ## Reading order matters more than the margin
 

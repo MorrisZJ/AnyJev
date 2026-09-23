@@ -24,7 +24,6 @@ raw logits / AnyJev L0 / AnyJev L1**。顺序：迷宫 → 贪吃蛇 → ViZDoom
 | `handoff/games/maze_dev_probs.py` | 在开发迷宫（seed 20000–20004）上预计算 raw/L0/L1 对**每个格子**的概率 |
 | `handoff/games/dev_probs.Qwen3-8B.json` | 上面脚本的输出（Qwen3-8B） |
 | `handoff/games/maze_sim.py` + `maze_sim_output.txt` | 用预计算概率离线模拟 4 种策略 × 读出方式 + "闭眼全试"基线，及其结果 |
-| `handoff/games/superseded/` | **已作废**的第一版设计（threshold 策略、无罚分）在测试 seed 0、1 上的真实结果和日志；`style_preview_seed1_NOT_FOR_README.png` 只是渲染风格预览，**不能**当 README 素材（旧设计 + 不是事先声明的 seed） |
 
 ## 种子约定（防止挑结果）
 
@@ -37,7 +36,7 @@ raw logits / AnyJev L0 / AnyJev L1**。顺序：迷宫 → 贪吃蛇 → ViZDoom
 1. **模型有感知信号，但 raw 概率按方向严重偏置。** 400 个开发视野上的 AUC：北 0.90、东 0.99、南 0.90、西 0.78。
    但 raw 的北向平均 P(open) 只有 0.18，真实开放率是 0.51，所以准确率只有 0.62。
    batch prior 的 L0 把准确率提高到 0.67–0.75；content-free prior 在这里很差（0.52–0.61），不要用。
-2. **旧设计（threshold 0.5、撞墙不罚分）在测试 seed 0 上**：raw 3764 步到达出口；L0、L1 都用完 5202 步没到出口，
+2. **旧设计（threshold 0.5、撞墙不罚分，已作废；其结果 JSON 不在本仓库）在测试 seed 0 上**：raw 3764 步到达出口；L0、L1 都用完 5202 步没到出口，
    尽管它们的边准确率（0.69）和 Brier（0.25 / 0.19）都比 raw（0.64 / 0.30）好。seed 1 上反过来：L0 965 步，raw 5128 步。方差很大。
 3. **开发迷宫离线模拟**（`maze_sim_output.txt`，5 个迷宫的平均步数）：
 
@@ -62,7 +61,7 @@ raw logits / AnyJev L0 / AnyJev L1**。顺序：迷宫 → 贪吃蛇 → ViZDoom
 - `scripts/make_maze_gif.py` 用"第几次移动"当时钟；有撞墙罚分时应该改用每个事件里的 `t` 字段（累计步数）。
 - 渲染观感：撞墙红色太抢眼，"exit reached" 徽章会压住迷宫右下角的出口，可以调。
 - 迷宫结论还没写进 `docs/`，最后应该放到 `docs/results_games.md`，作为诚实的负面结果。
-- 可以试 Qwen3-32B（缓存里有），看看感知能不能过 90% 这条线；这个还没跑。
+- 可以试 Qwen3-32B，看看感知能不能过 90% 这条线；这个还没跑。
 
 ## 下一步：贪吃蛇（已确认的方案，未开始）
 
@@ -80,24 +79,21 @@ raw logits / AnyJev L0 / AnyJev L1**。顺序：迷宫 → 贪吃蛇 → ViZDoom
 ## 之后：ViZDoom Basic
 
 负责人选的是**文本标签 state**：用 ViZDoom 的 labels buffer 取出敌人的屏幕位置写成文本，
-`choice` 在 left / right / shoot 里选，用 main 上的纯文本后端。`vizdoom` 是 MIT 协议，
-但这台机器连 PyPI 很慢（之前下载超时过），装的时候加 `--timeout`。新依赖和数据集按 AGENTS.md 要先问负责人，并记到 `THIRD_PARTY.md`。
+`choice` 在 left / right / shoot 里选，用 main 上的纯文本后端。`vizdoom` 是 MIT 协议。
+新依赖和数据集按 AGENTS.md 要先问负责人，并记到 `THIRD_PARTY.md`。
 
 ## 环境
 
-- Python：`/mnt/persist/venvs/anyjev-vl/bin/python`（torch 2.5.1、transformers 4.57.6、matplotlib、PIL）。
-  ruff 用 `/usr/local/bin/ruff`（venv 里的 ruff 包找不到二进制）。
-- 模型缓存：`HF_HOME=/mnt/persist/hf-cache`，里面有 Qwen3-0.6B / 8B / 32B / 30B-A3B。
-- GPU：4 张 H100 NVL，前 3 张有别人的任务在跑，用 `CUDA_VISIBLE_DEVICES=3`。
-- 常用命令（在仓库根目录跑）：
+- 从仓库根目录跑；需要 `pip install -e ".[hf,bench,dev]"`（torch、transformers、datasets）以及渲染用的 PIL。
+- 常用命令：
 
 ```bash
-CUDA_VISIBLE_DEVICES=3 python -m bench.run_maze --model Qwen/Qwen3-8B --seeds 0,1,2,3,4
+python -m bench.run_maze --model Qwen/Qwen3-8B --seeds 0,1,2,3,4
 python scripts/make_maze_gif.py bench/results_games/<date>/maze.Qwen__Qwen3-8B.json --seed 0
-CUDA_VISIBLE_DEVICES=3 python handoff/games/maze_dev_probs.py Qwen/Qwen3-8B     # 大约 15 分钟
+python handoff/games/maze_dev_probs.py Qwen/Qwen3-8B     # 大约 15 分钟
 python handoff/games/maze_sim.py handoff/games/dev_probs.Qwen3-8B.json
 python handoff/games/maze_probe.py Qwen/Qwen3-8B
-ruff check anyjev bench tests && pytest -q
+ruff check anyjev bench demo handoff scripts space tests && pytest -q
 ```
 
 - 迷宫单局在 H100 上 30–120 秒；5 个开发迷宫全格子预计算大约 15 分钟。
