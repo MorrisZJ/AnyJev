@@ -1,3 +1,5 @@
+> Looking for the Jev-mode (L2) demo? `python -m demo.jev_mode --backend fake` runs it on the synthetic model in seconds; `--lifecycle` plays the deployment lifecycle (day 0 at L0, `observe()` solving the head at 30 labels, a rewording recentred from traffic, export / restart / load); `python -m demo.jev_mode` runs the shipped heads on a real model (Qwen3-4B on a GPU, Qwen3-1.7B on a CPU; `demo/jev_mode.py`).
+
 # Games as decision benchmarks
 
 Two games, one model, one typed question each. The game engine carries an oracle, so every
@@ -42,6 +44,12 @@ model's probabilities are compared with the true ones cell by cell:
 - **ece / brier**: P(safe) of every candidate against whether it was a mine;
 - **|P − exact|**: mean gap between the model's P(safe) and the exact posterior;
 - **board cleared / win rate**: coverage at the risk the model chose for itself.
+
+The five-game runs behind the top-level README's Minesweeper sentence are
+`../results/minesweeper_qwen3_8b_5g.json` and `../results/minesweeper_qwen3_32b_5g.json`.
+The 2048 sentence there quotes `../results/twenty48_qwen3_8b_5g.json`; `../results/twenty48_qwen3_8b.json`
+and `../results/twenty48_qwen3_8b_preview.json` are the earlier two-game runs on the first two of the
+same seeds, kept only so the five-game run can be compared with them.
 
 L1 fits a temperature on self-play cells labelled by the game (the oracle plays, every
 candidate of every turn is one labelled example). The first click is free and fixed at the

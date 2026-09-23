@@ -1,0 +1,1207 @@
+{
+ "backend": "hf",
+ "model": "Qwen/Qwen3-4B",
+ "device": "cuda",
+ "dtype": "bfloat16",
+ "batch_size": 16,
+ "heads_file": "anyjev-heads/Qwen__Qwen3-4B.json",
+ "heads_block": 24,
+ "n_blocks": 36,
+ "n_test": 100,
+ "reword": "w2",
+ "adapt_after": 30,
+ "fit_labels": 50,
+ "model_load_seconds": 7.846808385103941,
+ "levels": {
+  "agent_trace_observability.action": {
+   "kind": "choice",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.57,
+    "ece": 0.3645388695079264,
+    "n": 100,
+    "prompts_per_decision": 4,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 38.04465301334858,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.67,
+    "ece": 0.09524978489576931,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 7.190309930592775,
+    "readout": "head:lda"
+   }
+  },
+  "agent_trace_observability.needs_review": {
+   "kind": "noul",
+   "K": 2,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.64,
+    "ece": 0.33189211121265577,
+    "n": 100,
+    "prompts_per_decision": 2,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 18.090216116979718,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.88,
+    "ece": 0.08837234561749,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 7.007305882871151,
+    "readout": "head:lda"
+   }
+  },
+  "agent_trace_observability.outcome": {
+   "kind": "choice",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.58,
+    "ece": 0.33694144327371023,
+    "n": 100,
+    "prompts_per_decision": 4,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 40.26644565165043,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.8,
+    "ece": 0.10550024961210348,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 7.301380364224315,
+    "readout": "head:lda"
+   }
+  },
+  "agent_trace_observability.risk": {
+   "kind": "score",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.45,
+    "ece": 0.49983559535706734,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 10.599380852654576,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.8,
+    "ece": 0.09338846952016606,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 7.451683329418302,
+    "readout": "head:lda"
+   }
+  },
+  "agent_trace_observability.urgency": {
+   "kind": "score",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.11,
+    "ece": 0.8346132841811358,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 9.956295806914568,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.7,
+    "ece": 0.1612368598852784,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 6.8334210105240345,
+    "readout": "head:lda"
+   }
+  },
+  "customer_service.action": {
+   "kind": "choice",
+   "K": 5,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.62,
+    "ece": 0.33731538308827175,
+    "n": 100,
+    "prompts_per_decision": 5,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 53.848201083019376,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.67,
+    "ece": 0.1373670632699318,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 13.881435478106141,
+    "readout": "head:ridge"
+   }
+  },
+  "customer_service.category": {
+   "kind": "choice",
+   "K": 5,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.93,
+    "ece": 0.05508342369305427,
+    "n": 100,
+    "prompts_per_decision": 5,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 51.33193438872695,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.97,
+    "ece": 0.052315019924734356,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 13.254703609272838,
+    "readout": "head:ridge"
+   }
+  },
+  "customer_service.churn_risk": {
+   "kind": "score",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.5,
+    "ece": 0.4274405699037912,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 18.771947044879198,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.86,
+    "ece": 0.07879432908530885,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 13.00703490152955,
+    "readout": "head:lda"
+   }
+  },
+  "customer_service.needs_human": {
+   "kind": "noul",
+   "K": 2,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.68,
+    "ece": 0.306572911354891,
+    "n": 100,
+    "prompts_per_decision": 2,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 33.96548492833972,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.75,
+    "ece": 0.12134921368335404,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 12.526500634849072,
+    "readout": "head:lda"
+   }
+  },
+  "customer_service.urgency": {
+   "kind": "score",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.71,
+    "ece": 0.23907727875537088,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 18.58391184359789,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.82,
+    "ece": 0.08450476411895687,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 12.827313160523772,
+    "readout": "head:lda"
+   }
+  },
+  "invoice_processing.discrepancy_severity": {
+   "kind": "score",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.3,
+    "ece": 0.46091766122161004,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 19.425074998289347,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.85,
+    "ece": 0.1387599909626439,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 13.41292817145586,
+    "readout": "head:lda"
+   }
+  },
+  "invoice_processing.disposition": {
+   "kind": "choice",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.46,
+    "ece": 0.5348815367898315,
+    "n": 100,
+    "prompts_per_decision": 4,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 38.46372569911182,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.76,
+    "ece": 0.10266169123435082,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 13.632849529385567,
+    "readout": "head:ridge"
+   }
+  },
+  "invoice_processing.duplicate": {
+   "kind": "noul",
+   "K": 2,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.82,
+    "ece": 0.16075551363975496,
+    "n": 100,
+    "prompts_per_decision": 2,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 34.681461257860065,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.91,
+    "ece": 0.05788495190434005,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 12.205604668706656,
+    "readout": "head:ridge"
+   }
+  },
+  "invoice_processing.matches_order": {
+   "kind": "noul",
+   "K": 2,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.54,
+    "ece": 0.4589388350464252,
+    "n": 100,
+    "prompts_per_decision": 2,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 37.07949562929571,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.96,
+    "ece": 0.08595794968113157,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 12.974552912637591,
+    "readout": "head:ridge"
+   }
+  },
+  "invoice_processing.urgency": {
+   "kind": "score",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.61,
+    "ece": 0.25305590001097134,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 19.522943180054426,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.63,
+    "ece": 0.15425549516624815,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 13.375738924369216,
+    "readout": "head:ridge"
+   }
+  },
+  "security_incidents.credential_compromise": {
+   "kind": "noul",
+   "K": 2,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.66,
+    "ece": 0.33197950498405915,
+    "n": 100,
+    "prompts_per_decision": 2,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 27.57685431279242,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.7,
+    "ece": 0.15910218744321422,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 9.792238660156727,
+    "readout": "head:lda"
+   }
+  },
+  "security_incidents.disposition": {
+   "kind": "choice",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.55,
+    "ece": 0.3418794274155447,
+    "n": 100,
+    "prompts_per_decision": 4,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 35.73661778122187,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.8,
+    "ece": 0.1447239300411307,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 11.364259971305728,
+    "readout": "head:lda"
+   }
+  },
+  "security_incidents.severity": {
+   "kind": "score",
+   "K": 5,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.68,
+    "ece": 0.2850181485397613,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 16.38202888891101,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.73,
+    "ece": 0.13712837958279894,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 11.540548475459218,
+    "readout": "head:lda"
+   }
+  },
+  "security_incidents.true_positive": {
+   "kind": "noul",
+   "K": 2,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.45,
+    "ece": 0.5180917397053804,
+    "n": 100,
+    "prompts_per_decision": 2,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 29.531087642535567,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.83,
+    "ece": 0.13217075014822086,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 10.5348268058151,
+    "readout": "head:ridge"
+   }
+  },
+  "security_incidents.urgency": {
+   "kind": "score",
+   "K": 4,
+   "n": 100,
+   "shipped_head": true,
+   "L0": {
+    "acc": 0.52,
+    "ece": 0.35795852426558733,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 36,
+    "n_blocks": 36,
+    "ms_per_decision": 15.649178363382816,
+    "readout": "L0"
+   },
+   "L2": {
+    "acc": 0.59,
+    "ece": 0.12441484994046888,
+    "n": 100,
+    "prompts_per_decision": 1,
+    "blocks_executed": 24,
+    "n_blocks": 36,
+    "ms_per_decision": 10.99289988167584,
+    "readout": "head:lda"
+   }
+  },
+  "pooled": {
+   "n": 2000,
+   "L0": {
+    "acc": 0.569,
+    "ece": 0.3681500547638886
+   },
+   "L2": {
+    "acc": 0.784,
+    "ece": 0.04123669631743205
+   }
+  }
+ },
+ "routing": {
+  "agent_trace_observability.action": {
+   "reworded_text": "Given this trace, decide what the observability system does next.",
+   "exact": 0.67,
+   "routed_from": "action",
+   "as_is": {
+    "acc": 0.54,
+    "flip_vs_exact": 0.19,
+    "routed_from": "action"
+   },
+   "recentred": {
+    "acc": 0.61,
+    "flip_vs_exact": 0.11,
+    "routed_from": "action",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": {
+    "acc": 0.64,
+    "flip_vs_exact": 0.06,
+    "reordered": true
+   },
+   "l0_reworded": 0.56,
+   "variant": "w2"
+  },
+  "agent_trace_observability.needs_review": {
+   "reworded_text": "Is the following statement true? This run should be looked at by a person.\nYes means: A human should inspect this run.\nNo means: No human attention is warranted.",
+   "exact": 0.88,
+   "routed_from": "needs_review",
+   "as_is": {
+    "acc": 0.76,
+    "flip_vs_exact": 0.2,
+    "routed_from": "needs_review"
+   },
+   "recentred": {
+    "acc": 0.77,
+    "flip_vs_exact": 0.19,
+    "routed_from": "needs_review",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.53,
+   "variant": "w2"
+  },
+  "agent_trace_observability.outcome": {
+   "reworded_text": "Classify the result of this agent's run.",
+   "exact": 0.8,
+   "routed_from": "outcome",
+   "as_is": {
+    "acc": 0.78,
+    "flip_vs_exact": 0.15,
+    "routed_from": "outcome"
+   },
+   "recentred": {
+    "acc": 0.76,
+    "flip_vs_exact": 0.18,
+    "routed_from": "outcome",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": {
+    "acc": 0.63,
+    "flip_vs_exact": 0.25,
+    "reordered": true
+   },
+   "l0_reworded": 0.6,
+   "variant": "w2"
+  },
+  "agent_trace_observability.risk": {
+   "reworded_text": "Rate the riskiness of what the agent did in this trace.",
+   "exact": 0.8,
+   "routed_from": "risk",
+   "as_is": {
+    "acc": 0.62,
+    "flip_vs_exact": 0.28,
+    "routed_from": "risk"
+   },
+   "recentred": {
+    "acc": 0.75,
+    "flip_vs_exact": 0.13,
+    "routed_from": "risk",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.46,
+   "variant": "w2"
+  },
+  "agent_trace_observability.urgency": {
+   "reworded_text": "Rate how urgently this trace needs attention.",
+   "exact": 0.7,
+   "routed_from": "urgency",
+   "as_is": {
+    "acc": 0.59,
+    "flip_vs_exact": 0.45,
+    "routed_from": "urgency"
+   },
+   "recentred": {
+    "acc": 0.65,
+    "flip_vs_exact": 0.24,
+    "routed_from": "urgency",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.13,
+   "variant": "w2"
+  },
+  "customer_service.action": {
+   "reworded_text": "Decide the next action for the assistant in this conversation.",
+   "exact": 0.67,
+   "routed_from": "action",
+   "as_is": {
+    "acc": 0.61,
+    "flip_vs_exact": 0.15,
+    "routed_from": "action"
+   },
+   "recentred": {
+    "acc": 0.66,
+    "flip_vs_exact": 0.17,
+    "routed_from": "action",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": {
+    "acc": 0.55,
+    "flip_vs_exact": 0.2,
+    "reordered": true
+   },
+   "l0_reworded": 0.58,
+   "variant": "w2"
+  },
+  "customer_service.category": {
+   "reworded_text": "Categorise the primary subject of this customer conversation.",
+   "exact": 0.97,
+   "routed_from": "category",
+   "as_is": {
+    "acc": 0.9,
+    "flip_vs_exact": 0.09,
+    "routed_from": "category"
+   },
+   "recentred": {
+    "acc": 0.87,
+    "flip_vs_exact": 0.1,
+    "routed_from": "category",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": {
+    "acc": 0.94,
+    "flip_vs_exact": 0.08,
+    "reordered": true
+   },
+   "l0_reworded": 0.94,
+   "variant": "w2"
+  },
+  "customer_service.churn_risk": {
+   "reworded_text": "Rate the risk that this customer churns as a result of this interaction.",
+   "exact": 0.86,
+   "routed_from": "churn_risk",
+   "as_is": {
+    "acc": 0.85,
+    "flip_vs_exact": 0.05,
+    "routed_from": "churn_risk"
+   },
+   "recentred": {
+    "acc": 0.86,
+    "flip_vs_exact": 0.08,
+    "routed_from": "churn_risk",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.46,
+   "variant": "w2"
+  },
+  "customer_service.needs_human": {
+   "reworded_text": "Is the following statement true? This conversation should be taken over by a person instead of being handled automatically.\nYes means: A human must take over: judgement, authority or empathy is required.\nNo means: Automation can carry this to resolution.",
+   "exact": 0.75,
+   "routed_from": "needs_review",
+   "as_is": {
+    "acc": 0.38,
+    "flip_vs_exact": 0.65,
+    "routed_from": "needs_review"
+   },
+   "recentred": {
+    "acc": 0.56,
+    "flip_vs_exact": 0.35,
+    "routed_from": "needs_review",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.72,
+   "variant": "w2"
+  },
+  "customer_service.urgency": {
+   "reworded_text": "Rate the time pressure on this conversation.",
+   "exact": 0.82,
+   "routed_from": "urgency",
+   "as_is": {
+    "acc": 0.38,
+    "flip_vs_exact": 0.65,
+    "routed_from": "urgency"
+   },
+   "recentred": {
+    "acc": 0.25,
+    "flip_vs_exact": 0.77,
+    "routed_from": "urgency",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.74,
+   "variant": "w2"
+  },
+  "invoice_processing.discrepancy_severity": {
+   "reworded_text": "Rate the materiality of the discrepancy, if any, between invoice, order and delivery.",
+   "exact": 0.85,
+   "routed_from": "discrepancy_severity",
+   "as_is": {
+    "acc": 0.64,
+    "flip_vs_exact": 0.31,
+    "routed_from": "discrepancy_severity"
+   },
+   "recentred": {
+    "acc": 0.79,
+    "flip_vs_exact": 0.15,
+    "routed_from": "discrepancy_severity",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.57,
+   "variant": "w2"
+  },
+  "invoice_processing.disposition": {
+   "reworded_text": "Decide the disposition of this vendor invoice.",
+   "exact": 0.76,
+   "routed_from": "disposition",
+   "as_is": {
+    "acc": 0.39,
+    "flip_vs_exact": 0.58,
+    "routed_from": "disposition"
+   },
+   "recentred": {
+    "acc": 0.69,
+    "flip_vs_exact": 0.18,
+    "routed_from": "disposition",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": {
+    "acc": 0.76,
+    "flip_vs_exact": 0.14,
+    "reordered": true
+   },
+   "l0_reworded": 0.45,
+   "variant": "w2"
+  },
+  "invoice_processing.duplicate": {
+   "reworded_text": "Is the following statement true? An invoice matching this one has already been submitted.",
+   "exact": 0.91,
+   "routed_from": "needs_review",
+   "as_is": {
+    "acc": 0.11,
+    "flip_vs_exact": 0.88,
+    "routed_from": "needs_review"
+   },
+   "recentred": {
+    "acc": 0.51,
+    "flip_vs_exact": 0.46,
+    "routed_from": "needs_review",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.27,
+   "variant": "w2"
+  },
+  "invoice_processing.matches_order": {
+   "reworded_text": "Is the following statement true? Invoice, purchase order and recorded delivery all agree.\nYes means: Line items, quantities and amounts reconcile.\nNo means: There is a discrepancy against the order or the delivery.",
+   "exact": 0.96,
+   "routed_from": "needs_review",
+   "as_is": {
+    "acc": 0.46,
+    "flip_vs_exact": 0.52,
+    "routed_from": "needs_review"
+   },
+   "recentred": {
+    "acc": 0.75,
+    "flip_vs_exact": 0.25,
+    "routed_from": "needs_review",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.54,
+   "variant": "w2"
+  },
+  "invoice_processing.urgency": {
+   "reworded_text": "Rate the time pressure on processing this invoice.",
+   "exact": 0.63,
+   "routed_from": "urgency",
+   "as_is": {
+    "acc": 0.17,
+    "flip_vs_exact": 0.89,
+    "routed_from": "urgency"
+   },
+   "recentred": {
+    "acc": 0.4,
+    "flip_vs_exact": 0.52,
+    "routed_from": "urgency",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.61,
+   "variant": "w2"
+  },
+  "security_incidents.credential_compromise": {
+   "reworded_text": "Is the following statement true? Based on the evidence, a credential or account is compromised.",
+   "exact": 0.7,
+   "routed_from": "needs_review",
+   "as_is": {
+    "acc": 0.63,
+    "flip_vs_exact": 0.21,
+    "routed_from": "needs_review"
+   },
+   "recentred": {
+    "acc": 0.7,
+    "flip_vs_exact": 0.2,
+    "routed_from": "needs_review",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.65,
+   "variant": "w2"
+  },
+  "security_incidents.disposition": {
+   "reworded_text": "Decide the disposition of this security alert.",
+   "exact": 0.8,
+   "routed_from": "disposition",
+   "as_is": {
+    "acc": 0.64,
+    "flip_vs_exact": 0.22,
+    "routed_from": "disposition"
+   },
+   "recentred": {
+    "acc": 0.7,
+    "flip_vs_exact": 0.17,
+    "routed_from": "disposition",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": {
+    "acc": 0.65,
+    "flip_vs_exact": 0.31,
+    "reordered": true
+   },
+   "l0_reworded": 0.56,
+   "variant": "w2"
+  },
+  "security_incidents.severity": {
+   "reworded_text": "Rate the potential severity of this alert, assuming it is real.",
+   "exact": 0.73,
+   "routed_from": "severity",
+   "as_is": {
+    "acc": 0.56,
+    "flip_vs_exact": 0.39,
+    "routed_from": "severity"
+   },
+   "recentred": {
+    "acc": 0.64,
+    "flip_vs_exact": 0.17,
+    "routed_from": "severity",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.62,
+   "variant": "w2"
+  },
+  "security_incidents.true_positive": {
+   "reworded_text": "Is the following statement true? The activity behind this alert is actually malicious or unauthorised.\nYes means: The underlying behaviour is malicious or unauthorised.\nNo means: Benign activity, a misconfiguration, or a known false positive.",
+   "exact": 0.83,
+   "routed_from": "needs_review",
+   "as_is": {
+    "acc": 0.6,
+    "flip_vs_exact": 0.35,
+    "routed_from": "needs_review"
+   },
+   "recentred": {
+    "acc": 0.72,
+    "flip_vs_exact": 0.23,
+    "routed_from": "needs_review",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.69,
+   "variant": "w2"
+  },
+  "security_incidents.urgency": {
+   "reworded_text": "Rate how urgently this alert needs a responder's action.",
+   "exact": 0.59,
+   "routed_from": "urgency",
+   "as_is": {
+    "acc": 0.5,
+    "flip_vs_exact": 0.44,
+    "routed_from": "urgency"
+   },
+   "recentred": {
+    "acc": 0.19,
+    "flip_vs_exact": 0.89,
+    "routed_from": "urgency",
+    "adapted": true,
+    "adapt_n": 200
+   },
+   "reversed": null,
+   "l0_reworded": 0.57,
+   "variant": "w2"
+  },
+  "pooled": {
+   "exact": 0.784,
+   "as_is": 0.5555,
+   "recentred": 0.6415,
+   "reversed": 0.695,
+   "l0_reworded": 0.5625
+  }
+ },
+ "fit": {
+  "agent_trace_observability.action": {
+   "n_labels": 50,
+   "fit_seconds": 1.111813914962113,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.58,
+   "acc": 0.59,
+   "acc_shipped": 0.67,
+   "acc_l0": 0.57
+  },
+  "agent_trace_observability.needs_review": {
+   "n_labels": 50,
+   "fit_seconds": 0.42487285006791353,
+   "method": "head:lda",
+   "layer_abs": 24,
+   "oof_acc": 0.68,
+   "acc": 0.76,
+   "acc_shipped": 0.88,
+   "acc_l0": 0.64
+  },
+  "agent_trace_observability.outcome": {
+   "n_labels": 50,
+   "fit_seconds": 0.473753459751606,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.54,
+   "acc": 0.69,
+   "acc_shipped": 0.8,
+   "acc_l0": 0.58
+  },
+  "agent_trace_observability.risk": {
+   "n_labels": 50,
+   "fit_seconds": 0.47375848423689604,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.64,
+   "acc": 0.61,
+   "acc_shipped": 0.8,
+   "acc_l0": 0.45
+  },
+  "agent_trace_observability.urgency": {
+   "n_labels": 50,
+   "fit_seconds": 0.45880474522709846,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.3,
+   "acc": 0.57,
+   "acc_shipped": 0.7,
+   "acc_l0": 0.11
+  },
+  "customer_service.action": {
+   "n_labels": 50,
+   "fit_seconds": 0.8292185934260488,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.36,
+   "acc": 0.49,
+   "acc_shipped": 0.67,
+   "acc_l0": 0.62
+  },
+  "customer_service.category": {
+   "n_labels": 50,
+   "fit_seconds": 0.8132754405960441,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.9,
+   "acc": 0.95,
+   "acc_shipped": 0.97,
+   "acc_l0": 0.93
+  },
+  "customer_service.churn_risk": {
+   "n_labels": 50,
+   "fit_seconds": 0.783549171872437,
+   "method": "head:lda",
+   "layer_abs": 24,
+   "oof_acc": 0.64,
+   "acc": 0.84,
+   "acc_shipped": 0.86,
+   "acc_l0": 0.5
+  },
+  "customer_service.needs_human": {
+   "n_labels": 50,
+   "fit_seconds": 0.738979198038578,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.42,
+   "acc": 0.7,
+   "acc_shipped": 0.75,
+   "acc_l0": 0.68
+  },
+  "customer_service.urgency": {
+   "n_labels": 50,
+   "fit_seconds": 0.7907483149319887,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.74,
+   "acc": 0.67,
+   "acc_shipped": 0.82,
+   "acc_l0": 0.71
+  },
+  "invoice_processing.discrepancy_severity": {
+   "n_labels": 50,
+   "fit_seconds": 0.8054883563891053,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.54,
+   "acc": 0.71,
+   "acc_shipped": 0.85,
+   "acc_l0": 0.3
+  },
+  "invoice_processing.disposition": {
+   "n_labels": 50,
+   "fit_seconds": 0.8350560888648033,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.48,
+   "acc": 0.71,
+   "acc_shipped": 0.76,
+   "acc_l0": 0.46
+  },
+  "invoice_processing.duplicate": {
+   "n_labels": 50,
+   "fit_seconds": 0.7259503584355116,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.92,
+   "acc": 0.92,
+   "acc_shipped": 0.91,
+   "acc_l0": 0.82
+  },
+  "invoice_processing.matches_order": {
+   "n_labels": 50,
+   "fit_seconds": 0.8662686366587877,
+   "method": "head:lda",
+   "layer_abs": 24,
+   "oof_acc": 0.82,
+   "acc": 0.94,
+   "acc_shipped": 0.96,
+   "acc_l0": 0.54
+  },
+  "invoice_processing.urgency": {
+   "n_labels": 50,
+   "fit_seconds": 0.7928562210872769,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.44,
+   "acc": 0.61,
+   "acc_shipped": 0.63,
+   "acc_l0": 0.61
+  },
+  "security_incidents.credential_compromise": {
+   "n_labels": 50,
+   "fit_seconds": 0.6068228110671043,
+   "method": "head:lda",
+   "layer_abs": 24,
+   "oof_acc": 0.64,
+   "acc": 0.58,
+   "acc_shipped": 0.7,
+   "acc_l0": 0.66
+  },
+  "security_incidents.disposition": {
+   "n_labels": 50,
+   "fit_seconds": 0.6686347536742687,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.78,
+   "acc": 0.75,
+   "acc_shipped": 0.8,
+   "acc_l0": 0.55
+  },
+  "security_incidents.severity": {
+   "n_labels": 50,
+   "fit_seconds": 0.6926640421152115,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.72,
+   "acc": 0.68,
+   "acc_shipped": 0.73,
+   "acc_l0": 0.68
+  },
+  "security_incidents.true_positive": {
+   "n_labels": 50,
+   "fit_seconds": 0.6282956339418888,
+   "method": "head:lda",
+   "layer_abs": 24,
+   "oof_acc": 0.72,
+   "acc": 0.76,
+   "acc_shipped": 0.83,
+   "acc_l0": 0.45
+  },
+  "security_incidents.urgency": {
+   "n_labels": 50,
+   "fit_seconds": 0.6566697908565402,
+   "method": "head:ridge",
+   "layer_abs": 24,
+   "oof_acc": 0.7,
+   "acc": 0.58,
+   "acc_shipped": 0.59,
+   "acc_l0": 0.52
+  },
+  "pooled": {
+   "acc": 0.7055,
+   "ece": 0.08898779281820014,
+   "acc_shipped": 0.784
+  }
+ },
+ "roundtrip": {
+  "n_heads": 20,
+  "bytes": 1533903,
+  "max_abs_dp": 3.2629473731282665e-07,
+  "n_decisions": 2000,
+  "auto_without_head": "L0"
+ },
+ "seconds": 276.748530943878,
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T23:22:08.335791",
+  "anyjev": "0.0.2",
+  "batch_size": 16,
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ }
+}
