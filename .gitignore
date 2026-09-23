@@ -219,3 +219,11 @@ __marimo__/
 
 # macOS
 .DS_Store
+
+# feature caches of the head studies (tens of GB, not committed)
+bench/results_exit/features/
+
+# per-question-CV artifact builds kept on the GPU host for comparison; the shipped heads are anyjev-heads/
+anyjev-heads-cv/
+bench/results_paraphrase/features/
+bench/results_distill/synth_features/
