@@ -94,7 +94,7 @@ r["stuck"].p_true
 r.level                    # "L0"
 ```
 
-`Image` 接受路径、URL、bytes 或 PIL 图片，可以放在 state 的任何位置。位置去偏原样适用；是否使用 content-free 先验要看任务，契约和注意事项见 [docs/multimodal.md](docs/multimodal.md)。
+`Image` 接受路径、URL、bytes 或 PIL 图片，可以放在 state 的任何位置。位置去偏原样适用；是否使用 content-free 先验要看任务，契约和注意事项见 [docs/multimodal.md](docs/multimodal.md)。L2 也能读图片（`d.fit_head(q, image_states, labels)`）：在 20 类宠物品种任务上，200 个标签把 Qwen3-VL-2B / 4B 从 0.79 / 0.84 提到 0.94 / 0.95，每个数据切分都成立；在"图里有没有某个物体"的是非题上提升很小，只有 8B 的提升是稳定的（[结果](docs/results_multimodal.md#l2-on-images-a-closed-form-head-per-question)）。
 
 **🎯 3. 有标签就加上。** 温度缩放是 L1；闭式 head 是 **L2**，准确率最高的那一档。
 

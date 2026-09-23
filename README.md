@@ -94,7 +94,7 @@ r["stuck"].p_true
 r.level                    # "L0"
 ```
 
-`Image` takes a path, URL, bytes, or a PIL image, anywhere in the state. Position debiasing carries over unchanged; whether to use the content-free prior depends on the task — contract and caveats in [docs/multimodal.md](docs/multimodal.md).
+`Image` takes a path, URL, bytes, or a PIL image, anywhere in the state. Position debiasing carries over unchanged; whether to use the content-free prior depends on the task — contract and caveats in [docs/multimodal.md](docs/multimodal.md). L2 reads pictures too (`d.fit_head(q, image_states, labels)`): on a 20-breed pet task, 200 labels take Qwen3-VL-2B / 4B from 0.79 / 0.84 to 0.94 / 0.95 on every split seed; on a Yes/No object check the gain is small and only the 8B's holds ([results](docs/results_multimodal.md#l2-on-images-a-closed-form-head-per-question)).
 
 **🎯 3. Add labels when you have them.** A temperature is L1; a closed-form head is **L2**, the accurate one.
 

@@ -157,6 +157,24 @@ log-probabilities differ by up to 0.25 nats, but only on labels below `1e-9`
 probability, which is bf16 rounding and not a disagreement that can reach a
 decision — the same caveat the vLLM parity check reports.
 
+## L2 on images
+
+`fit_head` and `level="L2"` take image states unchanged: the decider renders each state with
+its pictures through the processor, and `VLMBackend.hidden_states` returns the language model's
+last-position hidden state from the same forward the readout uses (the label log-probs of the
+two agree exactly; `tests/test_vlm_engine.py`). Two differences from text:
+
+- **No early stop.** The block loop that stops a text forward at the head's block cannot run a
+  vision model, whose positions come from the image grid, so an image decision runs the whole
+  forward and its diagnostics carry `early_stop=False`. It is still one forward per state,
+  where L0 costs K.
+- **A head can memorise pictures.** A temperature has one parameter; a head has thousands. If
+  the same picture sits in the labelled set and in the traffic (several questions about one
+  image), split by picture before reading a score.
+
+Measured on `pets20` and `pope`, three models and three split seeds:
+[results_multimodal.md](results_multimodal.md#l2-on-images-a-closed-form-head-per-question).
+
 ## Cost
 
 A `choice` with K options still costs K prefills per decision, all sharing the

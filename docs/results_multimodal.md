@@ -110,6 +110,77 @@ We would rather you find these here than in production.
   2B loses 0.7. The gains are in stability and calibration, as on text.
 - **One model family.** Everything here is Qwen3-VL.
 
+## L2 on images: a closed-form head per question
+
+L2 carries over to pictures unchanged: `fit_head` reads the language model's last-position
+hidden state after the image prompt and solves a shrunk-LDA or ridge head on it, the block and
+the head chosen by out-of-fold NLL on the calibration split alone. Each run fits L1 and L2 on
+the same 200 calibration labels and scores L0, L1 and L2 on the same 300 test items, so every
+comparison below is paired item by item; three split seeds per model (`bench/results_mm_l2/2026-09-23/`,
+torch 2.5.1, transformers 4.57.6, batch 16; the raw / L0 / L1 tables above were run under
+torch 2.10, so L2 is compared with the L1 of its own run, not with those rows). `ai2d` is out
+of scope: every item is its own question, and a head needs one question with many labelled
+states.
+
+| task | model | seeds | L0 acc | L1 acc | **L2 acc** | L2 - L1 (range) | seeds CI > 0 | L1 ECE | **L2 ECE** | L1 AURC | **L2 AURC** | L1 cov@5% | **L2 cov@5%** | L2 flip | L2 block |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| pets20 | Qwen3-VL-2B | 3 | 0.794 | 0.794 | **0.942** | +0.148 (+0.133 to +0.157) | 3 of 3 | 0.052 | **0.023** | 0.052 | **0.006** | 0.647 | **0.984** | 0.044 | 17/28, 20/28 |
+| pets20 | Qwen3-VL-4B | 3 | 0.836 | 0.836 | **0.954** | +0.119 (+0.100 to +0.130) | 3 of 3 | 0.094 | **0.032** | 0.045 | **0.011** | 0.704 | **0.998** | 0.031 | 22/36 |
+| pets20 | Qwen3-VL-8B | 3 | 0.896 | 0.896 | **0.926** | +0.030 (+0.027 to +0.033) | 0 of 3 | 0.055 | **0.038** | 0.028 | **0.016** | 0.782 | **0.953** | 0.050 | 22/36, 31/36, 36/36 |
+| pope | Qwen3-VL-2B | 3 | 0.904 | 0.904 | **0.901** | -0.003 (-0.017 to +0.017) | 0 of 3 | 0.047 | **0.053** | 0.022 | **0.034** | 0.853 | **0.792** | – | 17/28, 20/28, 28/28 |
+| pope | Qwen3-VL-4B | 3 | 0.867 | 0.867 | **0.892** | +0.026 (+0.013 to +0.037) | 1 of 3 | 0.062 | **0.061** | 0.041 | **0.040** | 0.700 | **0.762** | – | 18/36, 22/36, 25/36 |
+| pope | Qwen3-VL-8B | 3 | 0.851 | 0.851 | **0.894** | +0.043 (+0.027 to +0.053) | 3 of 3 | 0.077 | **0.064** | 0.054 | **0.034** | 0.582 | **0.792** | – | 22/36, 36/36 |
+
+"seeds CI > 0" counts the seeds whose 95% paired bootstrap interval on the L2 − L1 accuracy
+difference (items resampled) lies above zero. L0 and L1 share their accuracy because a
+temperature does not change the argmax. The flip is the disagreement of two independently fit
+heads, one on the listed order and one on the reversed order, as for L1 in the text bench; a
+`noul` head answers in one phrasing, so `pope` has none.
+
+**What holds.**
+
+- **`pets20` on 2B and 4B: +12 to +15 points, on every seed.** 0.79 → 0.94 and 0.84 → 0.95,
+  every paired interval above zero, with ECE, AURC and coverage at 5% risk all better than L1:
+  with 200 labels the head answers almost every test image inside a 5% error budget.
+- **`pope` on 8B: +4 points, on every seed**, and the largest gain on the pictures the head
+  never saw (next table).
+- **Calibration** improves with accuracy on `pets20` (L2's ECE 0.02–0.04 against L1's
+  0.05–0.09) and on the 8B's `pope` (0.077 → 0.064); on the 4B's `pope` it is unchanged.
+
+**What does not, or not yet.**
+
+- **`pope` on 2B: no gain.** −0.3 points on average (−1.7 to +1.7), ECE and AURC slightly
+  worse than L1. A first single-seed run read +1.3 against the L1 row of the headline table
+  above; the seeds say that was noise.
+- **`pope` on 4B: +2.6 points**, but only one seed of three clears zero.
+- **`pets20` on 8B: +3 points, no seed clears zero.** The 8B's L2 (0.93) ends below the 2B's and
+  the 4B's (0.94–0.95), and its chosen block spreads widest across seeds (22, 31 and 36 of 36,
+  where the 2B and 4B stay at 17–22 on `pets20`). Why is open.
+- **No early stop on images.** A vision model derives its positions from the image grid, so the
+  forward runs to the end; the diagnostics report `early_stop=False`. L2 is still one forward
+  per state: 0.02–0.05 s per decision at batch 16 against K forwards for L0 (20 on `pets20`),
+  and fitting a head takes 8–17 s.
+
+**Pictures L2 saw at fit time.** POPE asks several questions about each COCO image and the
+bench splits its questions at random, so about a third of the test items show a picture that
+also appears in the calibration split, and 3 to 11 test states per seed are identical to a
+calibration state (same picture, same object). A head on 2,048–4,096 features could memorise a
+picture where a temperature cannot, so the gain is shown separately:
+
+| task | model | test items, picture unseen (mean) | L2 - L1 unseen | test items, picture seen (mean) | L2 - L1 seen |
+|---|---|---|---|---|---|
+| pope | Qwen3-VL-2B | 200 | -0.000 | 100 | -0.010 |
+| pope | Qwen3-VL-4B | 200 | +0.025 | 100 | +0.027 |
+| pope | Qwen3-VL-8B | 200 | +0.050 | 100 | +0.030 |
+
+The gain on unseen pictures matches or exceeds the gain on seen ones, so the `pope` numbers are
+not carried by memorised pictures. A split by picture would remove the question entirely and is
+the right protocol for the next run. `pets20` shares no picture between its splits.
+
+Reproduce with `bash bench/run_mm_l2.sh` (three models, three seeds), then
+`python -m bench.mm_l2_audit bench/results_mm_l2/<date>`, which prints every table in this
+section and the per-seed table under "Full tables".
+
 ## Reproducibility checks behind these numbers
 
 - An independent second run of the 2B `pope`, content-free `pope` and `ai2d`
@@ -123,6 +194,12 @@ We would rather you find these here than in production.
 - Batch parity: the answer distribution at batch size 1 and 8, on prompts
   that differ in image size and length, agrees to 5.6e-10 (2B) and 1.3e-12
   (8B); `tests/test_vlm_engine.py` asserts it on a real model.
+- The merge that brought L2 in left the image path bit-identical: raw and L0 on 24 `pets20`
+  test items give the same probabilities before and after it (max |dp| = 0.0, Qwen3-VL-2B).
+- L2 reads the same forward as the readout: the label log-probs returned by
+  `VLMBackend.hidden_states` equal `next_token_logprobs` to 0.0 on the same prompts;
+  `tests/test_vlm_engine.py` asserts it, and that a head fit on colour swatches reads them.
+- A rerun of seed 0 reproduced every L2 number of the first run exactly.
 
 ## Full tables
 
@@ -236,3 +313,26 @@ Environment: {"gpu": "NVIDIA H100 NVL", "torch": "2.10.0+cu128", "transformers":
 |  |  |  |  | L1 | 0.867 | 0.184 | 0.041 | 0.037 | 0.803 |
 
 Environment: {"gpu": "NVIDIA H100 NVL", "torch": "2.10.0+cu128", "transformers": "4.57.6"}. Dates: 2026-09-22. Test items sampled with seed 0; L1 temperature fit on a disjoint calibration split.
+
+`L2` per split seed (`bench/results_mm_l2/2026-09-23`), from `python -m bench.mm_l2_audit`:
+
+| task | model | seed | L0 acc | L1 acc | L2 acc | L2 - L1 [95% CI] | L1 ECE | L2 ECE | L2 block, head |
+|---|---|---|---|---|---|---|---|---|---|
+| pets20 | Qwen3-VL-2B | 0 | 0.823 | 0.823 | 0.957 | +0.133 [+0.093, +0.177] | 0.035 | 0.019 | 20/28, ridge |
+| pets20 | Qwen3-VL-2B | 1 | 0.783 | 0.783 | 0.937 | +0.153 [+0.110, +0.197] | 0.068 | 0.029 | 20/28, ridge |
+| pets20 | Qwen3-VL-2B | 2 | 0.777 | 0.777 | 0.933 | +0.157 [+0.110, +0.203] | 0.055 | 0.022 | 17/28, ridge |
+| pets20 | Qwen3-VL-4B | 0 | 0.847 | 0.847 | 0.947 | +0.100 [+0.063, +0.140] | 0.105 | 0.032 | 22/36, ridge |
+| pets20 | Qwen3-VL-4B | 1 | 0.833 | 0.833 | 0.960 | +0.127 [+0.090, +0.170] | 0.090 | 0.030 | 22/36, ridge |
+| pets20 | Qwen3-VL-4B | 2 | 0.827 | 0.827 | 0.957 | +0.130 [+0.090, +0.173] | 0.087 | 0.033 | 22/36, ridge |
+| pets20 | Qwen3-VL-8B | 0 | 0.907 | 0.907 | 0.933 | +0.027 [-0.007, +0.060] | 0.051 | 0.037 | 31/36, ridge |
+| pets20 | Qwen3-VL-8B | 1 | 0.900 | 0.900 | 0.933 | +0.033 [+0.000, +0.070] | 0.050 | 0.036 | 22/36, ridge |
+| pets20 | Qwen3-VL-8B | 2 | 0.880 | 0.880 | 0.910 | +0.030 [-0.007, +0.067] | 0.062 | 0.041 | 36/36, ridge |
+| pope | Qwen3-VL-2B | 0 | 0.907 | 0.907 | 0.923 | +0.017 [-0.013, +0.047] | 0.055 | 0.035 | 20/28, lda |
+| pope | Qwen3-VL-2B | 1 | 0.907 | 0.907 | 0.897 | -0.010 [-0.030, +0.010] | 0.036 | 0.060 | 17/28, ridge |
+| pope | Qwen3-VL-2B | 2 | 0.900 | 0.900 | 0.883 | -0.017 [-0.047, +0.013] | 0.049 | 0.063 | 28/28, ridge |
+| pope | Qwen3-VL-4B | 0 | 0.873 | 0.873 | 0.900 | +0.027 [+0.003, +0.050] | 0.047 | 0.047 | 22/36, lda |
+| pope | Qwen3-VL-4B | 1 | 0.887 | 0.887 | 0.900 | +0.013 [-0.003, +0.033] | 0.053 | 0.088 | 25/36, lda |
+| pope | Qwen3-VL-4B | 2 | 0.840 | 0.840 | 0.877 | +0.037 [+0.000, +0.073] | 0.085 | 0.049 | 18/36, ridge |
+| pope | Qwen3-VL-8B | 0 | 0.847 | 0.847 | 0.897 | +0.050 [+0.027, +0.077] | 0.084 | 0.087 | 22/36, lda |
+| pope | Qwen3-VL-8B | 1 | 0.877 | 0.877 | 0.903 | +0.027 [+0.003, +0.053] | 0.064 | 0.055 | 36/36, ridge |
+| pope | Qwen3-VL-8B | 2 | 0.830 | 0.830 | 0.883 | +0.053 [+0.010, +0.100] | 0.083 | 0.049 | 36/36, ridge |
