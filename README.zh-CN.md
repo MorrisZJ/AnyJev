@@ -116,8 +116,13 @@ L2 不是一次训练。标签换来的是**一次闭式求解**（CPU 上几秒
 
 换个问法之后，Qwen3-8B 的 head 直接拿去用会从 0.77 掉到 0.65–0.70；用新问法下的 **30 条无标签请求**重估一下均值和尺度就回到 0.74–0.75，而重新标注再拟合是 0.77（[JSON](bench/results_paraphrase/2026-09-22/)）。
 
-<details>
-<summary><b>部署生命周期</b>：第 0 天从 L0 起步，标签从业务循环里来，head 几秒钟解出来</summary>
+**服务时的一次决策。** 有存好的 head 就从一次截断前向直接作答；没有的话，同一个调用照旧回落到 L1 或 L0。路由逻辑见 [docs/method_v3.md](docs/method_v3.md)。
+
+<p align="center">
+  <img src="assets/route_tree.png" width="88%" alt="服务时一次决策走哪条路：按完全相同的布局、同样选项换了措辞、或同一选项集合换了顺序路由到已存的 head；后两条路径更新运行中的特征统计量，攒够三十条请求后启用；head 从一个 prompt、在固定 block 停下的前向直接作答，返回带 diagnostics 的 L2 决策；没有 head 时，有温度 artifact 走 L1，否则走 L0，两者都用 K 个移位 prompt、完整前向和先验校正。">
+</p>
+
+**部署生命周期：第 0 天从 L0 起步，标签从业务循环里来，head 几秒钟解出来**
 
 ```mermaid
 flowchart LR
@@ -138,7 +143,6 @@ flowchart LR
 
 **state** 本身的分布漂移（而不是问法变了）是重估看不见的，所以定期在一小批带标签样本上抽查仍然留在流程里。完整方法：[docs/method_v3.md](docs/method_v3.md)。
 
-</details>
 
 ## 📊 结果
 

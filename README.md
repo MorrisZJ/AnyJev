@@ -116,8 +116,13 @@ L2 is not a training run. Labels buy a head in **one closed-form solve** (second
 
 Reworded, the Qwen3-8B head as is drops from 0.77 to 0.65–0.70; **30 unlabelled requests** of the new wording bring it back to 0.74–0.75, against 0.77 for a fully relabelled refit ([JSON](bench/results_paraphrase/2026-09-22/)).
 
-<details>
-<summary><b>Deployment lifecycle</b>: day 0 at L0, labels from the loop, heads in seconds</summary>
+**One decision at serving time.** A stored head answers from one truncated forward. Without one, the same call falls back to L1 or L0 exactly as before; the routing is in [docs/method_v3.md](docs/method_v3.md).
+
+<p align="center">
+  <img src="assets/route_tree.png" width="88%" alt="Which path a decision takes at serving time: route to a stored head by exact layout, by the same options under another wording, or by the same option set in another order; the two adapted routes update running feature statistics and use them once thirty requests have been seen; the head answers from one prompt with the forward stopped at the fixed block and returns a level L2 decision with diagnostics; with no head, a temperature artifact selects L1 and otherwise L0, both from K shifted prompts with a full forward and prior correction.">
+</p>
+
+**Deployment lifecycle: day 0 at L0, labels from the loop, heads in seconds**
 
 ```mermaid
 flowchart LR
@@ -138,7 +143,6 @@ flowchart LR
 
 A shift in the *states* (not the wording) is invisible to the recentring, so a periodic spot check on a labelled slice stays in the recipe. Full method: [docs/method_v3.md](docs/method_v3.md).
 
-</details>
 
 ## 📊 Results
 
