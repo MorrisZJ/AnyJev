@@ -33,7 +33,7 @@
 
 <div align="center">
 
-| | 直接读 logits | **AnyJev L0** | **AnyJev L1** |
+| | ⚪&nbsp;直接读&nbsp;logits<br><sub>一个 prompt</sub> | 🔵&nbsp;**AnyJev&nbsp;L0**<br><sub>零标签</sub> | 🟢&nbsp;**AnyJev&nbsp;L1**<br><sub>+ 温度缩放</sub> |
 |:--|:--:|:--:|:--:|
 | 需要标签 | 无 | **无** | 100–500 条 |
 | 选项倒序后答案改变的比例 | 0.230 | **0.073** | 0.077 |

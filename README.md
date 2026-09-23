@@ -33,7 +33,7 @@ Ask any open LLM a **typed question** and get back a **decision with a probabili
 
 <div align="center">
 
-| | raw logits | **AnyJev L0** | **AnyJev L1** |
+| | ⚪&nbsp;raw&nbsp;logits<br><sub>one prompt</sub> | 🔵&nbsp;**AnyJev&nbsp;L0**<br><sub>zero labels</sub> | 🟢&nbsp;**AnyJev&nbsp;L1**<br><sub>+ temperature</sub> |
 |:--|:--:|:--:|:--:|
 | Labels required | none | **none** | 100–500 |
 | Answer flips when options are reversed | 0.230 | **0.073** | 0.077 |
