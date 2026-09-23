@@ -111,6 +111,82 @@ pip install -e ".[hf,bench,dev]"
 
 **开销。** L0 用算力换稳定性：K 个选项的 `choice` 需要 K 次 prefill（`noul` 2 次，`score` 1 次），它们共享 state 前缀、都能 batch 掉，而且全程不生成任何 token。在一张 H100 上，transformers 路径在 20 个排列时约为**每个决策 0.25 秒（batch 32）**。`max_permutations` 可以给 K 封顶。
 
+## 路线图：已完成与未完待续
+
+打勾的是现在 `main` 里已有的；没打勾的是接下来要做的。带目标日期的计划见 [ROADMAP.md](ROADMAP.md)，实际落地的内容见 [CHANGELOG.md](CHANGELOG.md)。
+
+**已完成**
+- [x] 类型化问题：`choice`、`noul`、`score`，一次 prefill 读出，不生成任何 token。
+- [x] **L0**，零标签：循环移位边际化 + 无标签先验校正（默认 batch prior，强度 0.75）。
+- [x] **L1**：温度缩放，先验冻结进 artifact；`export_artifacts` / `load_artifacts` 每个模型一个 JSON。
+- [x] 档位强制：`decide(..., require="L1")` 在达不到档位时直接报错，而不是拿更弱的概率去做决定。
+- [x] 后端：transformers 和 vLLM；共享前缀打分、可选的自适应移位、延迟测量。
+- [x] Benchmark：三个任务及全部消融、typed-decisions 上对比 Laya、NanoJev 的迷宫 harness、自带 oracle 的 2048 和扫雷。
+- [x] 离线拟合闭式 head：`anyjev.heads.fit_head`（预览，结果见下文「同一个 hidden state 上的闭式 head（预览）」）。
+
+**未完待续**
+- [ ] **`Decider` 里的 L2**：每个问题加载一个 head，一个 prompt 作答，在 head 所在的第 b* 层提前退出（见下方「方法」图）。
+- [ ] **路由**：布局、措辞、选项顺序变化时仍能路由到存好的 head；每个问题 n ≥ 30 后启用运行中的 μ/σ。
+- [ ] **`level="auto"`**，以及把 head artifact 放进 `export_artifacts` / `load_artifacts`，和温度放在一起。
+- [ ] **部署指南**：从闭环收集标签、何时重拟合、换基座模型时重解 head（见下方「部署」图）。
+- [ ] 超过 26 个选项的 span 读法，以及 L1 之上的 conformal 弃答。
+- [ ] 表格里加入 Llama 和 Gemma。
+- [ ] Jev 兼容的 HTTP 服务端；SGLang、llama.cpp、MLX、Ollama 后端（**欢迎贡献**）。
+- [ ] 通过视觉语言后端支持多模态 state。
+- [ ] 游戏回放动图（迷宫 → 贪吃蛇 → ViZDoom），进度见 [handoff/games/HANDOFF.md](handoff/games/HANDOFF.md)。
+
+### 方法：一次决策（未完待续）
+
+有存好的 head 就一次前向作答；没有的话，和现在一样回落到 L1 或 L0。绿色框已经在 `main` 里，虚线框未完待续。
+
+```mermaid
+flowchart TD
+    A["state + 问题"] --> R{"路由：这个问题<br/>有存好的 head 吗？"}
+    R -- "布局完全一致" --> H1["head，用它自己的 μ/σ"]
+    R -- "选项相同，<br/>措辞不同" --> H2["head + 这种措辞的<br/>请求的运行中 μ/σ"]
+    R -- "选项集合相同，<br/>顺序不同" --> H3["head + 运行中 μ/σ，<br/>概率按选项文本重新对应"]
+    H2 --> U["更新这个问题的 (sum, sumsq, n)；<br/>n ≥ 30 后启用"]
+    H3 --> U
+    H1 --> F["一个 prompt，前向到第 b* 层<br/>p = softmax(((h − μ) / σ · W + b) / T)"]
+    U --> F
+    F --> D2["Decision，档位 L2<br/>诊断：blocks_executed、routed_from、<br/>reordered、adapted、adapt_n"]
+    R -- "没有" --> T{"有温度<br/>artifact 吗？"}
+    T -- "有" --> L1["L1：K 个移位 prompt，完整前向，<br/>先验校正，温度"]
+    T -- "没有" --> L0["L0：K 个移位 prompt，完整前向，<br/>先验校正"]
+    L1 --> D1["Decision，档位 L1"]
+    L0 --> D0["Decision，档位 L0"]
+
+    classDef shipped fill:#dcfce7,stroke:#0f9d76,color:#0f172a
+    classDef preview fill:#fef3c7,stroke:#d97706,color:#0f172a
+    classDef planned fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:5 4,color:#475569
+    class A,T,L1,L0,D1,D0 shipped
+    class R,H1,H2,H3,U,F,D2 planned
+```
+
+### 部署：生命周期（未完待续）
+
+第 0 天零标签用 L0 上线，让业务闭环自己产生标签，几秒钟拟合 head；只有换基座模型时才需要重解。绿色已在 `main` 里，琥珀色是预览，虚线未完待续。
+
+```mermaid
+flowchart LR
+    S0["第 0 天：定义问题，<br/>用 level auto 上线；<br/>全部以 L0 作答"] --> C["从闭环收集标签：<br/>人工审核、业务结果，<br/>或被替换掉的那个 LLM；<br/>每个问题 20–300 条"]
+    C --> FH["每个问题 fit_head，几秒钟；<br/>export_artifacts → JSON"]
+    FH --> SV["上线：有 head 路由到的用 L2，<br/>其余用 L0"]
+    SV --> W{"变了什么？"}
+    W -- "措辞或顺序" --> SV
+    W -- "新的选项集合" --> C
+    W -- "state 分布变化，<br/>抽检准确率下降" --> C
+    W -- "新的基座模型" --> RS["用存下的带标签 state<br/>重解每一个 head"]
+    RS --> SV
+
+    classDef shipped fill:#dcfce7,stroke:#0f9d76,color:#0f172a
+    classDef preview fill:#fef3c7,stroke:#d97706,color:#0f172a
+    classDef planned fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:5 4,color:#475569
+    class C shipped
+    class S0,FH preview
+    class SV,W,RS planned
+```
+
 ---
 
 ## Benchmark
@@ -209,7 +285,7 @@ raw 读法本身就是一个线性 head：标签 token 在 `lm_head` 里的那�
 
 ## 状态
 
-**v0.0.2。** 库、两个后端、三个 benchmark 都是真实可运行、实测过的。持续开发中 —— 带日期的计划在 [ROADMAP.md](ROADMAP.md)。**接下来：** 闭式 head 扩到更多模型和标签数量、超过 26 个选项的 span 读法、conformal 弃答、Llama 和 Gemma 行。**再之后：** Jev 兼容的 HTTP 服务端、更多后端、多模态 state。
+**v0.0.2。** 库、两个后端、三个 benchmark 都是真实可运行、实测过的。持续开发中 —— 带日期的计划在 [ROADMAP.md](ROADMAP.md)。**接下来：** 在 `Decider` 里上线带路由和 `level="auto"` 的 L2 head（见上文「路线图」）、闭式 head 扩到更多模型和标签数量、超过 26 个选项的 span 读法、conformal 弃答、Llama 和 Gemma 行。**再之后：** Jev 兼容的 HTTP 服务端、更多后端、多模态 state。
 
 后端和 benchmark provider 都是一个文件一个，其中几项标了 **help wanted** —— 见 [CONTRIBUTING.md](CONTRIBUTING.md)。已完成的改动：[CHANGELOG.md](CHANGELOG.md)。我们站在谁的肩膀上：[CREDITS.md](CREDITS.md)。
 

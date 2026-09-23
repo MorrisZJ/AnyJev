@@ -111,6 +111,82 @@ Every `Decision` carries its `level`, so downstream code can refuse to act on th
 
 **Cost.** L0 trades compute for stability: a `choice` with K options costs K prefills (2 for `noul`, 1 for `score`), all sharing the state prefix and all batchable, with nothing ever generated. On one H100 the transformers path at 20 permutations is about **0.25 s per decision at batch 32**. `max_permutations` caps K.
 
+## Roadmap: done and to be continued
+
+Checked items are in `main` today; unchecked ones are what we are building next. The plan with target dates is in [ROADMAP.md](ROADMAP.md), what actually landed in [CHANGELOG.md](CHANGELOG.md).
+
+**Done**
+- [x] Typed questions: `choice`, `noul`, `score`, read from one prefill, nothing generated.
+- [x] **L0** with zero labels: cyclic-shift marginalization and label-free prior correction (batch prior at strength 0.75 by default).
+- [x] **L1**: temperature with the prior frozen into the artifact; `export_artifacts` / `load_artifacts` as one JSON per model.
+- [x] Enforceable levels: `decide(..., require="L1")` raises instead of acting on a weaker probability.
+- [x] Backends: transformers and vLLM; shared-prefix scoring, opt-in adaptive shifts, a latency column.
+- [x] Benchmarks: three tasks with every ablation, typed-decisions against Laya, NanoJev's maze harness, 2048 and Minesweeper with a built-in oracle.
+- [x] Closed-form heads fit offline, `anyjev.heads.fit_head` (preview, [results below](#a-closed-form-head-on-the-same-hidden-state-preview)).
+
+**To be continued**
+- [ ] **L2 in the `Decider`**: load a head per question and answer from one prompt, with early exit at the head's block b* ([method chart](#method-one-decision-to-be-continued)).
+- [ ] **Routing** to a stored head across layout, wording and option order, with a running μ/σ per question once n ≥ 30.
+- [ ] **`level="auto"`** and head artifacts in `export_artifacts` / `load_artifacts`, next to the temperatures.
+- [ ] **A serving guide**: labels from the loop, refits, re-solving heads for a new base model ([serving chart](#serving-deployment-lifecycle-to-be-continued)).
+- [ ] Span readout beyond 26 options, and conformal abstention on top of L1.
+- [ ] Llama and Gemma rows in the tables.
+- [ ] A Jev-compatible HTTP server; SGLang, llama.cpp, MLX and Ollama backends (**help wanted**).
+- [ ] Multimodal state through vision-language backends.
+- [ ] Game replay GIFs (maze, then snake, then ViZDoom); status in [handoff/games/HANDOFF.md](handoff/games/HANDOFF.md).
+
+### Method: one decision *(to be continued)*
+
+A stored head answers from one forward pass; without one, the decision falls back to L1 or L0 exactly as today. Green boxes are in `main`, dashed boxes are to be continued.
+
+```mermaid
+flowchart TD
+    A["state + question"] --> R{"route: a stored head<br/>for this question?"}
+    R -- "exact layout" --> H1["head, own μ/σ"]
+    R -- "same options,<br/>other wording" --> H2["head + running μ/σ<br/>of this wording's requests"]
+    R -- "same option set,<br/>other order" --> H3["head + running μ/σ,<br/>probabilities remapped by option text"]
+    H2 --> U["update (sum, sumsq, n) for this question;<br/>use them once n ≥ 30"]
+    H3 --> U
+    H1 --> F["one prompt, forward to block b*<br/>p = softmax(((h − μ) / σ · W + b) / T)"]
+    U --> F
+    F --> D2["Decision, level L2<br/>diagnostics: blocks_executed, routed_from,<br/>reordered, adapted, adapt_n"]
+    R -- "none" --> T{"temperature<br/>artifact?"}
+    T -- "yes" --> L1["L1: K shifted prompts, full forward,<br/>prior correction, temperature"]
+    T -- "no" --> L0["L0: K shifted prompts, full forward,<br/>prior correction"]
+    L1 --> D1["Decision, level L1"]
+    L0 --> D0["Decision, level L0"]
+
+    classDef shipped fill:#dcfce7,stroke:#0f9d76,color:#0f172a
+    classDef preview fill:#fef3c7,stroke:#d97706,color:#0f172a
+    classDef planned fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:5 4,color:#475569
+    class A,T,L1,L0,D1,D0 shipped
+    class R,H1,H2,H3,U,F,D2 planned
+```
+
+### Serving: deployment lifecycle *(to be continued)*
+
+Start at L0 with zero labels, let the loop produce labels, fit heads in seconds, and only re-solve when the base model changes. Green is in `main`, amber exists as a preview, dashed is to be continued.
+
+```mermaid
+flowchart LR
+    S0["Day 0: define questions,<br/>serve with level auto;<br/>everything answers at L0"] --> C["Collect labels from the loop:<br/>human review, outcomes,<br/>or the LLM being replaced;<br/>20–300 per question"]
+    C --> FH["fit_head per question, seconds;<br/>export_artifacts → JSON"]
+    FH --> SV["Serve: L2 where a head routes,<br/>L0 elsewhere"]
+    SV --> W{"what changed?"}
+    W -- "wording or order" --> SV
+    W -- "new option set" --> C
+    W -- "state distribution,<br/>spot checks drop" --> C
+    W -- "new base model" --> RS["re-solve every head from<br/>the stored labelled states"]
+    RS --> SV
+
+    classDef shipped fill:#dcfce7,stroke:#0f9d76,color:#0f172a
+    classDef preview fill:#fef3c7,stroke:#d97706,color:#0f172a
+    classDef planned fill:#f8fafc,stroke:#94a3b8,stroke-dasharray:5 4,color:#475569
+    class C shipped
+    class S0,FH preview
+    class SV,W,RS planned
+```
+
 ---
 
 ## Benchmark
@@ -209,7 +285,7 @@ We would rather you find these here than in production.
 
 ## Status
 
-**v0.0.2.** The library, both backends, and all three benches are real and measured. Actively developed — the plan with dates is in [ROADMAP.md](ROADMAP.md). **Next up:** closed-form heads across models and label counts, span readout beyond 26 options, conformal abstention, Llama and Gemma rows. **After that:** a Jev-compatible HTTP server, more backends, multimodal state.
+**v0.0.2.** The library, both backends, and all three benches are real and measured. Actively developed — the plan with dates is in [ROADMAP.md](ROADMAP.md). **Next up:** L2 heads served from the `Decider` with routing and `level="auto"` ([roadmap above](#roadmap-done-and-to-be-continued)), closed-form heads across models and label counts, span readout beyond 26 options, conformal abstention, Llama and Gemma rows. **After that:** a Jev-compatible HTTP server, more backends, multimodal state.
 
 Backends and bench providers are one file each and several are marked **help wanted** — see [CONTRIBUTING.md](CONTRIBUTING.md). What landed: [CHANGELOG.md](CHANGELOG.md). Who we build on: [CREDITS.md](CREDITS.md).
 
