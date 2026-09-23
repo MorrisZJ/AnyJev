@@ -2,8 +2,8 @@
 
     python -m bench.mm_l2_audit bench/results_mm_l2/<date>
 
-Reads `<model>.seed<k>.json` from `bench.mm_l2_study`, where L0, L1 and L2 come from one run on
-one split, and prints three Markdown tables:
+Reads `<model>.seed<k>.json` and `<model>.seed<k>.items.json` from `bench.mm_l2_study`, where
+L0, L1 and L2 come from one run on one split, and prints three Markdown tables:
 
 1. per model and task, every level averaged over the split seeds, with the L2 - L1 accuracy gain
    (mean, range, and how many seeds have a 95% paired bootstrap interval above zero);
@@ -41,11 +41,14 @@ def paired_ci(P_a, P_b, y, seed=0):
 def load(root):
     runs = []
     for path in sorted(glob.glob(os.path.join(root, "*.seed*.json"))):
+        if path.endswith(".items.json"):
+            continue
         seed = int(re.search(r"\.seed(\d+)\.json$", path).group(1))
         run = json.load(open(path))
+        per_item = json.load(open(path[:-len(".json")] + ".items.json"))["tasks"]
         model = run["model"].split("/")[-1].replace("-Instruct", "")
         for t in run["tasks"]:
-            items = t["items"]
+            items = per_item[t["task"]]
             y = np.array([it["label"] for it in items])
             P = {lv: np.array([it[f"p_{lv.lower()}"] for it in items]) for lv in ("L0", "L1", "L2")}
             seen = np.array([it["picture_in_calib"] for it in items])

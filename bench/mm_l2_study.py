@@ -13,8 +13,12 @@ Every run also fits L1 on the same calibration labels (L0 comes from the same fo
 so the levels compare item by item, and stores its per-item test predictions with two leakage
 flags: whether the item's picture also appears in the calibration split, and whether the
 identical (picture, text) state does. POPE asks several questions per COCO image, so a random
-split of its questions shares pictures between the splits. Results land in
-`bench/results_mm_l2/<date>/<model>.seed<k>.json`; `bench.mm_l2_audit` reports them.
+split of its questions shares pictures between the splits.
+
+Each run writes two files to `bench/results_mm_l2/<date>/`: `<model>.seed<k>.json`, the
+settings, the metrics of every level, the chosen head and the environment; and
+`<model>.seed<k>.items.json`, the per-item test predictions (probabilities to six decimals) with
+the leakage flags. `bench.mm_l2_audit` reads both.
 """
 from __future__ import annotations
 
@@ -96,6 +100,22 @@ def run_task(backend, name: str, n_test: int, n_calib: int, seed: int) -> dict:
     }
 
 
+def _round(x, nd=6):
+    return [round(float(v), nd) for v in x]
+
+
+def save(result: dict, stem: str) -> None:
+    """The summary (indented, small) and the per-item predictions (compact) as two files."""
+    summary = {**result, "tasks": [{k: v for k, v in t.items() if k != "items"} for t in result["tasks"]]}
+    items = {"model": result["model"], "seed": result["seed"],
+             "tasks": {t["task"]: [{**it, **{k: _round(it[k]) for k in ("p_l0", "p_l1", "p_l2")}}
+                                   for it in t["items"]] for t in result["tasks"]}}
+    with open(stem + ".json", "w") as f:
+        json.dump(summary, f, indent=1, default=float)
+    with open(stem + ".items.json", "w") as f:
+        json.dump(items, f, separators=(",", ":"))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
@@ -117,7 +137,7 @@ def main(argv=None):
                                                                  backend="vlm"), "tasks": []}
     outdir = os.path.join(args.out, dt.date.today().isoformat())
     os.makedirs(outdir, exist_ok=True)
-    path = os.path.join(outdir, f"{args.model.replace('/', '__')}.seed{args.seed}.json")
+    stem = os.path.join(outdir, f"{args.model.replace('/', '__')}.seed{args.seed}")
     for name in args.tasks.split(","):
         res = run_task(backend, name, args.n, args.calib, args.seed)
         result["tasks"].append(res)
@@ -125,9 +145,8 @@ def main(argv=None):
         print(f"{args.model} {name}: L2 acc {m['acc']:.3f} ece {m['ece']:.3f} aurc {m['aurc']:.3f} "
               f"flip {m.get('flip', float('nan')):.3f} | block {res['head']['layer_abs']}/{res['head']['n_blocks']} "
               f"{res['head']['kind']} | fit {res['seconds_fit']:.0f}s", flush=True)
-        with open(path, "w") as f:
-            json.dump(result, f, indent=1, default=float)
-    print("wrote", path)
+        save(result, stem)
+    print("wrote", stem + ".json", "and", stem + ".items.json")
 
 
 if __name__ == "__main__":
