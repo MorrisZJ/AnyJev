@@ -1,0 +1,160 @@
+{
+ "model": "Qwen/Qwen3-1.7B",
+ "n_layers": 28,
+ "params_per_block": 50336000,
+ "hidden_size": 2048,
+ "rows": [
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 1.0,
+   "blocks": 28,
+   "mode": "raw (plain forward)",
+   "batch_ms": 4.161210817983374,
+   "single_ms": 42.10811828573545,
+   "gflops": 597.588992
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.33,
+   "blocks": 9,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 2.0636109984479845,
+   "single_ms": 15.941556046406426,
+   "gflops": 192.082176
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.5,
+   "blocks": 14,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 2.7465224848128855,
+   "single_ms": 23.887098394334316,
+   "gflops": 298.794496
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.6,
+   "blocks": 17,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 2.7116122655570507,
+   "single_ms": 26.38684964428346,
+   "gflops": 362.821888
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.64,
+   "blocks": 18,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 4.1780514002311975,
+   "single_ms": 28.482961157957714,
+   "gflops": 384.164352
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.75,
+   "blocks": 21,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 3.220784303266555,
+   "single_ms": 33.25470369309187,
+   "gflops": 448.191744
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 1.0,
+   "blocks": 28,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 4.2198034934699535,
+   "single_ms": 46.1445332194368,
+   "gflops": 597.588992
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 1.0,
+   "blocks": 28,
+   "mode": "raw (plain forward)",
+   "batch_ms": 20.558237185468897,
+   "single_ms": 45.297424122691154,
+   "gflops": 3089.422336
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.33,
+   "blocks": 9,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 8.802345371805131,
+   "single_ms": 19.229958889385063,
+   "gflops": 993.028608
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.5,
+   "blocks": 14,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 11.91653253044933,
+   "single_ms": 26.32355509946744,
+   "gflops": 1544.711168
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.6,
+   "blocks": 17,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 13.841743842931464,
+   "single_ms": 29.72776213039955,
+   "gflops": 1875.720704
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.64,
+   "blocks": 18,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 14.471102855168283,
+   "single_ms": 32.24307671189308,
+   "gflops": 1986.057216
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.75,
+   "blocks": 21,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 17.113800946390256,
+   "single_ms": 36.24488531301419,
+   "gflops": 2317.066752
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 1.0,
+   "blocks": 28,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 20.70305118104443,
+   "single_ms": 45.67472233126561,
+   "gflops": 3089.422336
+  }
+ ],
+ "date": "2026-09-22T16:42:01.274104",
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T16:42:01.274163",
+  "anyjev": "0.0.2",
+  "batch_size": 32,
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ }
+}

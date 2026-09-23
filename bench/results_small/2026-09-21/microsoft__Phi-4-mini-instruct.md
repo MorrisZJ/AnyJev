@@ -1,0 +1,26 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| microsoft/Phi-4-mini-instruct | newsgroups | 20 | raw | 0.597 | 0.601 | 0.677 | 0.270 | 0.313 | 0.073 |
+| microsoft/Phi-4-mini-instruct | newsgroups | 20 | L0-perm | 0.613 | 0.614 | 0.675 | 0.303 | 0.233 | 0.140 |
+| microsoft/Phi-4-mini-instruct | newsgroups | 20 | L0-perm+bc | 0.610 | 0.619 | 0.637 | 0.289 | 0.220 | 0.270 |
+| microsoft/Phi-4-mini-instruct | newsgroups | 20 | L0-perm+cf | 0.617 | 0.614 | 0.635 | 0.275 | 0.223 | 0.163 |
+| microsoft/Phi-4-mini-instruct | newsgroups | 20 | L0-cf | 0.573 | 0.558 | 0.709 | 0.288 | 0.390 | 0.000 |
+| microsoft/Phi-4-mini-instruct | newsgroups | 20 | L0-bc | 0.617 | 0.620 | 0.639 | 0.250 | 0.277 | 0.113 |
+| microsoft/Phi-4-mini-instruct | newsgroups | 20 | L0 | 0.610 | 0.619 | 0.637 | 0.289 | 0.220 | 0.270 |
+| microsoft/Phi-4-mini-instruct | newsgroups | 20 | L1 | 0.613 | 0.621 | 0.517 | 0.114 | 0.220 | 0.280 |
+| microsoft/Phi-4-mini-instruct | injection | 2 | raw | 0.697 | 0.614 | 0.391 | 0.137 | 0.440 | 0.020 |
+| microsoft/Phi-4-mini-instruct | injection | 2 | L0-perm | 0.797 | 0.769 | 0.327 | 0.109 | 0.000 | 0.007 |
+| microsoft/Phi-4-mini-instruct | injection | 2 | L0-perm+bc | 0.803 | 0.794 | 0.329 | 0.124 | 0.000 | 0.013 |
+| microsoft/Phi-4-mini-instruct | injection | 2 | L0-perm+cf | 0.797 | 0.790 | 0.336 | 0.120 | 0.000 | 0.020 |
+| microsoft/Phi-4-mini-instruct | injection | 2 | L0-cf | 0.750 | 0.748 | 0.319 | 0.100 | 0.170 | 0.093 |
+| microsoft/Phi-4-mini-instruct | injection | 2 | L0-bc | 0.820 | 0.811 | 0.293 | 0.117 | 0.140 | 0.020 |
+| microsoft/Phi-4-mini-instruct | injection | 2 | L0 | 0.803 | 0.794 | 0.329 | 0.124 | 0.000 | 0.013 |
+| microsoft/Phi-4-mini-instruct | injection | 2 | L1 | 0.803 | 0.794 | 0.312 | 0.083 | 0.000 | 0.013 |
+| microsoft/Phi-4-mini-instruct | banking20 | 20 | raw | 0.707 | 0.710 | 0.474 | 0.184 | 0.277 | 0.083 |
+| microsoft/Phi-4-mini-instruct | banking20 | 20 | L0-perm | 0.767 | 0.770 | 0.387 | 0.153 | 0.130 | 0.477 |
+| microsoft/Phi-4-mini-instruct | banking20 | 20 | L0-perm+bc | 0.790 | 0.794 | 0.347 | 0.137 | 0.107 | 0.450 |
+| microsoft/Phi-4-mini-instruct | banking20 | 20 | L0-perm+cf | 0.763 | 0.770 | 0.386 | 0.155 | 0.133 | 0.490 |
+| microsoft/Phi-4-mini-instruct | banking20 | 20 | L0-cf | 0.737 | 0.738 | 0.446 | 0.161 | 0.300 | 0.010 |
+| microsoft/Phi-4-mini-instruct | banking20 | 20 | L0-bc | 0.723 | 0.724 | 0.437 | 0.170 | 0.233 | 0.153 |
+| microsoft/Phi-4-mini-instruct | banking20 | 20 | L0 | 0.790 | 0.794 | 0.347 | 0.137 | 0.107 | 0.450 |
+| microsoft/Phi-4-mini-instruct | banking20 | 20 | L1 | 0.793 | 0.798 | 0.317 | 0.055 | 0.103 | 0.457 |

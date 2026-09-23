@@ -1,0 +1,160 @@
+{
+ "model": "Qwen/Qwen3-1.7B",
+ "n_layers": 28,
+ "params_per_block": 50336000,
+ "hidden_size": 2048,
+ "rows": [
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 1.0,
+   "blocks": 28,
+   "mode": "raw (plain forward)",
+   "batch_ms": 5.658759182551876,
+   "single_ms": 40.00450956324737,
+   "gflops": 597.588992
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.33,
+   "blocks": 9,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 1.8634735606610775,
+   "single_ms": 15.475865453481674,
+   "gflops": 192.082176
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.5,
+   "blocks": 14,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 2.9299040033947676,
+   "single_ms": 30.454844236373894,
+   "gflops": 298.794496
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.6,
+   "blocks": 17,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 2.6501615066081285,
+   "single_ms": 26.334219488004845,
+   "gflops": 362.821888
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.64,
+   "blocks": 18,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 4.047030961373821,
+   "single_ms": 27.503283011416595,
+   "gflops": 384.164352
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.75,
+   "blocks": 21,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 3.6659220641013235,
+   "single_ms": 30.401713338991005,
+   "gflops": 448.191744
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 1.0,
+   "blocks": 28,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 3.779771999688819,
+   "single_ms": 39.85978346318007,
+   "gflops": 597.588992
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 1.0,
+   "blocks": 28,
+   "mode": "raw (plain forward)",
+   "batch_ms": 19.627716654213145,
+   "single_ms": 45.97986340522766,
+   "gflops": 3089.422336
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.33,
+   "blocks": 9,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 8.408548397710547,
+   "single_ms": 19.956807916363083,
+   "gflops": 993.028608
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.5,
+   "blocks": 14,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 11.389810068067163,
+   "single_ms": 27.24438005437454,
+   "gflops": 1544.711168
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.6,
+   "blocks": 17,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 13.348160166060552,
+   "single_ms": 30.65369799733162,
+   "gflops": 1875.720704
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.64,
+   "blocks": 18,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 13.520446140319109,
+   "single_ms": 31.42463583499193,
+   "gflops": 1986.057216
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.75,
+   "blocks": 21,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 15.345844498369843,
+   "single_ms": 35.73853690177202,
+   "gflops": 2317.066752
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 1.0,
+   "blocks": 28,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 19.939079968025908,
+   "single_ms": 45.94491471846897,
+   "gflops": 3089.422336
+  }
+ ],
+ "date": "2026-09-22T15:59:23.422693",
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T15:59:23.422757",
+  "anyjev": "0.0.2",
+  "batch_size": 32,
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ }
+}

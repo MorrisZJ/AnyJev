@@ -1,0 +1,160 @@
+{
+ "model": "Qwen/Qwen3-4B",
+ "n_layers": 36,
+ "params_per_block": 100930816,
+ "hidden_size": 2560,
+ "rows": [
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 1.0,
+   "blocks": 36,
+   "mode": "raw (plain forward)",
+   "batch_ms": 7.432430284097791,
+   "single_ms": 56.873336993157864,
+   "gflops": 1540.607975424
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.33,
+   "blocks": 12,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 3.066822071559727,
+   "single_ms": 19.57819697757562,
+   "gflops": 513.535991808
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.5,
+   "blocks": 18,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 4.119249904761091,
+   "single_ms": 31.927603483200077,
+   "gflops": 770.303987712
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.6,
+   "blocks": 22,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 4.814414249267429,
+   "single_ms": 31.96769071122011,
+   "gflops": 941.482651648
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.67,
+   "blocks": 24,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 5.104370065964758,
+   "single_ms": 35.047350327173866,
+   "gflops": 1027.071983616
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.75,
+   "blocks": 27,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 5.579713877523318,
+   "single_ms": 38.93902512888113,
+   "gflops": 1155.455981568
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 1.0,
+   "blocks": 36,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 7.181203865911812,
+   "single_ms": 51.76268629729748,
+   "gflops": 1540.607975424
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 1.0,
+   "blocks": 36,
+   "mode": "raw (plain forward)",
+   "batch_ms": 41.54939952422865,
+   "single_ms": 55.545186437666416,
+   "gflops": 7964.652552192
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.33,
+   "blocks": 12,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 16.046192671637982,
+   "single_ms": 24.101028839747112,
+   "gflops": 2654.884184064
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.5,
+   "blocks": 18,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 22.05531863728538,
+   "single_ms": 38.376659527421,
+   "gflops": 3982.326276096
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.6,
+   "blocks": 22,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 26.52415822376497,
+   "single_ms": 37.64290039738019,
+   "gflops": 4867.287670784
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.67,
+   "blocks": 24,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 28.39295324520208,
+   "single_ms": 39.886206202208996,
+   "gflops": 5309.768368128
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.75,
+   "blocks": 27,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 32.064073893707246,
+   "single_ms": 43.435403207937874,
+   "gflops": 5973.489414144
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 1.0,
+   "blocks": 36,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 41.98283053119667,
+   "single_ms": 53.375588419536754,
+   "gflops": 7964.652552192
+  }
+ ],
+ "date": "2026-09-22T15:59:33.523549",
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T15:59:33.523613",
+  "anyjev": "0.0.2",
+  "batch_size": 32,
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ }
+}

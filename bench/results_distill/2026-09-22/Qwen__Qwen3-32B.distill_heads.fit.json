@@ -1,0 +1,1062 @@
+{
+ "teacher": "Qwen/Qwen3-32B",
+ "students": [
+  [
+   "Qwen/Qwen3-1.7B",
+   18
+  ],
+  [
+   "Qwen/Qwen3-4B",
+   24
+  ],
+  [
+   "Qwen/Qwen3-8B",
+   24
+  ]
+ ],
+ "budgets": [
+  300,
+  1200
+ ],
+ "questions": {
+  "typed.agent_trace_observability.action": {
+   "teacher": 0.7,
+   "Qwen3-1.7B:gold300": 0.67,
+   "Qwen3-1.7B:synth300-hard": 0.55,
+   "Qwen3-1.7B:synth300-soft": 0.55,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.68,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.64,
+   "Qwen3-1.7B:synth1200-hard": 0.51,
+   "Qwen3-1.7B:synth1200-soft": 0.5,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.7,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.67,
+   "Qwen3-4B:gold300": 0.67,
+   "Qwen3-4B:synth300-hard": 0.62,
+   "Qwen3-4B:synth300-soft": 0.63,
+   "Qwen3-4B:gold300+synth300-hard": 0.71,
+   "Qwen3-4B:gold300+synth300-soft": 0.71,
+   "Qwen3-4B:synth1200-hard": 0.66,
+   "Qwen3-4B:synth1200-soft": 0.63,
+   "Qwen3-4B:gold300+synth1200-hard": 0.7,
+   "Qwen3-4B:gold300+synth1200-soft": 0.68,
+   "Qwen3-8B:gold300": 0.69,
+   "Qwen3-8B:synth300-hard": 0.66,
+   "Qwen3-8B:synth300-soft": 0.62,
+   "Qwen3-8B:gold300+synth300-hard": 0.69,
+   "Qwen3-8B:gold300+synth300-soft": 0.71,
+   "Qwen3-8B:synth1200-hard": 0.63,
+   "Qwen3-8B:synth1200-soft": 0.66,
+   "Qwen3-8B:gold300+synth1200-hard": 0.64,
+   "Qwen3-8B:gold300+synth1200-soft": 0.68
+  },
+  "typed.agent_trace_observability.needs_review": {
+   "teacher": 0.9,
+   "Qwen3-1.7B:gold300": 0.84,
+   "Qwen3-1.7B:synth300-hard": 0.79,
+   "Qwen3-1.7B:synth300-soft": 0.76,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.83,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.84,
+   "Qwen3-1.7B:synth1200-hard": 0.77,
+   "Qwen3-1.7B:synth1200-soft": 0.76,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.82,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.84,
+   "Qwen3-4B:gold300": 0.85,
+   "Qwen3-4B:synth300-hard": 0.8,
+   "Qwen3-4B:synth300-soft": 0.77,
+   "Qwen3-4B:gold300+synth300-hard": 0.88,
+   "Qwen3-4B:gold300+synth300-soft": 0.88,
+   "Qwen3-4B:synth1200-hard": 0.76,
+   "Qwen3-4B:synth1200-soft": 0.78,
+   "Qwen3-4B:gold300+synth1200-hard": 0.89,
+   "Qwen3-4B:gold300+synth1200-soft": 0.9,
+   "Qwen3-8B:gold300": 0.88,
+   "Qwen3-8B:synth300-hard": 0.81,
+   "Qwen3-8B:synth300-soft": 0.8,
+   "Qwen3-8B:gold300+synth300-hard": 0.89,
+   "Qwen3-8B:gold300+synth300-soft": 0.88,
+   "Qwen3-8B:synth1200-hard": 0.8,
+   "Qwen3-8B:synth1200-soft": 0.8,
+   "Qwen3-8B:gold300+synth1200-hard": 0.87,
+   "Qwen3-8B:gold300+synth1200-soft": 0.85
+  },
+  "typed.agent_trace_observability.outcome": {
+   "teacher": 0.8,
+   "Qwen3-1.7B:gold300": 0.77,
+   "Qwen3-1.7B:synth300-hard": 0.63,
+   "Qwen3-1.7B:synth300-soft": 0.64,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.77,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.77,
+   "Qwen3-1.7B:synth1200-hard": 0.66,
+   "Qwen3-1.7B:synth1200-soft": 0.7,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.76,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.72,
+   "Qwen3-4B:gold300": 0.8,
+   "Qwen3-4B:synth300-hard": 0.68,
+   "Qwen3-4B:synth300-soft": 0.67,
+   "Qwen3-4B:gold300+synth300-hard": 0.78,
+   "Qwen3-4B:gold300+synth300-soft": 0.71,
+   "Qwen3-4B:synth1200-hard": 0.74,
+   "Qwen3-4B:synth1200-soft": 0.76,
+   "Qwen3-4B:gold300+synth1200-hard": 0.77,
+   "Qwen3-4B:gold300+synth1200-soft": 0.75,
+   "Qwen3-8B:gold300": 0.78,
+   "Qwen3-8B:synth300-hard": 0.67,
+   "Qwen3-8B:synth300-soft": 0.71,
+   "Qwen3-8B:gold300+synth300-hard": 0.79,
+   "Qwen3-8B:gold300+synth300-soft": 0.77,
+   "Qwen3-8B:synth1200-hard": 0.61,
+   "Qwen3-8B:synth1200-soft": 0.66,
+   "Qwen3-8B:gold300+synth1200-hard": 0.75,
+   "Qwen3-8B:gold300+synth1200-soft": 0.74
+  },
+  "typed.agent_trace_observability.risk": {
+   "teacher": 0.82,
+   "Qwen3-1.7B:gold300": 0.81,
+   "Qwen3-1.7B:synth300-hard": 0.74,
+   "Qwen3-1.7B:synth300-soft": 0.54,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.82,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.8,
+   "Qwen3-1.7B:synth1200-hard": 0.75,
+   "Qwen3-1.7B:synth1200-soft": 0.77,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.83,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.83,
+   "Qwen3-4B:gold300": 0.8,
+   "Qwen3-4B:synth300-hard": 0.75,
+   "Qwen3-4B:synth300-soft": 0.72,
+   "Qwen3-4B:gold300+synth300-hard": 0.82,
+   "Qwen3-4B:gold300+synth300-soft": 0.8,
+   "Qwen3-4B:synth1200-hard": 0.72,
+   "Qwen3-4B:synth1200-soft": 0.73,
+   "Qwen3-4B:gold300+synth1200-hard": 0.8,
+   "Qwen3-4B:gold300+synth1200-soft": 0.83,
+   "Qwen3-8B:gold300": 0.78,
+   "Qwen3-8B:synth300-hard": 0.65,
+   "Qwen3-8B:synth300-soft": 0.7,
+   "Qwen3-8B:gold300+synth300-hard": 0.78,
+   "Qwen3-8B:gold300+synth300-soft": 0.74,
+   "Qwen3-8B:synth1200-hard": 0.73,
+   "Qwen3-8B:synth1200-soft": 0.75,
+   "Qwen3-8B:gold300+synth1200-hard": 0.78,
+   "Qwen3-8B:gold300+synth1200-soft": 0.79
+  },
+  "typed.agent_trace_observability.urgency": {
+   "teacher": 0.61,
+   "Qwen3-1.7B:gold300": 0.65,
+   "Qwen3-1.7B:synth300-hard": 0.64,
+   "Qwen3-1.7B:synth300-soft": 0.48,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.64,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.64,
+   "Qwen3-1.7B:synth1200-hard": 0.62,
+   "Qwen3-1.7B:synth1200-soft": 0.6,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.65,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.64,
+   "Qwen3-4B:gold300": 0.7,
+   "Qwen3-4B:synth300-hard": 0.63,
+   "Qwen3-4B:synth300-soft": 0.61,
+   "Qwen3-4B:gold300+synth300-hard": 0.7,
+   "Qwen3-4B:gold300+synth300-soft": 0.68,
+   "Qwen3-4B:synth1200-hard": 0.63,
+   "Qwen3-4B:synth1200-soft": 0.64,
+   "Qwen3-4B:gold300+synth1200-hard": 0.7,
+   "Qwen3-4B:gold300+synth1200-soft": 0.65,
+   "Qwen3-8B:gold300": 0.67,
+   "Qwen3-8B:synth300-hard": 0.61,
+   "Qwen3-8B:synth300-soft": 0.56,
+   "Qwen3-8B:gold300+synth300-hard": 0.68,
+   "Qwen3-8B:gold300+synth300-soft": 0.63,
+   "Qwen3-8B:synth1200-hard": 0.66,
+   "Qwen3-8B:synth1200-soft": 0.57,
+   "Qwen3-8B:gold300+synth1200-hard": 0.66,
+   "Qwen3-8B:gold300+synth1200-soft": 0.64
+  },
+  "typed.customer_service.action": {
+   "teacher": 0.63,
+   "Qwen3-1.7B:gold300": 0.46,
+   "Qwen3-1.7B:synth300-hard": 0.5,
+   "Qwen3-1.7B:synth300-soft": 0.55,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.6,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.63,
+   "Qwen3-1.7B:synth1200-hard": 0.52,
+   "Qwen3-1.7B:synth1200-soft": 0.54,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.62,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.63,
+   "Qwen3-4B:gold300": 0.67,
+   "Qwen3-4B:synth300-hard": 0.53,
+   "Qwen3-4B:synth300-soft": 0.54,
+   "Qwen3-4B:gold300+synth300-hard": 0.62,
+   "Qwen3-4B:gold300+synth300-soft": 0.64,
+   "Qwen3-4B:synth1200-hard": 0.54,
+   "Qwen3-4B:synth1200-soft": 0.56,
+   "Qwen3-4B:gold300+synth1200-hard": 0.61,
+   "Qwen3-4B:gold300+synth1200-soft": 0.62,
+   "Qwen3-8B:gold300": 0.56,
+   "Qwen3-8B:synth300-hard": 0.54,
+   "Qwen3-8B:synth300-soft": 0.56,
+   "Qwen3-8B:gold300+synth300-hard": 0.57,
+   "Qwen3-8B:gold300+synth300-soft": 0.66,
+   "Qwen3-8B:synth1200-hard": 0.54,
+   "Qwen3-8B:synth1200-soft": 0.59,
+   "Qwen3-8B:gold300+synth1200-hard": 0.57,
+   "Qwen3-8B:gold300+synth1200-soft": 0.62
+  },
+  "typed.customer_service.category": {
+   "teacher": 0.99,
+   "Qwen3-1.7B:gold300": 0.92,
+   "Qwen3-1.7B:synth300-hard": 0.92,
+   "Qwen3-1.7B:synth300-soft": 0.92,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.91,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.93,
+   "Qwen3-1.7B:synth1200-hard": 0.91,
+   "Qwen3-1.7B:synth1200-soft": 0.94,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.92,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.92,
+   "Qwen3-4B:gold300": 0.97,
+   "Qwen3-4B:synth300-hard": 0.89,
+   "Qwen3-4B:synth300-soft": 0.96,
+   "Qwen3-4B:gold300+synth300-hard": 0.98,
+   "Qwen3-4B:gold300+synth300-soft": 0.98,
+   "Qwen3-4B:synth1200-hard": 0.98,
+   "Qwen3-4B:synth1200-soft": 0.94,
+   "Qwen3-4B:gold300+synth1200-hard": 0.97,
+   "Qwen3-4B:gold300+synth1200-soft": 0.98,
+   "Qwen3-8B:gold300": 0.98,
+   "Qwen3-8B:synth300-hard": 0.92,
+   "Qwen3-8B:synth300-soft": 0.96,
+   "Qwen3-8B:gold300+synth300-hard": 0.96,
+   "Qwen3-8B:gold300+synth300-soft": 0.97,
+   "Qwen3-8B:synth1200-hard": 0.95,
+   "Qwen3-8B:synth1200-soft": 0.95,
+   "Qwen3-8B:gold300+synth1200-hard": 0.96,
+   "Qwen3-8B:gold300+synth1200-soft": 0.96
+  },
+  "typed.customer_service.churn_risk": {
+   "teacher": 0.91,
+   "Qwen3-1.7B:gold300": 0.81,
+   "Qwen3-1.7B:synth300-hard": 0.75,
+   "Qwen3-1.7B:synth300-soft": 0.77,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.84,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.79,
+   "Qwen3-1.7B:synth1200-hard": 0.87,
+   "Qwen3-1.7B:synth1200-soft": 0.77,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.86,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.8,
+   "Qwen3-4B:gold300": 0.86,
+   "Qwen3-4B:synth300-hard": 0.88,
+   "Qwen3-4B:synth300-soft": 0.85,
+   "Qwen3-4B:gold300+synth300-hard": 0.89,
+   "Qwen3-4B:gold300+synth300-soft": 0.85,
+   "Qwen3-4B:synth1200-hard": 0.91,
+   "Qwen3-4B:synth1200-soft": 0.85,
+   "Qwen3-4B:gold300+synth1200-hard": 0.89,
+   "Qwen3-4B:gold300+synth1200-soft": 0.87,
+   "Qwen3-8B:gold300": 0.87,
+   "Qwen3-8B:synth300-hard": 0.82,
+   "Qwen3-8B:synth300-soft": 0.86,
+   "Qwen3-8B:gold300+synth300-hard": 0.88,
+   "Qwen3-8B:gold300+synth300-soft": 0.86,
+   "Qwen3-8B:synth1200-hard": 0.89,
+   "Qwen3-8B:synth1200-soft": 0.86,
+   "Qwen3-8B:gold300+synth1200-hard": 0.88,
+   "Qwen3-8B:gold300+synth1200-soft": 0.85
+  },
+  "typed.customer_service.needs_human": {
+   "teacher": 0.77,
+   "Qwen3-1.7B:gold300": 0.76,
+   "Qwen3-1.7B:synth300-hard": 0.71,
+   "Qwen3-1.7B:synth300-soft": 0.7,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.78,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.79,
+   "Qwen3-1.7B:synth1200-hard": 0.8,
+   "Qwen3-1.7B:synth1200-soft": 0.71,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.82,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.7,
+   "Qwen3-4B:gold300": 0.78,
+   "Qwen3-4B:synth300-hard": 0.69,
+   "Qwen3-4B:synth300-soft": 0.73,
+   "Qwen3-4B:gold300+synth300-hard": 0.74,
+   "Qwen3-4B:gold300+synth300-soft": 0.78,
+   "Qwen3-4B:synth1200-hard": 0.78,
+   "Qwen3-4B:synth1200-soft": 0.69,
+   "Qwen3-4B:gold300+synth1200-hard": 0.8,
+   "Qwen3-4B:gold300+synth1200-soft": 0.72,
+   "Qwen3-8B:gold300": 0.74,
+   "Qwen3-8B:synth300-hard": 0.7,
+   "Qwen3-8B:synth300-soft": 0.76,
+   "Qwen3-8B:gold300+synth300-hard": 0.75,
+   "Qwen3-8B:gold300+synth300-soft": 0.75,
+   "Qwen3-8B:synth1200-hard": 0.77,
+   "Qwen3-8B:synth1200-soft": 0.74,
+   "Qwen3-8B:gold300+synth1200-hard": 0.77,
+   "Qwen3-8B:gold300+synth1200-soft": 0.74
+  },
+  "typed.customer_service.urgency": {
+   "teacher": 0.87,
+   "Qwen3-1.7B:gold300": 0.67,
+   "Qwen3-1.7B:synth300-hard": 0.62,
+   "Qwen3-1.7B:synth300-soft": 0.62,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.74,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.66,
+   "Qwen3-1.7B:synth1200-hard": 0.69,
+   "Qwen3-1.7B:synth1200-soft": 0.65,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.69,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.69,
+   "Qwen3-4B:gold300": 0.82,
+   "Qwen3-4B:synth300-hard": 0.76,
+   "Qwen3-4B:synth300-soft": 0.76,
+   "Qwen3-4B:gold300+synth300-hard": 0.74,
+   "Qwen3-4B:gold300+synth300-soft": 0.8,
+   "Qwen3-4B:synth1200-hard": 0.76,
+   "Qwen3-4B:synth1200-soft": 0.73,
+   "Qwen3-4B:gold300+synth1200-hard": 0.72,
+   "Qwen3-4B:gold300+synth1200-soft": 0.78,
+   "Qwen3-8B:gold300": 0.83,
+   "Qwen3-8B:synth300-hard": 0.68,
+   "Qwen3-8B:synth300-soft": 0.76,
+   "Qwen3-8B:gold300+synth300-hard": 0.83,
+   "Qwen3-8B:gold300+synth300-soft": 0.86,
+   "Qwen3-8B:synth1200-hard": 0.75,
+   "Qwen3-8B:synth1200-soft": 0.77,
+   "Qwen3-8B:gold300+synth1200-hard": 0.79,
+   "Qwen3-8B:gold300+synth1200-soft": 0.82
+  },
+  "typed.invoice_processing.discrepancy_severity": {
+   "teacher": 0.84,
+   "Qwen3-1.7B:gold300": 0.68,
+   "Qwen3-1.7B:synth300-hard": 0.25,
+   "Qwen3-1.7B:synth300-soft": 0.23,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.68,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.66,
+   "Qwen3-1.7B:synth1200-hard": 0.38,
+   "Qwen3-1.7B:synth1200-soft": 0.24,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.69,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.69,
+   "Qwen3-4B:gold300": 0.85,
+   "Qwen3-4B:synth300-hard": 0.61,
+   "Qwen3-4B:synth300-soft": 0.4,
+   "Qwen3-4B:gold300+synth300-hard": 0.85,
+   "Qwen3-4B:gold300+synth300-soft": 0.83,
+   "Qwen3-4B:synth1200-hard": 0.73,
+   "Qwen3-4B:synth1200-soft": 0.48,
+   "Qwen3-4B:gold300+synth1200-hard": 0.87,
+   "Qwen3-4B:gold300+synth1200-soft": 0.81,
+   "Qwen3-8B:gold300": 0.79,
+   "Qwen3-8B:synth300-hard": 0.41,
+   "Qwen3-8B:synth300-soft": 0.34,
+   "Qwen3-8B:gold300+synth300-hard": 0.81,
+   "Qwen3-8B:gold300+synth300-soft": 0.79,
+   "Qwen3-8B:synth1200-hard": 0.77,
+   "Qwen3-8B:synth1200-soft": 0.52,
+   "Qwen3-8B:gold300+synth1200-hard": 0.82,
+   "Qwen3-8B:gold300+synth1200-soft": 0.82
+  },
+  "typed.invoice_processing.disposition": {
+   "teacher": 0.77,
+   "Qwen3-1.7B:gold300": 0.66,
+   "Qwen3-1.7B:synth300-hard": 0.44,
+   "Qwen3-1.7B:synth300-soft": 0.48,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.72,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.69,
+   "Qwen3-1.7B:synth1200-hard": 0.46,
+   "Qwen3-1.7B:synth1200-soft": 0.42,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.69,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.68,
+   "Qwen3-4B:gold300": 0.76,
+   "Qwen3-4B:synth300-hard": 0.42,
+   "Qwen3-4B:synth300-soft": 0.4,
+   "Qwen3-4B:gold300+synth300-hard": 0.79,
+   "Qwen3-4B:gold300+synth300-soft": 0.78,
+   "Qwen3-4B:synth1200-hard": 0.39,
+   "Qwen3-4B:synth1200-soft": 0.42,
+   "Qwen3-4B:gold300+synth1200-hard": 0.77,
+   "Qwen3-4B:gold300+synth1200-soft": 0.77,
+   "Qwen3-8B:gold300": 0.67,
+   "Qwen3-8B:synth300-hard": 0.64,
+   "Qwen3-8B:synth300-soft": 0.63,
+   "Qwen3-8B:gold300+synth300-hard": 0.71,
+   "Qwen3-8B:gold300+synth300-soft": 0.74,
+   "Qwen3-8B:synth1200-hard": 0.54,
+   "Qwen3-8B:synth1200-soft": 0.45,
+   "Qwen3-8B:gold300+synth1200-hard": 0.72,
+   "Qwen3-8B:gold300+synth1200-soft": 0.74
+  },
+  "typed.invoice_processing.duplicate": {
+   "teacher": 0.9,
+   "Qwen3-1.7B:gold300": 0.93,
+   "Qwen3-1.7B:synth300-hard": 0.89,
+   "Qwen3-1.7B:synth300-soft": 0.89,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.91,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.93,
+   "Qwen3-1.7B:synth1200-hard": 0.95,
+   "Qwen3-1.7B:synth1200-soft": 0.89,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.95,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.89,
+   "Qwen3-4B:gold300": 0.94,
+   "Qwen3-4B:synth300-hard": 0.94,
+   "Qwen3-4B:synth300-soft": 0.89,
+   "Qwen3-4B:gold300+synth300-hard": 0.94,
+   "Qwen3-4B:gold300+synth300-soft": 0.94,
+   "Qwen3-4B:synth1200-hard": 0.94,
+   "Qwen3-4B:synth1200-soft": 0.93,
+   "Qwen3-4B:gold300+synth1200-hard": 0.93,
+   "Qwen3-4B:gold300+synth1200-soft": 0.93,
+   "Qwen3-8B:gold300": 0.94,
+   "Qwen3-8B:synth300-hard": 0.94,
+   "Qwen3-8B:synth300-soft": 0.94,
+   "Qwen3-8B:gold300+synth300-hard": 0.95,
+   "Qwen3-8B:gold300+synth300-soft": 0.95,
+   "Qwen3-8B:synth1200-hard": 0.94,
+   "Qwen3-8B:synth1200-soft": 0.94,
+   "Qwen3-8B:gold300+synth1200-hard": 0.93,
+   "Qwen3-8B:gold300+synth1200-soft": 0.94
+  },
+  "typed.invoice_processing.matches_order": {
+   "teacher": 0.95,
+   "Qwen3-1.7B:gold300": 0.83,
+   "Qwen3-1.7B:synth300-hard": 0.71,
+   "Qwen3-1.7B:synth300-soft": 0.52,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.92,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.89,
+   "Qwen3-1.7B:synth1200-hard": 0.7,
+   "Qwen3-1.7B:synth1200-soft": 0.66,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.91,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.88,
+   "Qwen3-4B:gold300": 0.94,
+   "Qwen3-4B:synth300-hard": 0.89,
+   "Qwen3-4B:synth300-soft": 0.88,
+   "Qwen3-4B:gold300+synth300-hard": 0.95,
+   "Qwen3-4B:gold300+synth300-soft": 0.93,
+   "Qwen3-4B:synth1200-hard": 0.86,
+   "Qwen3-4B:synth1200-soft": 0.88,
+   "Qwen3-4B:gold300+synth1200-hard": 0.96,
+   "Qwen3-4B:gold300+synth1200-soft": 0.94,
+   "Qwen3-8B:gold300": 0.96,
+   "Qwen3-8B:synth300-hard": 0.85,
+   "Qwen3-8B:synth300-soft": 0.89,
+   "Qwen3-8B:gold300+synth300-hard": 0.94,
+   "Qwen3-8B:gold300+synth300-soft": 0.95,
+   "Qwen3-8B:synth1200-hard": 0.9,
+   "Qwen3-8B:synth1200-soft": 0.92,
+   "Qwen3-8B:gold300+synth1200-hard": 0.95,
+   "Qwen3-8B:gold300+synth1200-soft": 0.96
+  },
+  "typed.invoice_processing.urgency": {
+   "teacher": 0.75,
+   "Qwen3-1.7B:gold300": 0.66,
+   "Qwen3-1.7B:synth300-hard": 0.6,
+   "Qwen3-1.7B:synth300-soft": 0.55,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.71,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.66,
+   "Qwen3-1.7B:synth1200-hard": 0.58,
+   "Qwen3-1.7B:synth1200-soft": 0.53,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.7,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.69,
+   "Qwen3-4B:gold300": 0.63,
+   "Qwen3-4B:synth300-hard": 0.5,
+   "Qwen3-4B:synth300-soft": 0.52,
+   "Qwen3-4B:gold300+synth300-hard": 0.67,
+   "Qwen3-4B:gold300+synth300-soft": 0.68,
+   "Qwen3-4B:synth1200-hard": 0.54,
+   "Qwen3-4B:synth1200-soft": 0.53,
+   "Qwen3-4B:gold300+synth1200-hard": 0.69,
+   "Qwen3-4B:gold300+synth1200-soft": 0.69,
+   "Qwen3-8B:gold300": 0.71,
+   "Qwen3-8B:synth300-hard": 0.5,
+   "Qwen3-8B:synth300-soft": 0.5,
+   "Qwen3-8B:gold300+synth300-hard": 0.69,
+   "Qwen3-8B:gold300+synth300-soft": 0.71,
+   "Qwen3-8B:synth1200-hard": 0.54,
+   "Qwen3-8B:synth1200-soft": 0.51,
+   "Qwen3-8B:gold300+synth1200-hard": 0.69,
+   "Qwen3-8B:gold300+synth1200-soft": 0.69
+  },
+  "typed.security_incidents.credential_compromise": {
+   "teacher": 0.79,
+   "Qwen3-1.7B:gold300": 0.75,
+   "Qwen3-1.7B:synth300-hard": 0.63,
+   "Qwen3-1.7B:synth300-soft": 0.71,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.78,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.8,
+   "Qwen3-1.7B:synth1200-hard": 0.69,
+   "Qwen3-1.7B:synth1200-soft": 0.78,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.78,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.8,
+   "Qwen3-4B:gold300": 0.72,
+   "Qwen3-4B:synth300-hard": 0.73,
+   "Qwen3-4B:synth300-soft": 0.71,
+   "Qwen3-4B:gold300+synth300-hard": 0.75,
+   "Qwen3-4B:gold300+synth300-soft": 0.75,
+   "Qwen3-4B:synth1200-hard": 0.69,
+   "Qwen3-4B:synth1200-soft": 0.7,
+   "Qwen3-4B:gold300+synth1200-hard": 0.76,
+   "Qwen3-4B:gold300+synth1200-soft": 0.73,
+   "Qwen3-8B:gold300": 0.73,
+   "Qwen3-8B:synth300-hard": 0.66,
+   "Qwen3-8B:synth300-soft": 0.7,
+   "Qwen3-8B:gold300+synth300-hard": 0.74,
+   "Qwen3-8B:gold300+synth300-soft": 0.74,
+   "Qwen3-8B:synth1200-hard": 0.68,
+   "Qwen3-8B:synth1200-soft": 0.71,
+   "Qwen3-8B:gold300+synth1200-hard": 0.74,
+   "Qwen3-8B:gold300+synth1200-soft": 0.75
+  },
+  "typed.security_incidents.disposition": {
+   "teacher": 0.69,
+   "Qwen3-1.7B:gold300": 0.75,
+   "Qwen3-1.7B:synth300-hard": 0.67,
+   "Qwen3-1.7B:synth300-soft": 0.7,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.75,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.75,
+   "Qwen3-1.7B:synth1200-hard": 0.71,
+   "Qwen3-1.7B:synth1200-soft": 0.69,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.78,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.76,
+   "Qwen3-4B:gold300": 0.8,
+   "Qwen3-4B:synth300-hard": 0.7,
+   "Qwen3-4B:synth300-soft": 0.74,
+   "Qwen3-4B:gold300+synth300-hard": 0.76,
+   "Qwen3-4B:gold300+synth300-soft": 0.77,
+   "Qwen3-4B:synth1200-hard": 0.73,
+   "Qwen3-4B:synth1200-soft": 0.73,
+   "Qwen3-4B:gold300+synth1200-hard": 0.74,
+   "Qwen3-4B:gold300+synth1200-soft": 0.78,
+   "Qwen3-8B:gold300": 0.73,
+   "Qwen3-8B:synth300-hard": 0.66,
+   "Qwen3-8B:synth300-soft": 0.74,
+   "Qwen3-8B:gold300+synth300-hard": 0.74,
+   "Qwen3-8B:gold300+synth300-soft": 0.78,
+   "Qwen3-8B:synth1200-hard": 0.71,
+   "Qwen3-8B:synth1200-soft": 0.77,
+   "Qwen3-8B:gold300+synth1200-hard": 0.77,
+   "Qwen3-8B:gold300+synth1200-soft": 0.79
+  },
+  "typed.security_incidents.severity": {
+   "teacher": 0.73,
+   "Qwen3-1.7B:gold300": 0.68,
+   "Qwen3-1.7B:synth300-hard": 0.47,
+   "Qwen3-1.7B:synth300-soft": 0.46,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.69,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.71,
+   "Qwen3-1.7B:synth1200-hard": 0.52,
+   "Qwen3-1.7B:synth1200-soft": 0.5,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.67,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.7,
+   "Qwen3-4B:gold300": 0.73,
+   "Qwen3-4B:synth300-hard": 0.54,
+   "Qwen3-4B:synth300-soft": 0.56,
+   "Qwen3-4B:gold300+synth300-hard": 0.69,
+   "Qwen3-4B:gold300+synth300-soft": 0.74,
+   "Qwen3-4B:synth1200-hard": 0.61,
+   "Qwen3-4B:synth1200-soft": 0.67,
+   "Qwen3-4B:gold300+synth1200-hard": 0.68,
+   "Qwen3-4B:gold300+synth1200-soft": 0.73,
+   "Qwen3-8B:gold300": 0.69,
+   "Qwen3-8B:synth300-hard": 0.65,
+   "Qwen3-8B:synth300-soft": 0.65,
+   "Qwen3-8B:gold300+synth300-hard": 0.68,
+   "Qwen3-8B:gold300+synth300-soft": 0.7,
+   "Qwen3-8B:synth1200-hard": 0.66,
+   "Qwen3-8B:synth1200-soft": 0.69,
+   "Qwen3-8B:gold300+synth1200-hard": 0.73,
+   "Qwen3-8B:gold300+synth1200-soft": 0.75
+  },
+  "typed.security_incidents.true_positive": {
+   "teacher": 0.86,
+   "Qwen3-1.7B:gold300": 0.75,
+   "Qwen3-1.7B:synth300-hard": 0.75,
+   "Qwen3-1.7B:synth300-soft": 0.77,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.76,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.77,
+   "Qwen3-1.7B:synth1200-hard": 0.74,
+   "Qwen3-1.7B:synth1200-soft": 0.81,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.82,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.82,
+   "Qwen3-4B:gold300": 0.84,
+   "Qwen3-4B:synth300-hard": 0.78,
+   "Qwen3-4B:synth300-soft": 0.78,
+   "Qwen3-4B:gold300+synth300-hard": 0.82,
+   "Qwen3-4B:gold300+synth300-soft": 0.84,
+   "Qwen3-4B:synth1200-hard": 0.76,
+   "Qwen3-4B:synth1200-soft": 0.76,
+   "Qwen3-4B:gold300+synth1200-hard": 0.81,
+   "Qwen3-4B:gold300+synth1200-soft": 0.83,
+   "Qwen3-8B:gold300": 0.83,
+   "Qwen3-8B:synth300-hard": 0.73,
+   "Qwen3-8B:synth300-soft": 0.78,
+   "Qwen3-8B:gold300+synth300-hard": 0.8,
+   "Qwen3-8B:gold300+synth300-soft": 0.82,
+   "Qwen3-8B:synth1200-hard": 0.79,
+   "Qwen3-8B:synth1200-soft": 0.79,
+   "Qwen3-8B:gold300+synth1200-hard": 0.8,
+   "Qwen3-8B:gold300+synth1200-soft": 0.82
+  },
+  "typed.security_incidents.urgency": {
+   "teacher": 0.63,
+   "Qwen3-1.7B:gold300": 0.54,
+   "Qwen3-1.7B:synth300-hard": 0.48,
+   "Qwen3-1.7B:synth300-soft": 0.52,
+   "Qwen3-1.7B:gold300+synth300-hard": 0.59,
+   "Qwen3-1.7B:gold300+synth300-soft": 0.52,
+   "Qwen3-1.7B:synth1200-hard": 0.53,
+   "Qwen3-1.7B:synth1200-soft": 0.5,
+   "Qwen3-1.7B:gold300+synth1200-hard": 0.55,
+   "Qwen3-1.7B:gold300+synth1200-soft": 0.54,
+   "Qwen3-4B:gold300": 0.59,
+   "Qwen3-4B:synth300-hard": 0.56,
+   "Qwen3-4B:synth300-soft": 0.54,
+   "Qwen3-4B:gold300+synth300-hard": 0.57,
+   "Qwen3-4B:gold300+synth300-soft": 0.57,
+   "Qwen3-4B:synth1200-hard": 0.59,
+   "Qwen3-4B:synth1200-soft": 0.58,
+   "Qwen3-4B:gold300+synth1200-hard": 0.64,
+   "Qwen3-4B:gold300+synth1200-soft": 0.6,
+   "Qwen3-8B:gold300": 0.59,
+   "Qwen3-8B:synth300-hard": 0.49,
+   "Qwen3-8B:synth300-soft": 0.54,
+   "Qwen3-8B:gold300+synth300-hard": 0.6,
+   "Qwen3-8B:gold300+synth300-soft": 0.6,
+   "Qwen3-8B:synth1200-hard": 0.54,
+   "Qwen3-8B:synth1200-soft": 0.51,
+   "Qwen3-8B:gold300+synth1200-hard": 0.59,
+   "Qwen3-8B:gold300+synth1200-soft": 0.59
+  }
+ },
+ "date": "2026-09-22T20:49:01.730882",
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T20:49:01.730955",
+  "anyjev": "0.0.2",
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ },
+ "rows": {
+  "Qwen3-1.7B": {
+   "teacher": {
+    "acc": 0.7955,
+    "ece": 0.050595286875963236,
+    "nll": 0.6766636371612549,
+    "n": 2000,
+    "acc_ci95": [
+     0.7775,
+     0.8115
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     0.0455,
+     0.085
+    ]
+   },
+   "Qwen3-1.7B:gold300": {
+    "acc": 0.7295,
+    "ece": 0.028480130822465317,
+    "nll": 0.6820300445237385,
+    "n": 2000,
+    "acc_ci95": [
+     0.71,
+     0.75
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "Qwen3-1.7B:synth300-hard": {
+    "acc": 0.637,
+    "ece": 0.13117777954247067,
+    "nll": 1.008385926553251,
+    "n": 2000,
+    "acc_ci95": [
+     0.6154875000000001,
+     0.658
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     -0.1155,
+     -0.0705
+    ]
+   },
+   "Qwen3-1.7B:synth300-soft": {
+    "acc": 0.618,
+    "ece": 0.11981834362408954,
+    "nll": 0.9049142837708639,
+    "n": 2000,
+    "acc_ci95": [
+     0.5965,
+     0.64
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     -0.1355125,
+     -0.087
+    ]
+   },
+   "Qwen3-1.7B:gold300+synth300-hard": {
+    "acc": 0.756,
+    "ece": 0.02379769997751164,
+    "nll": 0.6316265507860321,
+    "n": 2000,
+    "acc_ci95": [
+     0.737,
+     0.775
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     0.0129875,
+     0.041
+    ]
+   },
+   "Qwen3-1.7B:gold300+synth300-soft": {
+    "acc": 0.7435,
+    "ece": 0.032108895838725324,
+    "nll": 0.6435614784556377,
+    "n": 2000,
+    "acc_ci95": [
+     0.725,
+     0.763
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     0.0005,
+     0.028
+    ]
+   },
+   "Qwen3-1.7B:synth1200-hard": {
+    "acc": 0.668,
+    "ece": 0.12986721089928221,
+    "nll": 1.1239321210299011,
+    "n": 2000,
+    "acc_ci95": [
+     0.6454875,
+     0.6880124999999999
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     -0.08601249999999999,
+     -0.0395
+    ]
+   },
+   "Qwen3-1.7B:synth1200-soft": {
+    "acc": 0.648,
+    "ece": 0.12171415802299865,
+    "nll": 0.8643001451640898,
+    "n": 2000,
+    "acc_ci95": [
+     0.6265,
+     0.669
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     -0.1060125,
+     -0.059
+    ]
+   },
+   "Qwen3-1.7B:gold300+synth1200-hard": {
+    "acc": 0.7605,
+    "ece": 0.03793731309414731,
+    "nll": 0.6727701930072642,
+    "n": 2000,
+    "acc_ci95": [
+     0.7434875000000001,
+     0.7795
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     0.015,
+     0.049
+    ]
+   },
+   "Qwen3-1.7B:gold300+synth1200-soft": {
+    "acc": 0.7445,
+    "ece": 0.055949575979627054,
+    "nll": 0.656338581287157,
+    "n": 2000,
+    "acc_ci95": [
+     0.726,
+     0.7645
+    ],
+    "diff_vs_Qwen3-1.7B:gold300_ci95": [
+     -0.001,
+     0.0295
+    ]
+   }
+  },
+  "Qwen3-4B": {
+   "teacher": {
+    "acc": 0.7955,
+    "ece": 0.050595286875963236,
+    "nll": 0.6766636371612549,
+    "n": 2000,
+    "acc_ci95": [
+     0.7775,
+     0.8115
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     -0.0070125,
+     0.0245
+    ]
+   },
+   "Qwen3-4B:gold300": {
+    "acc": 0.786,
+    "ece": 0.0336406935817511,
+    "nll": 0.6281127251907711,
+    "n": 2000,
+    "acc_ci95": [
+     0.7675,
+     0.8045
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "Qwen3-4B:synth300-hard": {
+    "acc": 0.695,
+    "ece": 0.13403027734523462,
+    "nll": 1.1163077282690583,
+    "n": 2000,
+    "acc_ci95": [
+     0.6754875,
+     0.7135
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     -0.1135,
+     -0.07098750000000001
+    ]
+   },
+   "Qwen3-4B:synth300-soft": {
+    "acc": 0.683,
+    "ece": 0.12494761746585169,
+    "nll": 0.8398205600068457,
+    "n": 2000,
+    "acc_ci95": [
+     0.661,
+     0.704
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     -0.1260125,
+     -0.08198750000000002
+    ]
+   },
+   "Qwen3-4B:gold300+synth300-hard": {
+    "acc": 0.7825,
+    "ece": 0.03224194914115963,
+    "nll": 0.6090090539967445,
+    "n": 2000,
+    "acc_ci95": [
+     0.763,
+     0.8000125
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     -0.015512499999999999,
+     0.009012499999999988
+    ]
+   },
+   "Qwen3-4B:gold300+synth300-soft": {
+    "acc": 0.783,
+    "ece": 0.04848419805995455,
+    "nll": 0.5647470670880402,
+    "n": 2000,
+    "acc_ci95": [
+     0.764975,
+     0.8015
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     -0.016,
+     0.009512499999999988
+    ]
+   },
+   "Qwen3-4B:synth1200-hard": {
+    "acc": 0.716,
+    "ece": 0.1493471686663446,
+    "nll": 1.1502671587082718,
+    "n": 2000,
+    "acc_ci95": [
+     0.695,
+     0.7355125
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     -0.0915,
+     -0.04948750000000001
+    ]
+   },
+   "Qwen3-4B:synth1200-soft": {
+    "acc": 0.6995,
+    "ece": 0.14187698873222557,
+    "nll": 0.9104683648885381,
+    "n": 2000,
+    "acc_ci95": [
+     0.6795,
+     0.7195
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     -0.1065125,
+     -0.067
+    ]
+   },
+   "Qwen3-4B:gold300+synth1200-hard": {
+    "acc": 0.785,
+    "ece": 0.056883370485526094,
+    "nll": 0.6638504408302401,
+    "n": 2000,
+    "acc_ci95": [
+     0.7664749999999999,
+     0.8025
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     -0.0155,
+     0.0125
+    ]
+   },
+   "Qwen3-4B:gold300+synth1200-soft": {
+    "acc": 0.7795,
+    "ece": 0.07751414884153204,
+    "nll": 0.5980244028153124,
+    "n": 2000,
+    "acc_ci95": [
+     0.7615,
+     0.7965125
+    ],
+    "diff_vs_Qwen3-4B:gold300_ci95": [
+     -0.0215,
+     0.007
+    ]
+   }
+  },
+  "Qwen3-8B": {
+   "teacher": {
+    "acc": 0.7955,
+    "ece": 0.050595286875963236,
+    "nll": 0.6766636371612549,
+    "n": 2000,
+    "acc_ci95": [
+     0.7775,
+     0.8115
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     0.007,
+     0.04
+    ]
+   },
+   "Qwen3-8B:gold300": {
+    "acc": 0.771,
+    "ece": 0.03417399050266337,
+    "nll": 0.6371052189165105,
+    "n": 2000,
+    "acc_ci95": [
+     0.752,
+     0.789
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "Qwen3-8B:synth300-hard": {
+    "acc": 0.6795,
+    "ece": 0.15513013941282203,
+    "nll": 1.322857892209603,
+    "n": 2000,
+    "acc_ci95": [
+     0.6574875,
+     0.7
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     -0.1115,
+     -0.0715
+    ]
+   },
+   "Qwen3-8B:synth300-soft": {
+    "acc": 0.7,
+    "ece": 0.13656938237377222,
+    "nll": 0.8560064152118657,
+    "n": 2000,
+    "acc_ci95": [
+     0.6799875000000001,
+     0.7205
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     -0.0905,
+     -0.051
+    ]
+   },
+   "Qwen3-8B:gold300+synth300-hard": {
+    "acc": 0.774,
+    "ece": 0.05101648623866074,
+    "nll": 0.6375760913907508,
+    "n": 2000,
+    "acc_ci95": [
+     0.755,
+     0.7915
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     -0.0075,
+     0.0135
+    ]
+   },
+   "Qwen3-8B:gold300+synth300-soft": {
+    "acc": 0.7805,
+    "ece": 0.04624845192970368,
+    "nll": 0.5741567983099096,
+    "n": 2000,
+    "acc_ci95": [
+     0.7624875,
+     0.799
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     -0.003,
+     0.022512499999999987
+    ]
+   },
+   "Qwen3-8B:synth1200-hard": {
+    "acc": 0.72,
+    "ece": 0.14152520800349994,
+    "nll": 1.0831407898929801,
+    "n": 2000,
+    "acc_ci95": [
+     0.701,
+     0.7395
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     -0.0700125,
+     -0.033
+    ]
+   },
+   "Qwen3-8B:synth1200-soft": {
+    "acc": 0.708,
+    "ece": 0.14114903782568722,
+    "nll": 0.8791243795942322,
+    "n": 2000,
+    "acc_ci95": [
+     0.6875,
+     0.7260125
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     -0.0825,
+     -0.043987500000000006
+    ]
+   },
+   "Qwen3-8B:gold300+synth1200-hard": {
+    "acc": 0.7705,
+    "ece": 0.07643363497332335,
+    "nll": 0.7257076110826707,
+    "n": 2000,
+    "acc_ci95": [
+     0.752975,
+     0.7895125
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     -0.013012499999999998,
+     0.0125
+    ]
+   },
+   "Qwen3-8B:gold300+synth1200-soft": {
+    "acc": 0.777,
+    "ece": 0.08674347800901448,
+    "nll": 0.6155088440410873,
+    "n": 2000,
+    "acc_ci95": [
+     0.757,
+     0.7965
+    ],
+    "diff_vs_Qwen3-8B:gold300_ci95": [
+     -0.008,
+     0.02
+    ]
+   }
+  }
+ }
+}

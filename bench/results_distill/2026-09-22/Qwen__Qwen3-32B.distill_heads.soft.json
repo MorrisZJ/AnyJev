@@ -1,0 +1,569 @@
+{
+ "teacher": "Qwen/Qwen3-32B",
+ "teacher_block": 52,
+ "students": [
+  [
+   "Qwen/Qwen3-1.7B",
+   18
+  ],
+  [
+   "Qwen/Qwen3-4B",
+   24
+  ],
+  [
+   "Qwen/Qwen3-8B",
+   24
+  ]
+ ],
+ "questions": {
+  "typed.agent_trace_observability.action": {
+   "teacher": 0.7,
+   "teacher_oof_agreement_with_gold": 0.6866666666666666,
+   "Qwen3-1.7B:gold": 0.67,
+   "Qwen3-1.7B:teacher-argmax": 0.65,
+   "Qwen3-1.7B:teacher-soft": 0.65,
+   "Qwen3-1.7B:gold+teacher-soft": 0.65,
+   "Qwen3-4B:gold": 0.67,
+   "Qwen3-4B:teacher-argmax": 0.66,
+   "Qwen3-4B:teacher-soft": 0.62,
+   "Qwen3-4B:gold+teacher-soft": 0.66,
+   "Qwen3-8B:gold": 0.69,
+   "Qwen3-8B:teacher-argmax": 0.68,
+   "Qwen3-8B:teacher-soft": 0.66,
+   "Qwen3-8B:gold+teacher-soft": 0.65
+  },
+  "typed.agent_trace_observability.needs_review": {
+   "teacher": 0.88,
+   "teacher_oof_agreement_with_gold": 0.8566666666666667,
+   "Qwen3-1.7B:gold": 0.84,
+   "Qwen3-1.7B:teacher-argmax": 0.8,
+   "Qwen3-1.7B:teacher-soft": 0.84,
+   "Qwen3-1.7B:gold+teacher-soft": 0.84,
+   "Qwen3-4B:gold": 0.85,
+   "Qwen3-4B:teacher-argmax": 0.8,
+   "Qwen3-4B:teacher-soft": 0.85,
+   "Qwen3-4B:gold+teacher-soft": 0.84,
+   "Qwen3-8B:gold": 0.88,
+   "Qwen3-8B:teacher-argmax": 0.85,
+   "Qwen3-8B:teacher-soft": 0.86,
+   "Qwen3-8B:gold+teacher-soft": 0.89
+  },
+  "typed.agent_trace_observability.outcome": {
+   "teacher": 0.8,
+   "teacher_oof_agreement_with_gold": 0.7533333333333333,
+   "Qwen3-1.7B:gold": 0.77,
+   "Qwen3-1.7B:teacher-argmax": 0.74,
+   "Qwen3-1.7B:teacher-soft": 0.78,
+   "Qwen3-1.7B:gold+teacher-soft": 0.76,
+   "Qwen3-4B:gold": 0.8,
+   "Qwen3-4B:teacher-argmax": 0.71,
+   "Qwen3-4B:teacher-soft": 0.71,
+   "Qwen3-4B:gold+teacher-soft": 0.78,
+   "Qwen3-8B:gold": 0.78,
+   "Qwen3-8B:teacher-argmax": 0.68,
+   "Qwen3-8B:teacher-soft": 0.72,
+   "Qwen3-8B:gold+teacher-soft": 0.76
+  },
+  "typed.agent_trace_observability.risk": {
+   "teacher": 0.82,
+   "teacher_oof_agreement_with_gold": 0.8433333333333334,
+   "Qwen3-1.7B:gold": 0.81,
+   "Qwen3-1.7B:teacher-argmax": 0.82,
+   "Qwen3-1.7B:teacher-soft": 0.84,
+   "Qwen3-1.7B:gold+teacher-soft": 0.81,
+   "Qwen3-4B:gold": 0.8,
+   "Qwen3-4B:teacher-argmax": 0.81,
+   "Qwen3-4B:teacher-soft": 0.82,
+   "Qwen3-4B:gold+teacher-soft": 0.82,
+   "Qwen3-8B:gold": 0.78,
+   "Qwen3-8B:teacher-argmax": 0.78,
+   "Qwen3-8B:teacher-soft": 0.82,
+   "Qwen3-8B:gold+teacher-soft": 0.8
+  },
+  "typed.agent_trace_observability.urgency": {
+   "teacher": 0.61,
+   "teacher_oof_agreement_with_gold": 0.7166666666666667,
+   "Qwen3-1.7B:gold": 0.65,
+   "Qwen3-1.7B:teacher-argmax": 0.64,
+   "Qwen3-1.7B:teacher-soft": 0.63,
+   "Qwen3-1.7B:gold+teacher-soft": 0.62,
+   "Qwen3-4B:gold": 0.7,
+   "Qwen3-4B:teacher-argmax": 0.66,
+   "Qwen3-4B:teacher-soft": 0.63,
+   "Qwen3-4B:gold+teacher-soft": 0.63,
+   "Qwen3-8B:gold": 0.67,
+   "Qwen3-8B:teacher-argmax": 0.64,
+   "Qwen3-8B:teacher-soft": 0.62,
+   "Qwen3-8B:gold+teacher-soft": 0.62
+  },
+  "typed.customer_service.action": {
+   "teacher": 0.63,
+   "teacher_oof_agreement_with_gold": 0.6633333333333333,
+   "Qwen3-1.7B:gold": 0.46,
+   "Qwen3-1.7B:teacher-argmax": 0.49,
+   "Qwen3-1.7B:teacher-soft": 0.56,
+   "Qwen3-1.7B:gold+teacher-soft": 0.52,
+   "Qwen3-4B:gold": 0.67,
+   "Qwen3-4B:teacher-argmax": 0.55,
+   "Qwen3-4B:teacher-soft": 0.61,
+   "Qwen3-4B:gold+teacher-soft": 0.61,
+   "Qwen3-8B:gold": 0.56,
+   "Qwen3-8B:teacher-argmax": 0.53,
+   "Qwen3-8B:teacher-soft": 0.64,
+   "Qwen3-8B:gold+teacher-soft": 0.66
+  },
+  "typed.customer_service.category": {
+   "teacher": 0.99,
+   "teacher_oof_agreement_with_gold": 0.9433333333333334,
+   "Qwen3-1.7B:gold": 0.92,
+   "Qwen3-1.7B:teacher-argmax": 0.92,
+   "Qwen3-1.7B:teacher-soft": 0.92,
+   "Qwen3-1.7B:gold+teacher-soft": 0.92,
+   "Qwen3-4B:gold": 0.97,
+   "Qwen3-4B:teacher-argmax": 0.96,
+   "Qwen3-4B:teacher-soft": 0.96,
+   "Qwen3-4B:gold+teacher-soft": 0.98,
+   "Qwen3-8B:gold": 0.98,
+   "Qwen3-8B:teacher-argmax": 0.97,
+   "Qwen3-8B:teacher-soft": 0.95,
+   "Qwen3-8B:gold+teacher-soft": 0.98
+  },
+  "typed.customer_service.churn_risk": {
+   "teacher": 0.91,
+   "teacher_oof_agreement_with_gold": 0.8566666666666667,
+   "Qwen3-1.7B:gold": 0.81,
+   "Qwen3-1.7B:teacher-argmax": 0.79,
+   "Qwen3-1.7B:teacher-soft": 0.76,
+   "Qwen3-1.7B:gold+teacher-soft": 0.77,
+   "Qwen3-4B:gold": 0.86,
+   "Qwen3-4B:teacher-argmax": 0.84,
+   "Qwen3-4B:teacher-soft": 0.83,
+   "Qwen3-4B:gold+teacher-soft": 0.83,
+   "Qwen3-8B:gold": 0.87,
+   "Qwen3-8B:teacher-argmax": 0.88,
+   "Qwen3-8B:teacher-soft": 0.85,
+   "Qwen3-8B:gold+teacher-soft": 0.84
+  },
+  "typed.customer_service.needs_human": {
+   "teacher": 0.82,
+   "teacher_oof_agreement_with_gold": 0.7366666666666667,
+   "Qwen3-1.7B:gold": 0.76,
+   "Qwen3-1.7B:teacher-argmax": 0.79,
+   "Qwen3-1.7B:teacher-soft": 0.76,
+   "Qwen3-1.7B:gold+teacher-soft": 0.82,
+   "Qwen3-4B:gold": 0.78,
+   "Qwen3-4B:teacher-argmax": 0.78,
+   "Qwen3-4B:teacher-soft": 0.81,
+   "Qwen3-4B:gold+teacher-soft": 0.8,
+   "Qwen3-8B:gold": 0.74,
+   "Qwen3-8B:teacher-argmax": 0.75,
+   "Qwen3-8B:teacher-soft": 0.78,
+   "Qwen3-8B:gold+teacher-soft": 0.78
+  },
+  "typed.customer_service.urgency": {
+   "teacher": 0.87,
+   "teacher_oof_agreement_with_gold": 0.7833333333333333,
+   "Qwen3-1.7B:gold": 0.67,
+   "Qwen3-1.7B:teacher-argmax": 0.66,
+   "Qwen3-1.7B:teacher-soft": 0.69,
+   "Qwen3-1.7B:gold+teacher-soft": 0.66,
+   "Qwen3-4B:gold": 0.82,
+   "Qwen3-4B:teacher-argmax": 0.77,
+   "Qwen3-4B:teacher-soft": 0.82,
+   "Qwen3-4B:gold+teacher-soft": 0.8,
+   "Qwen3-8B:gold": 0.83,
+   "Qwen3-8B:teacher-argmax": 0.8,
+   "Qwen3-8B:teacher-soft": 0.8,
+   "Qwen3-8B:gold+teacher-soft": 0.82
+  },
+  "typed.invoice_processing.discrepancy_severity": {
+   "teacher": 0.84,
+   "teacher_oof_agreement_with_gold": 0.7266666666666667,
+   "Qwen3-1.7B:gold": 0.68,
+   "Qwen3-1.7B:teacher-argmax": 0.72,
+   "Qwen3-1.7B:teacher-soft": 0.66,
+   "Qwen3-1.7B:gold+teacher-soft": 0.67,
+   "Qwen3-4B:gold": 0.85,
+   "Qwen3-4B:teacher-argmax": 0.77,
+   "Qwen3-4B:teacher-soft": 0.8,
+   "Qwen3-4B:gold+teacher-soft": 0.81,
+   "Qwen3-8B:gold": 0.79,
+   "Qwen3-8B:teacher-argmax": 0.8,
+   "Qwen3-8B:teacher-soft": 0.82,
+   "Qwen3-8B:gold+teacher-soft": 0.82
+  },
+  "typed.invoice_processing.disposition": {
+   "teacher": 0.77,
+   "teacher_oof_agreement_with_gold": 0.67,
+   "Qwen3-1.7B:gold": 0.66,
+   "Qwen3-1.7B:teacher-argmax": 0.64,
+   "Qwen3-1.7B:teacher-soft": 0.71,
+   "Qwen3-1.7B:gold+teacher-soft": 0.71,
+   "Qwen3-4B:gold": 0.76,
+   "Qwen3-4B:teacher-argmax": 0.77,
+   "Qwen3-4B:teacher-soft": 0.78,
+   "Qwen3-4B:gold+teacher-soft": 0.79,
+   "Qwen3-8B:gold": 0.67,
+   "Qwen3-8B:teacher-argmax": 0.72,
+   "Qwen3-8B:teacher-soft": 0.75,
+   "Qwen3-8B:gold+teacher-soft": 0.72
+  },
+  "typed.invoice_processing.duplicate": {
+   "teacher": 0.93,
+   "teacher_oof_agreement_with_gold": 0.9466666666666667,
+   "Qwen3-1.7B:gold": 0.93,
+   "Qwen3-1.7B:teacher-argmax": 0.93,
+   "Qwen3-1.7B:teacher-soft": 0.92,
+   "Qwen3-1.7B:gold+teacher-soft": 0.92,
+   "Qwen3-4B:gold": 0.94,
+   "Qwen3-4B:teacher-argmax": 0.93,
+   "Qwen3-4B:teacher-soft": 0.93,
+   "Qwen3-4B:gold+teacher-soft": 0.94,
+   "Qwen3-8B:gold": 0.94,
+   "Qwen3-8B:teacher-argmax": 0.94,
+   "Qwen3-8B:teacher-soft": 0.95,
+   "Qwen3-8B:gold+teacher-soft": 0.94
+  },
+  "typed.invoice_processing.matches_order": {
+   "teacher": 0.94,
+   "teacher_oof_agreement_with_gold": 0.8566666666666667,
+   "Qwen3-1.7B:gold": 0.83,
+   "Qwen3-1.7B:teacher-argmax": 0.92,
+   "Qwen3-1.7B:teacher-soft": 0.9,
+   "Qwen3-1.7B:gold+teacher-soft": 0.88,
+   "Qwen3-4B:gold": 0.94,
+   "Qwen3-4B:teacher-argmax": 0.96,
+   "Qwen3-4B:teacher-soft": 0.96,
+   "Qwen3-4B:gold+teacher-soft": 0.95,
+   "Qwen3-8B:gold": 0.96,
+   "Qwen3-8B:teacher-argmax": 0.96,
+   "Qwen3-8B:teacher-soft": 0.96,
+   "Qwen3-8B:gold+teacher-soft": 0.96
+  },
+  "typed.invoice_processing.urgency": {
+   "teacher": 0.75,
+   "teacher_oof_agreement_with_gold": 0.7666666666666667,
+   "Qwen3-1.7B:gold": 0.66,
+   "Qwen3-1.7B:teacher-argmax": 0.62,
+   "Qwen3-1.7B:teacher-soft": 0.66,
+   "Qwen3-1.7B:gold+teacher-soft": 0.72,
+   "Qwen3-4B:gold": 0.63,
+   "Qwen3-4B:teacher-argmax": 0.71,
+   "Qwen3-4B:teacher-soft": 0.73,
+   "Qwen3-4B:gold+teacher-soft": 0.67,
+   "Qwen3-8B:gold": 0.71,
+   "Qwen3-8B:teacher-argmax": 0.74,
+   "Qwen3-8B:teacher-soft": 0.72,
+   "Qwen3-8B:gold+teacher-soft": 0.74
+  },
+  "typed.security_incidents.credential_compromise": {
+   "teacher": 0.81,
+   "teacher_oof_agreement_with_gold": 0.8066666666666666,
+   "Qwen3-1.7B:gold": 0.75,
+   "Qwen3-1.7B:teacher-argmax": 0.76,
+   "Qwen3-1.7B:teacher-soft": 0.77,
+   "Qwen3-1.7B:gold+teacher-soft": 0.77,
+   "Qwen3-4B:gold": 0.72,
+   "Qwen3-4B:teacher-argmax": 0.71,
+   "Qwen3-4B:teacher-soft": 0.75,
+   "Qwen3-4B:gold+teacher-soft": 0.73,
+   "Qwen3-8B:gold": 0.73,
+   "Qwen3-8B:teacher-argmax": 0.75,
+   "Qwen3-8B:teacher-soft": 0.76,
+   "Qwen3-8B:gold+teacher-soft": 0.74
+  },
+  "typed.security_incidents.disposition": {
+   "teacher": 0.69,
+   "teacher_oof_agreement_with_gold": 0.7466666666666667,
+   "Qwen3-1.7B:gold": 0.75,
+   "Qwen3-1.7B:teacher-argmax": 0.69,
+   "Qwen3-1.7B:teacher-soft": 0.75,
+   "Qwen3-1.7B:gold+teacher-soft": 0.74,
+   "Qwen3-4B:gold": 0.8,
+   "Qwen3-4B:teacher-argmax": 0.67,
+   "Qwen3-4B:teacher-soft": 0.75,
+   "Qwen3-4B:gold+teacher-soft": 0.76,
+   "Qwen3-8B:gold": 0.73,
+   "Qwen3-8B:teacher-argmax": 0.66,
+   "Qwen3-8B:teacher-soft": 0.74,
+   "Qwen3-8B:gold+teacher-soft": 0.76
+  },
+  "typed.security_incidents.severity": {
+   "teacher": 0.73,
+   "teacher_oof_agreement_with_gold": 0.8033333333333333,
+   "Qwen3-1.7B:gold": 0.68,
+   "Qwen3-1.7B:teacher-argmax": 0.7,
+   "Qwen3-1.7B:teacher-soft": 0.68,
+   "Qwen3-1.7B:gold+teacher-soft": 0.7,
+   "Qwen3-4B:gold": 0.73,
+   "Qwen3-4B:teacher-argmax": 0.73,
+   "Qwen3-4B:teacher-soft": 0.72,
+   "Qwen3-4B:gold+teacher-soft": 0.76,
+   "Qwen3-8B:gold": 0.69,
+   "Qwen3-8B:teacher-argmax": 0.73,
+   "Qwen3-8B:teacher-soft": 0.7,
+   "Qwen3-8B:gold+teacher-soft": 0.71
+  },
+  "typed.security_incidents.true_positive": {
+   "teacher": 0.84,
+   "teacher_oof_agreement_with_gold": 0.8933333333333333,
+   "Qwen3-1.7B:gold": 0.75,
+   "Qwen3-1.7B:teacher-argmax": 0.82,
+   "Qwen3-1.7B:teacher-soft": 0.81,
+   "Qwen3-1.7B:gold+teacher-soft": 0.79,
+   "Qwen3-4B:gold": 0.84,
+   "Qwen3-4B:teacher-argmax": 0.83,
+   "Qwen3-4B:teacher-soft": 0.81,
+   "Qwen3-4B:gold+teacher-soft": 0.84,
+   "Qwen3-8B:gold": 0.83,
+   "Qwen3-8B:teacher-argmax": 0.84,
+   "Qwen3-8B:teacher-soft": 0.85,
+   "Qwen3-8B:gold+teacher-soft": 0.84
+  },
+  "typed.security_incidents.urgency": {
+   "teacher": 0.63,
+   "teacher_oof_agreement_with_gold": 0.7033333333333334,
+   "Qwen3-1.7B:gold": 0.54,
+   "Qwen3-1.7B:teacher-argmax": 0.44,
+   "Qwen3-1.7B:teacher-soft": 0.53,
+   "Qwen3-1.7B:gold+teacher-soft": 0.56,
+   "Qwen3-4B:gold": 0.59,
+   "Qwen3-4B:teacher-argmax": 0.6,
+   "Qwen3-4B:teacher-soft": 0.56,
+   "Qwen3-4B:gold+teacher-soft": 0.58,
+   "Qwen3-8B:gold": 0.59,
+   "Qwen3-8B:teacher-argmax": 0.5,
+   "Qwen3-8B:teacher-soft": 0.61,
+   "Qwen3-8B:gold+teacher-soft": 0.6
+  }
+ },
+ "date": "2026-09-22T19:03:10.980712",
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T19:03:10.980790",
+  "anyjev": "0.0.2",
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ },
+ "rows": {
+  "Qwen3-1.7B": {
+   "teacher": {
+    "acc": 0.798,
+    "ece": 0.04639830208699882,
+    "nll": 0.6722244370323553,
+    "n": 2000,
+    "acc_ci95": [
+     0.7804875,
+     0.815
+    ],
+    "diff_vs_Qwen3-1.7B:gold_ci95": [
+     0.048,
+     0.087
+    ]
+   },
+   "Qwen3-1.7B:gold": {
+    "acc": 0.7295,
+    "ece": 0.028480130774940035,
+    "nll": 0.6820300440258498,
+    "n": 2000,
+    "acc_ci95": [
+     0.71,
+     0.75
+    ],
+    "diff_vs_Qwen3-1.7B:gold_ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "Qwen3-1.7B:teacher-argmax": {
+    "acc": 0.727,
+    "ece": 0.04659679891359993,
+    "nll": 0.765247784819788,
+    "n": 2000,
+    "acc_ci95": [
+     0.706,
+     0.7470125
+    ],
+    "diff_vs_Qwen3-1.7B:gold_ci95": [
+     -0.0195,
+     0.0145
+    ]
+   },
+   "Qwen3-1.7B:teacher-soft": {
+    "acc": 0.741,
+    "ece": 0.05147860117957187,
+    "nll": 0.6768446949169267,
+    "n": 2000,
+    "acc_ci95": [
+     0.7219875,
+     0.7605
+    ],
+    "diff_vs_Qwen3-1.7B:gold_ci95": [
+     -0.005,
+     0.0285
+    ]
+   },
+   "Qwen3-1.7B:gold+teacher-soft": {
+    "acc": 0.7415,
+    "ece": 0.038846606232211686,
+    "nll": 0.6529291584128748,
+    "n": 2000,
+    "acc_ci95": [
+     0.7234875000000001,
+     0.7605
+    ],
+    "diff_vs_Qwen3-1.7B:gold_ci95": [
+     0.0,
+     0.0245
+    ]
+   }
+  },
+  "Qwen3-4B": {
+   "teacher": {
+    "acc": 0.798,
+    "ece": 0.04639830208699882,
+    "nll": 0.6722244370323553,
+    "n": 2000,
+    "acc_ci95": [
+     0.7804875,
+     0.815
+    ],
+    "diff_vs_Qwen3-4B:gold_ci95": [
+     -0.005,
+     0.0265
+    ]
+   },
+   "Qwen3-4B:gold": {
+    "acc": 0.786,
+    "ece": 0.033640693535940756,
+    "nll": 0.6281127254370332,
+    "n": 2000,
+    "acc_ci95": [
+     0.7675,
+     0.8045
+    ],
+    "diff_vs_Qwen3-4B:gold_ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "Qwen3-4B:teacher-argmax": {
+    "acc": 0.761,
+    "ece": 0.0636681683144956,
+    "nll": 0.7018367904794581,
+    "n": 2000,
+    "acc_ci95": [
+     0.741,
+     0.781
+    ],
+    "diff_vs_Qwen3-4B:gold_ci95": [
+     -0.0405125,
+     -0.009
+    ]
+   },
+   "Qwen3-4B:teacher-soft": {
+    "acc": 0.7725,
+    "ece": 0.06109722185086421,
+    "nll": 0.5992058339274754,
+    "n": 2000,
+    "acc_ci95": [
+     0.7539875,
+     0.7915125
+    ],
+    "diff_vs_Qwen3-4B:gold_ci95": [
+     -0.029,
+     0.0025
+    ]
+   },
+   "Qwen3-4B:gold+teacher-soft": {
+    "acc": 0.779,
+    "ece": 0.027352831235905584,
+    "nll": 0.5640944566191246,
+    "n": 2000,
+    "acc_ci95": [
+     0.7595,
+     0.798
+    ],
+    "diff_vs_Qwen3-4B:gold_ci95": [
+     -0.0185,
+     0.004012499999999988
+    ]
+   }
+  },
+  "Qwen3-8B": {
+   "teacher": {
+    "acc": 0.798,
+    "ece": 0.04639830208699882,
+    "nll": 0.6722244370323553,
+    "n": 2000,
+    "acc_ci95": [
+     0.7804875,
+     0.815
+    ],
+    "diff_vs_Qwen3-8B:gold_ci95": [
+     0.01,
+     0.0415
+    ]
+   },
+   "Qwen3-8B:gold": {
+    "acc": 0.771,
+    "ece": 0.03417399072930359,
+    "nll": 0.637105219538428,
+    "n": 2000,
+    "acc_ci95": [
+     0.752,
+     0.789
+    ],
+    "diff_vs_Qwen3-8B:gold_ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "Qwen3-8B:teacher-argmax": {
+    "acc": 0.76,
+    "ece": 0.09425794271023694,
+    "nll": 0.7272268318996491,
+    "n": 2000,
+    "acc_ci95": [
+     0.739,
+     0.7785
+    ],
+    "diff_vs_Qwen3-8B:gold_ci95": [
+     -0.0280125,
+     0.004
+    ]
+   },
+   "Qwen3-8B:teacher-soft": {
+    "acc": 0.778,
+    "ece": 0.06341309753510585,
+    "nll": 0.5975172158391895,
+    "n": 2000,
+    "acc_ci95": [
+     0.759,
+     0.797
+    ],
+    "diff_vs_Qwen3-8B:gold_ci95": [
+     -0.008,
+     0.0215
+    ]
+   },
+   "Qwen3-8B:gold+teacher-soft": {
+    "acc": 0.7815,
+    "ece": 0.04025278700458661,
+    "nll": 0.5654364432432826,
+    "n": 2000,
+    "acc_ci95": [
+     0.7625,
+     0.7995
+    ],
+    "diff_vs_Qwen3-8B:gold_ci95": [
+     -0.002,
+     0.022012499999999987
+    ]
+   }
+  }
+ }
+}
