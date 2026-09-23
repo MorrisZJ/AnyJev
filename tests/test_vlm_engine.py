@@ -73,3 +73,43 @@ def test_batching_does_not_change_the_answer_distribution(backend):
     backend.batch_size = 8
     many = backend.next_token_logprobs(prompts, ids, images=images)
     assert max(float(np.max(np.abs(probs(a) - probs(b)))) for a, b in zip(one, many)) < 1e-4
+
+
+def test_hidden_states_is_the_same_forward_as_the_readout(backend):
+    """L2 reads `hidden_states`; the label log-probs of that forward must equal the readout's."""
+    from anyjev import Decider, Question
+    from anyjev.readout import build_prompt, prompt_images, render_chat_parts
+    from anyjev.state import split_state
+
+    q = Question.choice("What colour fills this image?", list(COLOURS))
+    d = Decider(backend)
+    labels, ids = d._labels_for(q)
+    prompts, images = [], []
+    for rgb in COLOURS.values():
+        text, imgs = split_state({"image": swatch(rgb)})
+        spec = build_prompt(text, q, [0, 1, 2], d.system, labels, imgs)
+        pre, suf = render_chat_parts(d.renderer, spec)
+        prompts.append(pre + suf)
+        images.append(prompt_images(spec))
+    readout = np.stack(backend.next_token_logprobs(prompts, [ids] * 3, images=images))
+    feats, lps, _ = backend.hidden_states(prompts, [backend.n_layers // 2, backend.n_layers],
+                                          token_ids=[ids] * 3, images=images)
+    assert feats.shape == (3, 2, backend.hidden_size)
+    assert float(np.max(np.abs(readout - np.stack(lps)))) < 1e-5
+
+
+def test_l2_head_on_pictures(backend):
+    from anyjev import Decider, Question
+
+    q = Question.choice("What colour fills this image?", list(COLOURS), name="colour")
+    shades = [(dr, dg) for dr in (-20, 0, 20) for dg in (-20, 0, 20)]
+    states, labels = [], []
+    for j, rgb in enumerate(COLOURS.values()):
+        for dr, dg in shades:
+            states.append(swatch(tuple(min(255, max(0, c + s)) for c, s in zip(rgb, (dr, dg, 0)))))
+            labels.append(j)
+    d = Decider(backend)
+    d.fit_head(q, states, labels)
+    decs = d.decide_batch([swatch(c) for c in COLOURS.values()], q, level="L2")
+    assert [x.argmax for x in decs] == list(COLOURS)
+    assert all(x.level == "L2" and x.diagnostics["early_stop"] is False for x in decs)
