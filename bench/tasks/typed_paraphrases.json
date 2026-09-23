@@ -1,0 +1,123 @@
+{
+ "_about": "Hand-written rewordings of the 20 LocalLLaMA/typed-decisions questions for bench.paraphrase_study. w1: light rewording; w2: restructured sentence; w3: different framing, same meaning; o1: the option descriptions (choice / score) or the Yes-means / No-means lines (noul) reworded, option keys and order unchanged. Written 2026-09-22; meaning preserved, labels remain valid.",
+ "typed.agent_trace_observability.action": {
+  "w1": {"text": "What action should the observability system take on this trace?"},
+  "w2": {"text": "Given this trace, decide what the observability system does next."},
+  "w3": {"text": "You are the observability layer watching this agent run. Which of the following is the right response to the trace?"},
+  "o1": {"options": ["continue: Allow the agent to carry on uninterrupted.", "human_review: Put this trace in the queue for a human to review.", "observe: Let it keep running but mark the trace for later sampling.", "stop: Stop the agent immediately."]}
+ },
+ "typed.agent_trace_observability.needs_review": {
+  "w1": {"text": "Is the following statement true? A human needs to review this trace.\nYes means: A human should inspect this run.\nNo means: No human attention is warranted."},
+  "w2": {"text": "Is the following statement true? This run should be looked at by a person.\nYes means: A human should inspect this run.\nNo means: No human attention is warranted."},
+  "w3": {"text": "Is the following statement true? Human review is required for this agent trace before it can be considered handled.\nYes means: A human should inspect this run.\nNo means: No human attention is warranted."},
+  "o1": {"text": "Is the following statement true? This trace requires human review.\nYes means: Someone on the team has to look at this run.\nNo means: This run needs no human attention."}
+ },
+ "typed.agent_trace_observability.outcome": {
+  "w1": {"text": "What was the outcome of this agent run?"},
+  "w2": {"text": "Classify the result of this agent's run."},
+  "w3": {"text": "Looking at the whole trace, how would you summarise the way this agent run ended?"},
+  "o1": {"options": ["failure: The agent failed to complete the task.", "harmful: The agent did something damaging or broke a constraint.", "partial: The agent got part of the way but did not finish the task.", "success: The agent finished the task correctly."]}
+ },
+ "typed.agent_trace_observability.risk": {
+  "w1": {"text": "How much risk did the agent's actions in this trace carry?"},
+  "w2": {"text": "Rate the riskiness of what the agent did in this trace."},
+  "w3": {"text": "Considering every action the agent took in this trace, what level of risk did its behaviour reach?"},
+  "o1": {"options": ["Benign: only reads or clearly harmless actions.", "Low: ordinary writes that stay within scope.", "Moderate: actions that cannot be undone or go beyond scope.", "High: destructive actions, security-relevant actions, or policy violations."]}
+ },
+ "typed.agent_trace_observability.urgency": {
+  "w1": {"text": "How soon does this trace need to be looked at?"},
+  "w2": {"text": "Rate how urgently this trace needs attention."},
+  "w3": {"text": "If you had to schedule follow-up on this trace, how fast would it have to happen?"},
+  "o1": {"options": ["No hurry; it can wait as long as necessary.", "Routine; deal with it in the normal queue.", "Elevated; needs handling within the week.", "Critical; needs action today."]}
+ },
+ "typed.customer_service.action": {
+  "w1": {"text": "What is the assistant's next step in this conversation?"},
+  "w2": {"text": "Decide the next action for the assistant in this conversation."},
+  "w3": {"text": "You are supervising the support assistant. Given where this conversation stands, what should it do next?"},
+  "o1": {"options": ["answer_directly: The assistant can settle this on its own with what it already knows.", "close_no_action: Nothing more needs doing; the matter is resolved.", "escalate_to_human: Pass this to a human agent who has the right authority.", "execute_refund: Give the customer the refund or credit they are due.", "request_information: The customer must supply more detail before anything can happen."]}
+ },
+ "typed.customer_service.category": {
+  "w1": {"text": "What is the main topic of this customer conversation?"},
+  "w2": {"text": "Categorise the primary subject of this customer conversation."},
+  "w3": {"text": "If you had to file this customer conversation under one topic, which would it be?"},
+  "o1": {"options": ["account: Signing in, changing plans, profile or access settings.", "billing: A problem with a charge, an invoice, a subscription or a payment.", "delivery: Shipping, fulfilment or getting a physical item delivered.", "refund: The customer explicitly wants their money back.", "technical: The product or service is not behaving as it should."]}
+ },
+ "typed.customer_service.churn_risk": {
+  "w1": {"text": "How likely is it that this interaction makes the customer leave us?"},
+  "w2": {"text": "Rate the risk that this customer churns as a result of this interaction."},
+  "w3": {"text": "Based on this interaction alone, what is the chance we lose this customer's business?"},
+  "o1": {"options": ["No indication of dissatisfaction.", "Some frustration, but the relationship holds.", "Clearly unhappy: repeated problems or explicit complaints.", "Imminent: threatens to cancel, dispute the charge or walk away."]}
+ },
+ "typed.customer_service.needs_human": {
+  "w1": {"text": "Is the following statement true? A human agent, not automation, needs to handle this conversation.\nYes means: A human must take over: judgement, authority or empathy is required.\nNo means: Automation can carry this to resolution."},
+  "w2": {"text": "Is the following statement true? This conversation should be taken over by a person instead of being handled automatically.\nYes means: A human must take over: judgement, authority or empathy is required.\nNo means: Automation can carry this to resolution."},
+  "w3": {"text": "Is the following statement true? Automated handling is not enough here and a human agent has to step in.\nYes means: A human must take over: judgement, authority or empathy is required.\nNo means: Automation can carry this to resolution."},
+  "o1": {"text": "Is the following statement true? This conversation requires a human agent rather than automated handling.\nYes means: A person has to take over because judgement, authority or empathy is needed.\nNo means: Automation can see this through to resolution."}
+ },
+ "typed.customer_service.urgency": {
+  "w1": {"text": "How urgent is this conversation?"},
+  "w2": {"text": "Rate the time pressure on this conversation."},
+  "w3": {"text": "How quickly does someone need to act on this conversation?"},
+  "o1": {"options": ["No hurry; it can wait as long as necessary.", "Routine; deal with it in the normal queue.", "Elevated; needs handling within the week.", "Critical; needs action today."]}
+ },
+ "typed.invoice_processing.discrepancy_severity": {
+  "w1": {"text": "How significant is any mismatch between the invoice, the order and the delivery?"},
+  "w2": {"text": "Rate the materiality of the discrepancy, if any, between invoice, order and delivery."},
+  "w3": {"text": "Comparing the invoice against the purchase order and what was delivered, how serious is the difference?"},
+  "o1": {"options": ["None: everything matches.", "Trivial: a rounding or cosmetic difference.", "Moderate: a genuine difference that should be confirmed.", "Material: a large or unexplained gap."]}
+ },
+ "typed.invoice_processing.disposition": {
+  "w1": {"text": "What should be done with this vendor invoice?"},
+  "w2": {"text": "Decide the disposition of this vendor invoice."},
+  "w3": {"text": "You are in accounts payable. Which of the following is the right way to handle this vendor invoice?"},
+  "o1": {"options": ["approve: It matches the order and the delivery; approve it for payment.", "hold: Something must be confirmed before paying; hold until clarified.", "manual_review: Someone in finance has to review the discrepancy.", "reject: Must not be paid: duplicate, unauthorised or materially wrong."]}
+ },
+ "typed.invoice_processing.duplicate": {
+  "w1": {"text": "Is the following statement true? This invoice looks like a duplicate of one that was already submitted."},
+  "w2": {"text": "Is the following statement true? An invoice matching this one has already been submitted."},
+  "w3": {"text": "Is the following statement true? This is a repeat submission of an invoice that is already in the system."},
+  "o1": {"text": "Is the following statement true? This invoice appears to duplicate an invoice already submitted.\nYes means: The same invoice was submitted before.\nNo means: This invoice is new."}
+ },
+ "typed.invoice_processing.matches_order": {
+  "w1": {"text": "Is the following statement true? The invoice matches the purchase order and the delivery record.\nYes means: Line items, quantities and amounts reconcile.\nNo means: There is a discrepancy against the order or the delivery."},
+  "w2": {"text": "Is the following statement true? Invoice, purchase order and recorded delivery all agree.\nYes means: Line items, quantities and amounts reconcile.\nNo means: There is a discrepancy against the order or the delivery."},
+  "w3": {"text": "Is the following statement true? Checked against the purchase order and the delivery record, this invoice reconciles.\nYes means: Line items, quantities and amounts reconcile.\nNo means: There is a discrepancy against the order or the delivery."},
+  "o1": {"text": "Is the following statement true? The invoice reconciles with the purchase order and the recorded delivery.\nYes means: Items, quantities and amounts all agree.\nNo means: Something differs from the order or the delivery."}
+ },
+ "typed.invoice_processing.urgency": {
+  "w1": {"text": "How urgent is it to process this invoice?"},
+  "w2": {"text": "Rate the time pressure on processing this invoice."},
+  "w3": {"text": "How soon does this invoice have to be processed?"},
+  "o1": {"options": ["No hurry; it can wait as long as necessary.", "Routine; deal with it in the normal queue.", "Elevated; needs handling within the week.", "Critical; needs action today."]}
+ },
+ "typed.security_incidents.credential_compromise": {
+  "w1": {"text": "Is the following statement true? The evidence shows that an account or credential has been compromised."},
+  "w2": {"text": "Is the following statement true? Based on the evidence, a credential or account is compromised."},
+  "w3": {"text": "Is the following statement true? What we see here points to a compromised credential or account."},
+  "o1": {"text": "Is the following statement true? The evidence indicates a credential or account has been compromised.\nYes means: An attacker has or had control of a credential or account.\nNo means: No credential or account compromise is indicated."}
+ },
+ "typed.security_incidents.disposition": {
+  "w1": {"text": "What should be done with this security alert?"},
+  "w2": {"text": "Decide the disposition of this security alert."},
+  "w3": {"text": "You are the SOC analyst on shift. Which of the following is the right way to handle this alert?"},
+  "o1": {"options": ["close_benign: Expected and explainable activity; close it without spending analyst time.", "contain: Isolate the host or account right away; do not wait for triage.", "investigate: Justifies an analyst opening an investigation.", "monitor: Not obviously malicious, but worth watching in case it recurs."]}
+ },
+ "typed.security_incidents.severity": {
+  "w1": {"text": "If this alert is genuine, how bad could the impact be?"},
+  "w2": {"text": "Rate the potential severity of this alert, assuming it is real."},
+  "w3": {"text": "Suppose this alert is a true positive. How serious would the consequences be?"},
+  "o1": {"options": ["Negligible: nothing sensitive is reachable.", "Low: limited access that is easy to undo.", "Moderate: reaches internal systems or non-public data.", "High: reaches production, secrets or customer data.", "Critical: crown-jewel systems are actively compromised."]}
+ },
+ "typed.security_incidents.true_positive": {
+  "w1": {"text": "Is the following statement true? This alert corresponds to real malicious or unauthorised activity.\nYes means: The underlying behaviour is malicious or unauthorised.\nNo means: Benign activity, a misconfiguration, or a known false positive."},
+  "w2": {"text": "Is the following statement true? The activity behind this alert is actually malicious or unauthorised.\nYes means: The underlying behaviour is malicious or unauthorised.\nNo means: Benign activity, a misconfiguration, or a known false positive."},
+  "w3": {"text": "Is the following statement true? This alert is a true positive: something malicious or unauthorised really happened.\nYes means: The underlying behaviour is malicious or unauthorised.\nNo means: Benign activity, a misconfiguration, or a known false positive."},
+  "o1": {"text": "Is the following statement true? This alert reflects genuinely malicious or unauthorised activity.\nYes means: What happened underneath is malicious or unauthorised.\nNo means: Harmless activity, a misconfiguration, or a false positive we already know about."}
+ },
+ "typed.security_incidents.urgency": {
+  "w1": {"text": "How fast does a responder have to act on this alert?"},
+  "w2": {"text": "Rate how urgently this alert needs a responder's action."},
+  "w3": {"text": "How much time does a responder have before they must act on this alert?"},
+  "o1": {"options": ["No hurry; it can wait as long as necessary.", "Routine; deal with it in the normal queue.", "Elevated; needs handling within the week.", "Critical; needs action today."]}
+ }
+}
