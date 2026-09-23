@@ -81,7 +81,7 @@ def build(decider: Decider, model_name: str, device: str):
         gr.Markdown(
             f"Running `{model_name}` on {device}. Reverse the option list and click again. "
             "The raw readout is what every logit-reading clone does. "
-            "[Library and benchmark](https://github.com/MorrisZJ/AnyJev)."
+            "[Library and benchmark](https://github.com/nokia-applied-research/AnyJev)."
         )
         with gr.Row():
             state = gr.Textbox(DEFAULT_STATE, label="state", lines=4)
@@ -102,6 +102,7 @@ def build(decider: Decider, model_name: str, device: str):
 
 def main():
     import torch
+
     from anyjev.backends.hf import HFBackend
 
     # On ZeroGPU the GPU is present for decorated calls even though the process

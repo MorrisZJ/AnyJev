@@ -13,7 +13,6 @@ from __future__ import annotations
 import argparse
 
 from anyjev import Decider, Question
-from anyjev.question import Question as Q
 
 DEFAULT_STATE = (
     "Customer message: Hi, I was charged twice for order #4471 last Tuesday. "
@@ -31,7 +30,7 @@ def build(decider: Decider):
         if len(opts) < 2:
             return {}, {}, {}, {}, "need at least two options"
         q = Question.choice(question, opts, name="q")
-        qr = Q(q.kind, q.text, tuple(reversed(opts)), "q", q.scale, q.ordered)
+        qr = Question(q.kind, q.text, tuple(reversed(opts)), "q", q.scale, q.ordered)
         a = decider.decide(state, [q])["q"]
         b = decider.decide(state, [qr])["q"]
         raw_a = dict(zip(opts, map(float, a.diagnostics["raw_probs"])))

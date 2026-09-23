@@ -1,0 +1,26 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | newsgroups | 20 | raw | 0.260 | 0.223 | 0.873 | 0.102 | 0.920 | 0.000 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | newsgroups | 20 | L0-perm | 0.603 | 0.611 | 0.782 | 0.436 | 0.247 | 0.017 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | newsgroups | 20 | L0-perm+bc | 0.643 | 0.649 | 0.780 | 0.481 | 0.190 | 0.137 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | newsgroups | 20 | L0-perm+cf | 0.600 | 0.603 | 0.779 | 0.432 | 0.227 | 0.013 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | newsgroups | 20 | L0-cf | 0.303 | 0.282 | 0.859 | 0.137 | 0.773 | 0.000 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | newsgroups | 20 | L0-bc | 0.383 | 0.377 | 0.824 | 0.184 | 0.703 | 0.003 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | newsgroups | 20 | L0 | 0.643 | 0.649 | 0.780 | 0.481 | 0.190 | 0.137 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | newsgroups | 20 | L1 | 0.630 | 0.631 | 0.491 | 0.092 | 0.187 | 0.137 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | injection | 2 | raw | 0.593 | 0.372 | 0.504 | 0.225 | 0.000 | 0.077 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | injection | 2 | L0-perm | 0.593 | 0.372 | 0.571 | 0.253 | 0.000 | 0.000 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | injection | 2 | L0-perm+bc | 0.703 | 0.693 | 0.432 | 0.141 | 0.000 | 0.003 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | injection | 2 | L0-perm+cf | 0.580 | 0.568 | 0.473 | 0.107 | 0.000 | 0.033 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | injection | 2 | L0-cf | 0.567 | 0.550 | 0.466 | 0.139 | 0.353 | 0.100 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | injection | 2 | L0-bc | 0.727 | 0.721 | 0.400 | 0.182 | 0.360 | 0.103 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | injection | 2 | L0 | 0.703 | 0.693 | 0.432 | 0.141 | 0.000 | 0.003 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | injection | 2 | L1 | 0.707 | 0.695 | 0.391 | 0.068 | 0.000 | 0.003 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | banking20 | 20 | raw | 0.407 | 0.352 | 0.799 | 0.215 | 0.867 | 0.087 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | banking20 | 20 | L0-perm | 0.667 | 0.669 | 0.781 | 0.514 | 0.263 | 0.087 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | banking20 | 20 | L0-perm+bc | 0.737 | 0.733 | 0.782 | 0.583 | 0.147 | 0.293 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | banking20 | 20 | L0-perm+cf | 0.707 | 0.706 | 0.780 | 0.548 | 0.157 | 0.153 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | banking20 | 20 | L0-cf | 0.493 | 0.460 | 0.784 | 0.304 | 0.767 | 0.090 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | banking20 | 20 | L0-bc | 0.550 | 0.520 | 0.783 | 0.369 | 0.690 | 0.103 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | banking20 | 20 | L0 | 0.737 | 0.733 | 0.782 | 0.583 | 0.147 | 0.293 |
+| HuggingFaceTB/SmolLM2-1.7B-Instruct | banking20 | 20 | L1 | 0.730 | 0.725 | 0.406 | 0.105 | 0.140 | 0.377 |

@@ -4,7 +4,7 @@ Wraps scripts/evaluate_native_qwen_maze.py from the NanoJev checkout. The only
 deviation: the predictor is built without `disable_native_triton`, which needs
 torch 2.14's torch._native and does not exist on torch 2.5.
 
-    python -m bench.providers.nanojev_native_maze --nanojev /path/to/NanoJev --episodes ... --output ...
+    python -m bench.providers.nanojev_native_maze --nanojev /path/to/NanoJev --episodes ... --out ...
 """
 from __future__ import annotations
 
@@ -34,7 +34,7 @@ def checkout_info(nanojev_dir, episodes):
     """The NanoJev commit and the episodes file hash, so the comparison is pinned."""
     import hashlib
     import subprocess
-    info = {"nanojev_dir": os.path.abspath(nanojev_dir)}
+    info = {"nanojev_dir": os.path.basename(os.path.abspath(nanojev_dir))}
     try:
         info["nanojev_commit"] = subprocess.run(["git", "-C", nanojev_dir, "rev-parse", "HEAD"], capture_output=True,
                                                 text=True, timeout=10).stdout.strip() or None

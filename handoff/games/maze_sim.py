@@ -1,6 +1,9 @@
-import json, os, sys
+import json
+import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
-from bench.games.maze import Maze, Explorer, DIRS
+from bench.games.maze import DIRS, Explorer, Maze
 
 data = json.load(open(sys.argv[1]))
 POLICIES = [("threshold", 0), ("expected_cost", 0), ("threshold", 10), ("expected_cost", 10)]
@@ -22,4 +25,6 @@ for pol, wc in POLICIES:
             tot.setdefault(name, []).append(ex.steps if st == "goal" else None)
         print(" ", s, "  ".join(row), flush=True)
     print("  solved:", {k: sum(v is not None for v in vs) for k, vs in tot.items()},
-          "mean steps (solved):", {k: round(sum(x for x in vs if x) / max(1, sum(x is not None for x in vs))) for k, vs in tot.items()})
+          "mean steps (solved):",
+          {k: round(sum(x for x in vs if x) / max(1, sum(x is not None for x in vs)))
+           for k, vs in tot.items()})

@@ -1,0 +1,26 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| allenai/OLMo-2-1124-7B-Instruct | newsgroups | 20 | raw | 0.573 | 0.578 | 0.595 | 0.202 | 0.460 | 0.283 |
+| allenai/OLMo-2-1124-7B-Instruct | newsgroups | 20 | L0-perm | 0.660 | 0.652 | 0.497 | 0.179 | 0.240 | 0.270 |
+| allenai/OLMo-2-1124-7B-Instruct | newsgroups | 20 | L0-perm+bc | 0.683 | 0.676 | 0.475 | 0.147 | 0.183 | 0.307 |
+| allenai/OLMo-2-1124-7B-Instruct | newsgroups | 20 | L0-perm+cf | 0.683 | 0.670 | 0.477 | 0.149 | 0.197 | 0.307 |
+| allenai/OLMo-2-1124-7B-Instruct | newsgroups | 20 | L0-cf | 0.610 | 0.598 | 0.568 | 0.196 | 0.383 | 0.270 |
+| allenai/OLMo-2-1124-7B-Instruct | newsgroups | 20 | L0-bc | 0.613 | 0.624 | 0.539 | 0.172 | 0.380 | 0.283 |
+| allenai/OLMo-2-1124-7B-Instruct | newsgroups | 20 | L0 | 0.683 | 0.676 | 0.475 | 0.147 | 0.183 | 0.307 |
+| allenai/OLMo-2-1124-7B-Instruct | newsgroups | 20 | L1 | 0.683 | 0.676 | 0.436 | 0.047 | 0.183 | 0.303 |
+| allenai/OLMo-2-1124-7B-Instruct | injection | 2 | raw | 0.593 | 0.372 | 0.742 | 0.367 | 0.003 | 0.000 |
+| allenai/OLMo-2-1124-7B-Instruct | injection | 2 | L0-perm | 0.593 | 0.372 | 0.673 | 0.319 | 0.000 | 0.000 |
+| allenai/OLMo-2-1124-7B-Instruct | injection | 2 | L0-perm+bc | 0.587 | 0.579 | 0.474 | 0.095 | 0.000 | 0.000 |
+| allenai/OLMo-2-1124-7B-Instruct | injection | 2 | L0-perm+cf | 0.587 | 0.586 | 0.499 | 0.100 | 0.000 | 0.003 |
+| allenai/OLMo-2-1124-7B-Instruct | injection | 2 | L0-cf | 0.583 | 0.578 | 0.474 | 0.067 | 0.297 | 0.000 |
+| allenai/OLMo-2-1124-7B-Instruct | injection | 2 | L0-bc | 0.590 | 0.584 | 0.470 | 0.077 | 0.177 | 0.000 |
+| allenai/OLMo-2-1124-7B-Instruct | injection | 2 | L0 | 0.587 | 0.579 | 0.474 | 0.095 | 0.000 | 0.000 |
+| allenai/OLMo-2-1124-7B-Instruct | injection | 2 | L1 | 0.590 | 0.584 | 0.485 | 0.125 | 0.000 | 0.000 |
+| allenai/OLMo-2-1124-7B-Instruct | banking20 | 20 | raw | 0.600 | 0.621 | 0.612 | 0.185 | 0.403 | 0.003 |
+| allenai/OLMo-2-1124-7B-Instruct | banking20 | 20 | L0-perm | 0.633 | 0.662 | 0.552 | 0.166 | 0.203 | 0.070 |
+| allenai/OLMo-2-1124-7B-Instruct | banking20 | 20 | L0-perm+bc | 0.693 | 0.704 | 0.445 | 0.115 | 0.217 | 0.053 |
+| allenai/OLMo-2-1124-7B-Instruct | banking20 | 20 | L0-perm+cf | 0.677 | 0.694 | 0.492 | 0.135 | 0.177 | 0.033 |
+| allenai/OLMo-2-1124-7B-Instruct | banking20 | 20 | L0-cf | 0.647 | 0.647 | 0.547 | 0.139 | 0.357 | 0.007 |
+| allenai/OLMo-2-1124-7B-Instruct | banking20 | 20 | L0-bc | 0.680 | 0.691 | 0.498 | 0.148 | 0.413 | 0.037 |
+| allenai/OLMo-2-1124-7B-Instruct | banking20 | 20 | L0 | 0.693 | 0.704 | 0.445 | 0.115 | 0.217 | 0.053 |
+| allenai/OLMo-2-1124-7B-Instruct | banking20 | 20 | L1 | 0.697 | 0.708 | 0.449 | 0.109 | 0.213 | 0.050 |

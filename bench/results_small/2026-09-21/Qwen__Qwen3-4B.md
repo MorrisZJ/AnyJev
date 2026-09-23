@@ -1,0 +1,26 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| Qwen/Qwen3-4B | newsgroups | 20 | raw | 0.637 | 0.644 | 0.694 | 0.338 | 0.270 | 0.000 |
+| Qwen/Qwen3-4B | newsgroups | 20 | L0-perm | 0.667 | 0.678 | 0.638 | 0.312 | 0.200 | 0.143 |
+| Qwen/Qwen3-4B | newsgroups | 20 | L0-perm+bc | 0.667 | 0.678 | 0.633 | 0.311 | 0.197 | 0.383 |
+| Qwen/Qwen3-4B | newsgroups | 20 | L0-perm+cf | 0.667 | 0.672 | 0.629 | 0.307 | 0.193 | 0.367 |
+| Qwen/Qwen3-4B | newsgroups | 20 | L0-cf | 0.640 | 0.644 | 0.693 | 0.342 | 0.283 | 0.087 |
+| Qwen/Qwen3-4B | newsgroups | 20 | L0-bc | 0.637 | 0.645 | 0.686 | 0.336 | 0.260 | 0.307 |
+| Qwen/Qwen3-4B | newsgroups | 20 | L0 | 0.667 | 0.678 | 0.633 | 0.311 | 0.197 | 0.383 |
+| Qwen/Qwen3-4B | newsgroups | 20 | L1 | 0.667 | 0.677 | 0.489 | 0.155 | 0.200 | 0.390 |
+| Qwen/Qwen3-4B | injection | 2 | raw | 0.687 | 0.582 | 0.586 | 0.293 | 0.197 | 0.117 |
+| Qwen/Qwen3-4B | injection | 2 | L0-perm | 0.787 | 0.746 | 0.411 | 0.200 | 0.000 | 0.113 |
+| Qwen/Qwen3-4B | injection | 2 | L0-perm+bc | 0.797 | 0.762 | 0.370 | 0.175 | 0.000 | 0.020 |
+| Qwen/Qwen3-4B | injection | 2 | L0-perm+cf | 0.817 | 0.793 | 0.343 | 0.159 | 0.000 | 0.020 |
+| Qwen/Qwen3-4B | injection | 2 | L0-cf | 0.790 | 0.754 | 0.382 | 0.181 | 0.103 | 0.020 |
+| Qwen/Qwen3-4B | injection | 2 | L0-bc | 0.723 | 0.648 | 0.506 | 0.250 | 0.167 | 0.023 |
+| Qwen/Qwen3-4B | injection | 2 | L0 | 0.797 | 0.762 | 0.370 | 0.175 | 0.000 | 0.020 |
+| Qwen/Qwen3-4B | injection | 2 | L1 | 0.800 | 0.766 | 0.304 | 0.092 | 0.000 | 0.100 |
+| Qwen/Qwen3-4B | banking20 | 20 | raw | 0.733 | 0.734 | 0.515 | 0.255 | 0.197 | 0.100 |
+| Qwen/Qwen3-4B | banking20 | 20 | L0-perm | 0.757 | 0.757 | 0.465 | 0.219 | 0.110 | 0.423 |
+| Qwen/Qwen3-4B | banking20 | 20 | L0-perm+bc | 0.760 | 0.760 | 0.457 | 0.215 | 0.103 | 0.407 |
+| Qwen/Qwen3-4B | banking20 | 20 | L0-perm+cf | 0.753 | 0.756 | 0.466 | 0.223 | 0.107 | 0.023 |
+| Qwen/Qwen3-4B | banking20 | 20 | L0-cf | 0.717 | 0.715 | 0.538 | 0.269 | 0.197 | 0.010 |
+| Qwen/Qwen3-4B | banking20 | 20 | L0-bc | 0.733 | 0.733 | 0.514 | 0.255 | 0.193 | 0.203 |
+| Qwen/Qwen3-4B | banking20 | 20 | L0 | 0.760 | 0.760 | 0.457 | 0.215 | 0.103 | 0.407 |
+| Qwen/Qwen3-4B | banking20 | 20 | L1 | 0.763 | 0.764 | 0.379 | 0.091 | 0.100 | 0.423 |

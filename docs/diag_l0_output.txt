@@ -1,43 +1,43 @@
-typed-decisions points: 220 (model x question); bench points: 33 (model x task)
+typed-decisions points: 200 (model x question); bench points: 30 (model x task)
 
 == typed-decisions, gain over raw accuracy, by question kind
-choice (n=66)
-  L0-perm                      n= 66 mean gain +0.032  >0: 36/66  <-0.01: 14  rho(majority)=-0.25  rho(entropy)=+0.31  rho(raw_acc)=-0.13  rho(raw_ece)=+0.09  rho(k)=+0.20
-  L0-bc                        n= 66 mean gain -0.001  >0: 28/66  <-0.01: 22  rho(majority)=-0.13  rho(entropy)=+0.13  rho(raw_acc)=-0.30  rho(raw_ece)=+0.19  rho(k)=+0.16
-  L0                           n= 66 mean gain +0.025  >0: 40/66  <-0.01: 17  rho(majority)=-0.22  rho(entropy)=+0.27  rho(raw_acc)=-0.21  rho(raw_ece)=+0.20  rho(k)=+0.26
-noul (n=66)
-  L0-perm                      n= 66 mean gain +0.006  >0: 17/66  <-0.01: 20  rho(majority)=-0.05  rho(entropy)=+0.05  rho(raw_acc)=-0.22  rho(raw_ece)=+0.29  rho(k)=+nan
-  L0-bc                        n= 66 mean gain +0.017  >0: 34/66  <-0.01: 13  rho(majority)=-0.38  rho(entropy)=+0.38  rho(raw_acc)=-0.63  rho(raw_ece)=+0.58  rho(k)=+nan
-  L0                           n= 66 mean gain +0.019  >0: 39/66  <-0.01: 19  rho(majority)=-0.35  rho(entropy)=+0.35  rho(raw_acc)=-0.57  rho(raw_ece)=+0.53  rho(k)=+nan
-score (n=88)
-  L0-perm                      n= 88 mean gain +0.000  >0: 0/88  <-0.01: 0  rho(majority)=+nan  rho(entropy)=+nan  rho(raw_acc)=+nan  rho(raw_ece)=+nan  rho(k)=+nan
-  L0-bc                        n= 88 mean gain +0.024  >0: 66/88  <-0.01: 13  rho(majority)=-0.03  rho(entropy)=+0.02  rho(raw_acc)=-0.19  rho(raw_ece)=+0.11  rho(k)=-0.21
-  L0                           n= 88 mean gain +0.024  >0: 66/88  <-0.01: 13  rho(majority)=-0.03  rho(entropy)=+0.02  rho(raw_acc)=-0.19  rho(raw_ece)=+0.11  rho(k)=-0.21
+choice (n=60)
+  L0-perm                      n= 60 mean gain +0.032  >0: 36/60  <-0.01: 12  rho(majority)=-0.37  rho(entropy)=+0.40  rho(raw_acc)=-0.10  rho(raw_ece)=+0.02  rho(k)=+0.18
+  L0-bc                        n= 60 mean gain -0.025  >0: 24/60  <-0.01: 32  rho(majority)=-0.13  rho(entropy)=+0.22  rho(raw_acc)=-0.23  rho(raw_ece)=+0.18  rho(k)=+0.37
+  L0                           n= 60 mean gain +0.002  >0: 32/60  <-0.01: 25  rho(majority)=-0.32  rho(entropy)=+0.39  rho(raw_acc)=-0.21  rho(raw_ece)=+0.19  rho(k)=+0.35
+noul (n=60)
+  L0-perm                      n= 60 mean gain +0.003  >0: 16/60  <-0.01: 15  rho(majority)=-0.20  rho(entropy)=+0.20  rho(raw_acc)=-0.19  rho(raw_ece)=+0.27  rho(k)=+nan
+  L0-bc                        n= 60 mean gain +0.018  >0: 34/60  <-0.01: 17  rho(majority)=-0.52  rho(entropy)=+0.52  rho(raw_acc)=-0.72  rho(raw_ece)=+0.66  rho(k)=+nan
+  L0                           n= 60 mean gain +0.023  >0: 35/60  <-0.01: 20  rho(majority)=-0.50  rho(entropy)=+0.50  rho(raw_acc)=-0.75  rho(raw_ece)=+0.67  rho(k)=+nan
+score (n=80)
+  L0-perm                      n= 80 mean gain +0.000  >0: 0/80  <-0.01: 0  rho(majority)=+nan  rho(entropy)=+nan  rho(raw_acc)=+nan  rho(raw_ece)=+nan  rho(k)=+nan
+  L0-bc                        n= 80 mean gain +0.026  >0: 51/80  <-0.01: 22  rho(majority)=-0.27  rho(entropy)=+0.39  rho(raw_acc)=-0.40  rho(raw_ece)=+0.44  rho(k)=-0.20
+  L0                           n= 80 mean gain +0.026  >0: 51/80  <-0.01: 22  rho(majority)=-0.27  rho(entropy)=+0.39  rho(raw_acc)=-0.40  rho(raw_ece)=+0.44  rho(k)=-0.20
 
 == bench (K=20 choice + noul), gain over raw accuracy
-choice K=20 (n=22)
-  L0-perm                      n= 22 mean gain +0.066  >0: 22/22  <-0.01: 0  rho(raw_flip)=+0.60  rho(raw_acc)=-0.38  rho(mass)=-0.08
-  L0-bc                        n= 22 mean gain +0.019  >0: 16/22  <-0.01: 0  rho(raw_flip)=+0.41  rho(raw_acc)=-0.35  rho(mass)=-0.51
-  L0-cf                        n= 22 mean gain +0.009  >0: 11/22  <-0.01: 8  rho(raw_flip)=+0.48  rho(raw_acc)=-0.48  rho(mass)=-0.16
-  L0                           n= 22 mean gain +0.077  >0: 22/22  <-0.01: 0  rho(raw_flip)=+0.65  rho(raw_acc)=-0.39  rho(mass)=-0.13
-noul (n=11)
-  L0-perm                      n= 11 mean gain +0.011  >0: 4/11  <-0.01: 4  rho(raw_flip)=+0.47  rho(raw_acc)=-0.20  rho(mass)=-0.09
-  L0-bc                        n= 11 mean gain +0.039  >0: 10/11  <-0.01: 1  rho(raw_flip)=-0.26  rho(raw_acc)=-0.28  rho(mass)=-0.09
-  L0-cf                        n= 11 mean gain +0.013  >0: 6/11  <-0.01: 4  rho(raw_flip)=+0.07  rho(raw_acc)=+0.21  rho(mass)=+0.58
-  L0                           n= 11 mean gain +0.039  >0: 9/11  <-0.01: 1  rho(raw_flip)=+0.44  rho(raw_acc)=-0.03  rho(mass)=+0.04
+choice K=20 (n=20)
+  L0-perm                      n= 20 mean gain +0.068  >0: 20/20  <-0.01: 0  rho(raw_flip)=+0.59  rho(raw_acc)=-0.31  rho(mass)=-0.10
+  L0-bc                        n= 20 mean gain +0.024  >0: 13/20  <-0.01: 0  rho(raw_flip)=+0.53  rho(raw_acc)=-0.39  rho(mass)=-0.49
+  L0-cf                        n= 14 mean gain +0.014  >0: 9/14  <-0.01: 4  rho(raw_flip)=+0.50  rho(raw_acc)=-0.41  rho(mass)=-0.38
+  L0                           n= 20 mean gain +0.082  >0: 20/20  <-0.01: 0  rho(raw_flip)=+0.61  rho(raw_acc)=-0.30  rho(mass)=-0.17
+noul (n=10)
+  L0-perm                      n= 10 mean gain +0.016  >0: 5/10  <-0.01: 3  rho(raw_flip)=+0.61  rho(raw_acc)=+0.07  rho(mass)=+0.04
+  L0-bc                        n= 10 mean gain +0.046  >0: 8/10  <-0.01: 1  rho(raw_flip)=-0.15  rho(raw_acc)=+0.19  rho(mass)=+0.08
+  L0-cf                        n=  7 mean gain +0.003  >0: 3/7  <-0.01: 3  rho(raw_flip)=+0.43  rho(raw_acc)=+0.40  rho(mass)=+0.50
+  L0                           n= 10 mean gain +0.059  >0: 9/10  <-0.01: 0  rho(raw_flip)=+0.26  rho(raw_acc)=+0.12  rho(mass)=+0.04
 
 == where the default L0 hurt the most (typed-decisions, gain_L0 < -0.02)
-  SmolLM2-1.7B-Instruct      customer_servi action                 choice K= 5 majority=0.52 entropy=0.73 raw_acc=0.600 gain=-0.300
-  SmolLM2-1.7B-Instruct      security_incid disposition            choice K= 4 majority=0.74 entropy=0.59 raw_acc=0.740 gain=-0.260
-  Qwen3-1.7B                 security_incid disposition            choice K= 4 majority=0.74 entropy=0.59 raw_acc=0.740 gain=-0.260
-  Phi-4-mini-instruct        security_incid disposition            choice K= 4 majority=0.74 entropy=0.59 raw_acc=0.740 gain=-0.160
-  Qwen3-1.7B                 customer_servi needs_human            noul   K= 2 majority=0.67 entropy=0.91 raw_acc=0.680 gain=-0.140
-  Qwen2.5-7B-Instruct        invoice_proces duplicate              noul   K= 2 majority=0.89 entropy=0.50 raw_acc=0.860 gain=-0.120
-  SmolLM2-1.7B-Instruct      agent_trace_ob risk                   score  K= 4 majority=0.34 entropy=0.98 raw_acc=0.260 gain=-0.110
-  Phi-4-mini-instruct        invoice_proces duplicate              noul   K= 2 majority=0.89 entropy=0.50 raw_acc=0.890 gain=-0.110
-  Qwen3-8B                   security_incid true_positive          noul   K= 2 majority=0.73 entropy=0.84 raw_acc=0.660 gain=-0.100
-  Qwen3-32B                  invoice_proces duplicate              noul   K= 2 majority=0.89 entropy=0.50 raw_acc=0.900 gain=-0.080
-  OLMo-2-1124-7B-Instruct    security_incid urgency                score  K= 4 majority=0.50 entropy=0.76 raw_acc=0.610 gain=-0.080
-  Phi-4-mini-instruct        invoice_proces discrepancy_severity   score  K= 4 majority=0.47 entropy=0.77 raw_acc=0.620 gain=-0.080
+  SmolLM2-1.7B-Instruct      security_incid disposition            choice K= 4 majority=0.74 entropy=0.59 raw_acc=0.740 gain=-0.440
+  Qwen3-1.7B                 security_incid disposition            choice K= 4 majority=0.74 entropy=0.59 raw_acc=0.740 gain=-0.430
+  OLMo-2-1124-7B-Instruct    invoice_proces duplicate              noul   K= 2 majority=0.89 entropy=0.50 raw_acc=0.890 gain=-0.390
+  SmolLM2-1.7B-Instruct      invoice_proces duplicate              noul   K= 2 majority=0.89 entropy=0.50 raw_acc=0.890 gain=-0.330
+  Phi-4-mini-instruct        security_incid disposition            choice K= 4 majority=0.74 entropy=0.59 raw_acc=0.740 gain=-0.290
+  SmolLM2-1.7B-Instruct      customer_servi action                 choice K= 5 majority=0.52 entropy=0.73 raw_acc=0.550 gain=-0.260
+  Phi-4-mini-instruct        invoice_proces duplicate              noul   K= 2 majority=0.89 entropy=0.50 raw_acc=0.890 gain=-0.220
+  granite-3.3-8b-instruct    invoice_proces duplicate              noul   K= 2 majority=0.89 entropy=0.50 raw_acc=0.890 gain=-0.210
+  Qwen2.5-7B-Instruct        invoice_proces duplicate              noul   K= 2 majority=0.89 entropy=0.50 raw_acc=0.860 gain=-0.200
+  Qwen3-1.7B                 customer_servi needs_human            noul   K= 2 majority=0.67 entropy=0.91 raw_acc=0.690 gain=-0.180
+  OLMo-2-1124-7B-Instruct    customer_servi urgency                score  K= 4 majority=0.42 entropy=0.74 raw_acc=0.660 gain=-0.170
+  OLMo-2-1124-7B-Instruct    security_incid urgency                score  K= 4 majority=0.50 entropy=0.76 raw_acc=0.610 gain=-0.150
 
-== share of typed points with L0 gain >= 0, by kind: {'choice': '47/66', 'noul': '47/66', 'score': '74/88'}
+== share of typed points with L0 gain >= 0, by kind: {'choice': '35/60', 'noul': '40/60', 'score': '58/80'}

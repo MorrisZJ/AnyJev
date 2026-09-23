@@ -1,0 +1,180 @@
+{
+ "model": "Qwen/Qwen3-32B",
+ "n_layers": 64,
+ "params_per_block": 487598336,
+ "hidden_size": 5120,
+ "rows": [
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 1.0,
+   "blocks": 64,
+   "mode": "raw (plain forward)",
+   "batch_ms": 41.83551741880365,
+   "single_ms": 85.00362963726123,
+   "gflops": 13231.468445696
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.25,
+   "blocks": 16,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 10.91040761093609,
+   "single_ms": 24.23238027840853,
+   "gflops": 3307.867111424
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.33,
+   "blocks": 21,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 14.156359917251393,
+   "single_ms": 30.73438337693612,
+   "gflops": 4341.575583744
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.5,
+   "blocks": 32,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 21.422945545054972,
+   "single_ms": 44.733528420329094,
+   "gflops": 6615.734222848
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.6,
+   "blocks": 38,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 25.42968833586201,
+   "single_ms": 58.393802431722484,
+   "gflops": 7856.184389632
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.75,
+   "blocks": 48,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 31.714240030851215,
+   "single_ms": 65.59166572988033,
+   "gflops": 9923.601334272
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 0.8125,
+   "blocks": 52,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 34.1496980690863,
+   "single_ms": 70.84414772689342,
+   "gflops": 10750.568112128
+  },
+  {
+   "state_tokens": 110,
+   "prompt_tokens": 212,
+   "depth": 1.0,
+   "blocks": 64,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 42.210088489810005,
+   "single_ms": 93.84410722802082,
+   "gflops": 13231.468445696
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 1.0,
+   "blocks": 64,
+   "mode": "raw (plain forward)",
+   "batch_ms": 230.7305601425469,
+   "single_ms": 246.56685795634985,
+   "gflops": 68404.195360768
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.25,
+   "blocks": 16,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 60.29077910352498,
+   "single_ms": 66.50716147075096,
+   "gflops": 17101.048840192
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.33,
+   "blocks": 21,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 78.79368591238745,
+   "single_ms": 85.2401290088892,
+   "gflops": 22445.126602752
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.5,
+   "blocks": 32,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 118.96009670454077,
+   "single_ms": 127.20395841946203,
+   "gflops": 34202.097680384
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.6,
+   "blocks": 38,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 141.78862012340687,
+   "single_ms": 150.57103342066208,
+   "gflops": 40614.990995456
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.75,
+   "blocks": 48,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 179.4951964111533,
+   "single_ms": 192.0957749709487,
+   "gflops": 51303.146520576
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 0.8125,
+   "blocks": 52,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 194.6130309079308,
+   "single_ms": 206.0417152941227,
+   "gflops": 55578.408730624
+  },
+  {
+   "state_tokens": 1000,
+   "prompt_tokens": 1096,
+   "depth": 1.0,
+   "blocks": 64,
+   "mode": "truncated forward (head at this depth)",
+   "batch_ms": 240.10096525307745,
+   "single_ms": 252.29594906171167,
+   "gflops": 68404.195360768
+  }
+ ],
+ "date": "2026-09-22T16:44:34.658064",
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T16:44:34.658119",
+  "anyjev": "0.0.2",
+  "batch_size": 16,
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ }
+}

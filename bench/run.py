@@ -219,6 +219,7 @@ def main(argv=None):
     ap.add_argument("--adaptive", action="store_true", help="opt-in adaptive cyclic shifts for choice questions")
     ap.add_argument("--adaptive-margin", type=float, default=0.1)
     ap.add_argument("--adaptive-min-shifts", type=int, default=2)
+    ap.add_argument("--adaptive-order", default="spread", choices=["spread", "consecutive"])
     ap.add_argument("--out", default="bench/results")
     ap.add_argument("--dump-items", action="store_true", help="also write per-item raw distributions (items JSON)")
     args = ap.parse_args(argv)
@@ -234,13 +235,15 @@ def main(argv=None):
     decider = Decider(backend, max_permutations=args.max_permutations, combine=args.combine,
                       prior=args.prior, prior_strength=args.prior_strength,
                       record_content_free=True, adaptive_shifts=args.adaptive,
-                      adaptive_margin=args.adaptive_margin, adaptive_min_shifts=args.adaptive_min_shifts)
+                      adaptive_margin=args.adaptive_margin, adaptive_min_shifts=args.adaptive_min_shifts,
+                      adaptive_order=args.adaptive_order)
     levels = args.levels.split(",")
 
     results: Dict[str, Any] = {"model": args.model, "backend": args.backend, "seed": args.seed,
                                "n": args.n, "calib": args.calib, "max_pixels": args.max_pixels,
                                "max_permutations": args.max_permutations, "combine": args.combine, "prior": args.prior,
                                "adaptive": args.adaptive, "adaptive_margin": args.adaptive_margin,
+                               "adaptive_order": args.adaptive_order,
                                "prior_strength": args.prior_strength,
                                "env": environment(batch_size=args.batch_size, dtype=getattr(backend, "dtype", None),
                                                   backend=args.backend, shared_prefix=str(decider.shared_prefix)),

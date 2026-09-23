@@ -1,0 +1,47 @@
+{
+ "model": "Qwen/Qwen2.5-7B-Instruct",
+ "backend": "vllm",
+ "rows": [
+  {
+   "backend": "vllm",
+   "state_tokens": 121,
+   "k": 4,
+   "n": 32,
+   "batch_raw_ms": 10.940398060483858,
+   "batch_L0_full_ms": 36.41966046416201,
+   "single_raw_ms": 33.53559486567974,
+   "single_L0_full_ms": 69.93246786296368
+  },
+  {
+   "backend": "vllm",
+   "state_tokens": 121,
+   "k": 20,
+   "n": 32,
+   "batch_raw_ms": 12.720061640720814,
+   "batch_L0_full_ms": 222.01179468538612,
+   "single_raw_ms": 38.06905969977379,
+   "single_L0_full_ms": 262.41807267069817
+  },
+  {
+   "backend": "vllm",
+   "state_tokens": 1006,
+   "k": 4,
+   "n": 32,
+   "batch_raw_ms": 37.546975596342236,
+   "batch_L0_full_ms": 146.92291300161742,
+   "single_raw_ms": 58.09568855911493,
+   "single_L0_full_ms": 178.7109587341547
+  },
+  {
+   "backend": "vllm",
+   "state_tokens": 1006,
+   "k": 20,
+   "n": 32,
+   "batch_raw_ms": 42.93988359859213,
+   "batch_L0_full_ms": 838.4959878749214,
+   "single_raw_ms": 72.44984488934278,
+   "single_L0_full_ms": 874.4992922991514
+  }
+ ],
+ "date": "2026-09-21T19:59:51.578097"
+}

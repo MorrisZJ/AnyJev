@@ -1,6 +1,6 @@
 """Aggregate every results JSON in a results directory into one Markdown table.
 
-    python -m bench.table bench/results/2026-09-22 > docs/results.md
+    python -m bench.table bench/results_v01/2026-09-22 > docs/results_bench.md
 """
 from __future__ import annotations
 

@@ -53,3 +53,23 @@ def test_temperature_comes_from_out_of_fold_scores():
     conf = p.max(axis=1).mean()
     acc = np.mean(p.argmax(axis=1) == yt)
     assert abs(conf - acc) < 0.25
+
+
+def test_compact_head_format_round_trips_exactly_and_reads_plain_lists():
+    import json
+
+    from anyjev.heads import LinearHead, decode_array, encode_array
+    rng = np.random.RandomState(0)
+    y = rng.randint(0, 3, 60)
+    X = rng.randn(60, 256) + np.eye(3)[y] @ rng.randn(3, 256)
+    head = fit_head(X, y, 3, kind="ridge")
+    compact = json.loads(json.dumps(head.to_dict()))              # default: base64 float32 arrays
+    assert isinstance(compact["W"], dict) and compact["W"]["shape"] == [256, 3]
+    back = LinearHead.from_dict(compact)
+    assert np.array_equal(back.W.astype(np.float32), head.W.astype(np.float32))
+    assert np.allclose(back.probs(X), head.probs(X), atol=1e-6)
+    plain = json.loads(json.dumps(head.to_dict(compact=False)))    # the 0.0.2-era list format
+    assert isinstance(plain["W"], list)
+    assert np.allclose(LinearHead.from_dict(plain).probs(X), head.probs(X), atol=1e-6)
+    assert len(json.dumps(compact)) < len(json.dumps(plain)) / 2
+    assert np.array_equal(decode_array(encode_array(np.arange(6.0).reshape(2, 3))), np.arange(6.0).reshape(2, 3))

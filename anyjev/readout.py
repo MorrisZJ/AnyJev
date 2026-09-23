@@ -6,6 +6,7 @@ splits the user turn at those markers into an interleaved content list, so a
 picture lands where it sat in the state rather than all of them up front."""
 from __future__ import annotations
 
+import re
 import string
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Sequence, Tuple
@@ -211,3 +212,64 @@ def render_chat_parts(renderer, spec: PromptSpec):
         return _render(renderer, spec.system, spec.user, spec.images), ""
     prefix, suffix = marked.split(SPLIT_SENTINEL)
     return prefix, suffix
+
+
+# ---------------------------------------------------------------- option-line positions
+_OPTION_LINE = re.compile(r"^([A-Z]|\d+)\. (.*)$")
+_NOUL_LINE = re.compile(r"^Answer (Yes|No) or (Yes|No)\.")   # a template may append its end-of-turn tag
+
+
+def option_spans(tokenizer, spec: PromptSpec, kind: str) -> Tuple[str, List[Tuple[int, int]]]:
+    """Character spans, in *position* order, of each option's own text inside the rendered prompt:
+    for choice and score the text after "A. " on every option line, for noul the two answer words
+    of the phrasing line. The hidden state at the end of such a span is an option-conditioned
+    representation that has already attended to the state (the bench feature caches store it).
+    Returns (rendered_text, spans); spans[j] belongs to the option shown at position j."""
+    prefix, suffix = render_chat_parts(tokenizer, spec)
+    text = prefix + suffix
+    boundary = len(prefix) if suffix else 0       # no split: scan everything after the state block
+    spans: List[Tuple[int, int]] = []
+    offset = 0
+    for line in text.split("\n"):
+        if offset >= boundary:
+            if kind == "noul":
+                m = _NOUL_LINE.match(line)
+                if m:
+                    for g in (1, 2):
+                        spans.append((offset + m.start(g), offset + m.end(g)))
+            else:
+                m = _OPTION_LINE.match(line)
+                if m:
+                    spans.append((offset + m.start(2), offset + m.end(2)))
+        offset += len(line) + 1
+    return text, spans
+
+
+def option_token_positions(tokenizer, text: str, spans: Sequence[Tuple[int, int]],
+                           which: str = "last") -> List[int]:
+    """Token index, under `tokenizer(text, add_special_tokens=False)`, for each character span:
+    "last" = the last token that overlaps the span (the option's final token), "newline" = the
+    first token starting at or after the span (the line break that closes the option). Uses the
+    fast tokenizer's offset mapping; falls back to counting the tokens of the text up to the span
+    end, which is exact only when the tokenizer splits there."""
+    offsets = None
+    try:
+        enc = tokenizer(text, add_special_tokens=False, return_offsets_mapping=True)
+        offsets = list(enc["offset_mapping"])
+    except (TypeError, KeyError, NotImplementedError):
+        offsets = None
+    out: List[int] = []
+    for s, e in spans:
+        if offsets:
+            if which == "newline":
+                idx = next((i for i, (a, _) in enumerate(offsets) if a >= e), len(offsets) - 1)
+            else:
+                hits = [i for i, (a, b) in enumerate(offsets) if a < e and b > s]
+                if not hits:
+                    raise LabelTokenError(f"no token overlaps option span {(s, e)} in the rendered prompt")
+                idx = hits[-1]
+        else:
+            n = len(tokenizer.encode(text[:e], add_special_tokens=False))
+            idx = n - 1 if which == "last" else n
+        out.append(int(idx))
+    return out

@@ -255,3 +255,29 @@ def test_l1_calibration_works_on_picture_states():
     # this synthetic model is right every time, so matching confidence to
     # accuracy means sharpening, not softening
     assert l1.confidence > l0.confidence
+
+
+# ---- L2 on pictures ------------------------------------------------------
+
+def test_l2_head_reads_the_picture_when_the_text_says_nothing():
+    be = vlm()
+    d = Decider(be)
+    q = Question.choice("What colour is the photo?", OPTIONS, name="colour")
+    pics = [RED, GREEN, BLUE] * 10
+    states = [{"photo": pic, "note": "same words every time"} for pic in pics]
+    labels = [OPTIONS.index(COLOUR[Image(pic).key]) for pic in pics]
+    d.fit_head(q, states, labels)
+    assert be.images_seen and all(len(x) == 1 for x in be.images_seen[:len(states)])
+    decs = d.decide_batch([{"photo": BLUE, "note": "same words every time"},
+                           {"photo": RED, "note": "same words every time"}], q, level="L2")
+    assert [x.argmax for x in decs] == ["blue", "red"]
+    assert all(x.level == "L2" for x in decs)
+    assert all(x.diagnostics["early_stop"] is False for x in decs)   # pictures take the full forward
+
+
+def test_l2_refuses_pictures_on_a_text_only_backend():
+    be = FakeBackend(no_text_signal)
+    d = Decider(be)
+    q = Question.noul("Is it red?", name="red")
+    with pytest.raises(ValueError):
+        d.fit_head(q, [{"photo": RED}] * 8, [0, 1] * 4)

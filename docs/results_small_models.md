@@ -330,7 +330,7 @@ Environment: {"gpu": "NVIDIA H100 NVL", "torch": "2.5.1+cu124", "transformers": 
 | Qwen3-32B + raw logits (clone baseline) | 0.684 | 0.556 | 0.206 | 0.144 | 0.488 |
 | Qwen3-32B + AnyJev L1, temperature from 200 train cases | 0.699 | 0.508 | 0.036 | 0.119 | 0.416 |
 | Qwen3-32B + AnyJev L0, zero-shot | 0.700 | 0.555 | 0.149 | 0.129 | 0.449 |
-| Jev 1.13.0 (published by TypeSafe / Laya; not rerun) | 0.727 | 0.580 | 0.144 | 0.148 | 0.391 |
+| Jev 1.13.0 (0.727 as listed in Laya's BENCHMARKS.md; not measured here) | 0.727 | 0.580 | 0.144 | 0.148 | 0.391 |
 | laya-typed-decisions (fine-tuned on this set's train split), measured here | 0.768 | 0.471 | 0.215 | 0.118 | 0.243 |
 
 LocalLLaMA/typed-decisions test split, 400 cases, 2,000 decisions, all rows except Jev measured on the same decisions. soft_acc = sum of predicted x teacher probabilities. brier_mean divides by the number of options, as Laya reports it.

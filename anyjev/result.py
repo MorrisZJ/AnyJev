@@ -13,7 +13,7 @@ from anyjev.question import Question
 class Decision:
     question: Question
     probs: np.ndarray            # [K] over question.options, sums to 1
-    level: str                   # "raw" | "L0" | "L1"
+    level: str                   # "raw" | "L0" | "L1" | "L2"  ("auto" is a request to decide(), never a result level)
     diagnostics: Dict[str, Any] = field(default_factory=dict)
 
     # ---- generic ------------------------------------------------------
@@ -77,7 +77,7 @@ class Decision:
         return f"Decision({self.question.id}: {self.answer!r}, conf={self.confidence:.3f}, level={self.level})"
 
 
-LEVEL_ORDER = {"raw": 0, "L0": 1, "L1": 2}
+LEVEL_ORDER = {"raw": 0, "L0": 1, "L1": 2, "L2": 3}
 
 
 class LevelError(ValueError):

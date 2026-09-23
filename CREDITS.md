@@ -18,6 +18,7 @@ AnyJev stands on other people's work. Attribution lives here, not in identifiers
 - Temperature scaling: Guo et al., "On Calibration of Modern Neural Networks", ICML 2017, arXiv:1706.04599
 - Surface-form competition (planned span readout): Holtzman et al., EMNLP 2021, arXiv:2104.08315
 - Conformal prediction (planned): Angelopoulos and Bates, 2021, arXiv:2107.07511
+- Reliability gating (planned): Chen et al., "Routing Without Training: Controllable-Ratio LLM Offloading via Reliability Gating", 2026, arXiv:2607.20481
 
 ## Datasets
 

@@ -28,6 +28,8 @@ class HFBackend:
             model_name, torch_dtype=torch_dtype, device_map=device,
             trust_remote_code=trust_remote_code, revision=revision)
         self.model.eval()
+        self.n_layers = int(getattr(self.model.config, "num_hidden_layers", 0))
+        self.hidden_size = int(getattr(self.model.config, "hidden_size", 0))
 
     def _last_logits(self, enc, pos):
         """Logits at the last position only. `logits_to_keep=1` skips the full-vocabulary
@@ -140,22 +142,33 @@ class HFBackend:
         return results  # type: ignore[return-value]
 
     def hidden_states(self, prompts: Sequence[str], layers: Optional[Sequence[int]] = None,
-                      token_ids: Optional[Sequence[Sequence[int]]] = None):
-        """Last-position hidden states, float32 [N, len(layers), H], plus the label log-probs
-        when `token_ids` is given (same forward). `layers` index the transformer's hidden-state
-        tuple: 0 is the embedding output, i the output of block i, and the last entry
+                      token_ids: Optional[Sequence[Sequence[int]]] = None,
+                      positions: Optional[Sequence[Sequence[int]]] = None):
+        """Hidden states from one forward per prompt batch.
+
+        Returns (feats, lps, pos_feats): `feats` float32 [N, len(layers), H] at the LAST position;
+        `lps` the label log-probs at that position when `token_ids` is given (same forward, else
+        None entries); `pos_feats` float16 [N, P_max, len(layers), H] at the requested token
+        indices per prompt (`positions[i]`, indices into the prompt's own tokens; zero-padded to
+        the longest list) or None when `positions` is None. `layers` index the transformer's
+        hidden-state tuple: 0 is the embedding output, i the output of block i, and the last entry
         (num_hidden_layers) is after the final norm, i.e. exactly what the lm_head reads; a
-        negative index counts from that end. This is the feature the closed-form heads in
+        negative index counts from that end. These are the features the closed-form heads in
         `anyjev.heads` are fit on."""
         import torch
 
         n_blocks = int(self.model.config.num_hidden_layers)
         layers = [n_blocks] if layers is None else [(n_blocks + 1 + i) if i < 0 else i for i in layers]
         n = len(prompts)
+        H = int(self.model.config.hidden_size)
         lengths = [len(self.tokenizer.encode(p, add_special_tokens=False)) for p in prompts]
         order = sorted(range(n), key=lambda i: lengths[i])
-        feats = np.zeros((n, len(layers), int(self.model.config.hidden_size)), dtype=np.float32)
+        feats = np.zeros((n, len(layers), H), dtype=np.float32)
         lps: List[Optional[np.ndarray]] = [None] * n
+        pos_feats = None
+        if positions is not None:
+            p_max = max((len(p) for p in positions), default=0)
+            pos_feats = np.zeros((n, p_max, len(layers), H), dtype=np.float16)
         for start in range(0, n, self.batch_size):
             idx = order[start:start + self.batch_size]
             enc = self.tokenizer([prompts[i] for i in idx], return_tensors="pt",
@@ -169,13 +182,154 @@ class HFBackend:
                     out = self.model(**enc, position_ids=pos, output_hidden_states=True)
                 for li, layer in enumerate(layers):           # left padding: the last column is the last token
                     feats[idx, li] = out.hidden_states[layer][:, -1, :].float().cpu().numpy()
+                if positions is not None:
+                    T_pad = int(enc["input_ids"].shape[1])
+                    n_tok = enc["attention_mask"].sum(dim=1).tolist()
+                    for row, i in enumerate(idx):
+                        if not positions[i]:
+                            continue
+                        if int(n_tok[row]) != lengths[i]:
+                            raise RuntimeError(f"token count mismatch for prompt {i}: {n_tok[row]} vs {lengths[i]}")
+                        cols = torch.as_tensor([T_pad - int(n_tok[row]) + int(p) for p in positions[i]],
+                                               device=self.model.device)
+                        for li, layer in enumerate(layers):
+                            pos_feats[i, :len(positions[i]), li] = (
+                                out.hidden_states[layer][row, cols, :].to(torch.float16).cpu().numpy())
                 if token_ids is not None:
                     lp = torch.log_softmax(out.logits[:, -1, :].float(), dim=-1)
                     for row, i in enumerate(idx):
                         ids = torch.as_tensor(list(token_ids[i]), device=lp.device)
                         lps[i] = lp[row, ids].cpu().numpy().astype(np.float64)
             del out
-        return feats, lps
+        return feats, lps, pos_feats
+
+    # ---- depth: a block loop that can stop early, capture every block, and resume ----------
+    def _prepare(self, enc, pos):
+        """Everything a transformers 4.5x decoder block needs besides the residual stream: the
+        embeddings, the causal mask(s), cache positions and rotary embeddings. Mirrors
+        `XModel.forward` so blocks can be run one at a time. Raises NotImplementedError for
+        architectures whose forward differs (the caller falls back to output_hidden_states)."""
+        import torch
+
+        inner = getattr(self.model, "model", None)
+        if inner is None or not hasattr(inner, "layers") or not hasattr(inner, "embed_tokens"):
+            raise NotImplementedError("no .model.layers / .model.embed_tokens on this architecture")
+        try:
+            from transformers import DynamicCache
+            from transformers.masking_utils import create_causal_mask
+        except ImportError as e:   # older transformers
+            raise NotImplementedError(str(e))
+        ids, mask = enc["input_ids"], enc["attention_mask"]
+        embeds = inner.embed_tokens(ids)
+        cache = DynamicCache()
+        cache_position = torch.arange(0, embeds.shape[1], device=embeds.device)
+        kw = dict(config=self.model.config, input_embeds=embeds, attention_mask=mask,
+                  cache_position=cache_position, past_key_values=cache, position_ids=pos)
+        masks = {"full_attention": create_causal_mask(**kw)}
+        types = {getattr(layer, "attention_type", "full_attention") for layer in inner.layers}
+        if "sliding_attention" in types:
+            from transformers.masking_utils import create_sliding_window_causal_mask
+            masks["sliding_attention"] = create_sliding_window_causal_mask(**kw)
+        if not hasattr(inner, "rotary_emb"):
+            raise NotImplementedError("no shared rotary embedding module on this architecture")
+        rope = inner.rotary_emb(embeds, pos)
+        scale = getattr(inner, "embed_scale", None)      # Gemma-style scaled embeddings
+        if scale is not None:
+            raise NotImplementedError("scaled embeddings (Gemma) are not supported by the block loop yet")
+        return {"hidden": embeds, "masks": masks, "cache": cache, "cache_position": cache_position,
+                "position_ids": pos, "rope": rope}
+
+    def _run_layers(self, ctx, start: int, stop: int, capture=None):
+        """Run blocks start..stop-1 (0-based) on ctx["hidden"], updating ctx["cache"]. `capture(i, h)`
+        receives each block's output (1-based block index, matching the hidden-state tuple)."""
+        inner = self.model.model
+        h = ctx["hidden"]
+        for i in range(start, stop):
+            layer = inner.layers[i]
+            out = layer(h, attention_mask=ctx["masks"][getattr(layer, "attention_type", "full_attention")],
+                        position_ids=ctx["position_ids"], past_key_value=ctx["cache"],
+                        cache_position=ctx["cache_position"], position_embeddings=ctx["rope"])
+            h = out[0] if isinstance(out, tuple) else out
+            if capture is not None:
+                capture(i + 1, h)
+        ctx["hidden"] = h
+        ctx["layer"] = stop
+        return h
+
+    def hidden_states_to(self, prompts: Sequence[str], layers: Sequence[int], token_ids=None,
+                         positions=None, max_layer: Optional[int] = None, lens_ids=None):
+        """Like `hidden_states` but through the block loop: runs only the first `max_layer` blocks
+        (default: the deepest requested layer), captures the requested layers without keeping every
+        layer's full activations, and returns per-layer restricted logit-lens logits for `lens_ids`
+        ([N, len(layers), len(lens_ids)]: final norm + the lm_head rows of those tokens at each
+        captured layer). Layer index n_layers means 'after the final norm'. Returns
+        (feats, lps, pos_feats, lens)."""
+        import torch
+
+        n_blocks = self.n_layers
+        layers = [(n_blocks + 1 + i) if i < 0 else i for i in layers]
+        deepest = max(layers)
+        stop = min(n_blocks, max_layer if max_layer is not None else deepest)
+        if deepest > stop and deepest != n_blocks:
+            raise ValueError(f"requested layer {deepest} lies beyond max_layer {stop}")
+        n = len(prompts)
+        H = self.hidden_size
+        lengths = [len(self.tokenizer.encode(p, add_special_tokens=False)) for p in prompts]
+        order = sorted(range(n), key=lambda i: lengths[i])
+        feats = np.zeros((n, len(layers), H), dtype=np.float32)
+        lps: List[Optional[np.ndarray]] = [None] * n
+        pos_feats = None
+        if positions is not None:
+            p_max = max((len(p) for p in positions), default=0)
+            pos_feats = np.zeros((n, p_max, len(layers), H), dtype=np.float16)
+        lens = np.zeros((n, len(layers), len(lens_ids)), dtype=np.float32) if lens_ids is not None else None
+        lens_t = torch.as_tensor(list(lens_ids), device=self.model.device) if lens_ids is not None else None
+        inner = self.model.model
+        for start in range(0, n, self.batch_size):
+            idx = order[start:start + self.batch_size]
+            enc = self.tokenizer([prompts[i] for i in idx], return_tensors="pt", padding=True, add_special_tokens=False)
+            enc = {k: v.to(self.model.device) for k, v in enc.items()}
+            pos = (enc["attention_mask"].cumsum(-1) - 1).clamp(min=0)
+            T_pad = int(enc["input_ids"].shape[1])
+            n_tok = enc["attention_mask"].sum(dim=1).tolist()
+            captured: Dict[int, "torch.Tensor"] = {}
+
+            def grab(block_i, h, captured=captured):
+                if block_i in layers:
+                    captured[block_i] = h
+
+            with torch.no_grad():
+                ctx = self._prepare(enc, pos)
+
+                if 0 in layers:
+                    captured[0] = ctx["hidden"]
+                self._run_layers(ctx, 0, stop, capture=grab)
+                if n_blocks in layers or token_ids is not None:
+                    final = inner.norm(ctx["hidden"])
+                    if n_blocks in layers and stop == n_blocks:
+                        captured[n_blocks] = final
+                    elif n_blocks in layers:
+                        captured[n_blocks] = final          # logit-lens style: norm of the truncated stream
+                for li, layer in enumerate(layers):
+                    h = captured[layer]
+                    feats[idx, li] = h[:, -1, :].float().cpu().numpy()
+                    if lens_t is not None:
+                        hl = h[:, -1, :] if layer == n_blocks else inner.norm(h[:, -1, :])
+                        lens[idx, li] = self._project(hl)[:, lens_t].float().cpu().numpy()
+                    if positions is not None:
+                        for row, i in enumerate(idx):
+                            if not positions[i]:
+                                continue
+                            cols = torch.as_tensor([T_pad - int(n_tok[row]) + int(p) for p in positions[i]],
+                                                   device=self.model.device)
+                            pos_feats[i, :len(positions[i]), li] = h[row, cols, :].to(torch.float16).cpu().numpy()
+                if token_ids is not None:
+                    lp = torch.log_softmax(self._project(final[:, -1, :]), dim=-1)
+                    for row, i in enumerate(idx):
+                        ids = torch.as_tensor(list(token_ids[i]), device=lp.device)
+                        lps[i] = lp[row, ids].cpu().numpy().astype(np.float64)
+            del ctx
+        return feats, lps, pos_feats, lens
 
     def next_token_logprobs(self, prompts: Sequence[str],
                             token_ids: Sequence[Sequence[int]]) -> List[np.ndarray]:

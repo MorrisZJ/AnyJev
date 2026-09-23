@@ -1,0 +1,74 @@
+{
+ "backend": "hf",
+ "model": "Qwen/Qwen3-1.7B",
+ "mode": "lifecycle",
+ "question": "invoice_processing.discrepancy_severity",
+ "seed": 0,
+ "lifecycle": {
+  "day0": {
+   "level": "L0",
+   "acc": 0.08,
+   "n": 100
+  },
+  "stream": 150,
+  "fit_at": 30,
+  "fits": [
+   {
+    "at": 30,
+    "acc": 0.45,
+    "ece": 0.15309996835369338,
+    "level": "L2",
+    "method": "head:ridge",
+    "layer_abs": 24,
+    "oof_acc": 0.43333333333333335
+   },
+   {
+    "at": 60,
+    "acc": 0.49,
+    "ece": 0.1489941885103886,
+    "level": "L2",
+    "method": "head:ridge",
+    "layer_abs": 20,
+    "oof_acc": 0.5833333333333334
+   },
+   {
+    "at": 120,
+    "acc": 0.6,
+    "ece": 0.13503584515186412,
+    "level": "L2",
+    "method": "head:lda",
+    "layer_abs": 28,
+    "oof_acc": 0.5833333333333334
+   }
+  ],
+  "wording": {
+   "text": "Rate the materiality of the discrepancy, if any, between invoice, order and delivery.",
+   "first_n": 30,
+   "acc_first_unadapted": 0.2,
+   "acc_after_adapted": 0.35714285714285715,
+   "acc_after_control": 0.12857142857142856,
+   "routed_from": "discrepancy_severity",
+   "adapt_n": 100
+  },
+  "restart": {
+   "n_heads": 1,
+   "n_observations": 150,
+   "n_adaptation": 1,
+   "bytes": 198845,
+   "adapted_on_first_request": true,
+   "adapt_n_first": 101,
+   "max_abs_dp": 0.05142749406945718
+  }
+ },
+ "seconds": 24.521660400554538,
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T23:17:52.219109",
+  "anyjev": "0.0.2",
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ }
+}

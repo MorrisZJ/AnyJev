@@ -10,8 +10,8 @@ import numpy as np
 
 from anyjev import Question
 from anyjev.backends.hf import HFBackend
-from anyjev.readout import build_prompt, label_ids_for_perm, render_chat_parts, resolve_labels
 from anyjev.calibrate.permute import cyclic_shifts
+from anyjev.readout import build_prompt, label_ids_for_perm, render_chat_parts, resolve_labels
 
 STATES = [
     "My card was charged twice for one order and the app crashes when I open receipts.",

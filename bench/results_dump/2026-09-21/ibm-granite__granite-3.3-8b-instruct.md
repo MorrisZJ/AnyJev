@@ -1,0 +1,26 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| ibm-granite/granite-3.3-8b-instruct | newsgroups | 20 | raw | 0.660 | 0.677 | 0.650 | 0.326 | 0.303 | 0.000 |
+| ibm-granite/granite-3.3-8b-instruct | newsgroups | 20 | L0-perm | 0.687 | 0.687 | 0.578 | 0.272 | 0.187 | 0.080 |
+| ibm-granite/granite-3.3-8b-instruct | newsgroups | 20 | L0-perm+bc | 0.690 | 0.690 | 0.565 | 0.268 | 0.180 | 0.183 |
+| ibm-granite/granite-3.3-8b-instruct | newsgroups | 20 | L0-perm+cf | 0.667 | 0.669 | 0.579 | 0.290 | 0.190 | 0.147 |
+| ibm-granite/granite-3.3-8b-instruct | newsgroups | 20 | L0-cf | 0.687 | 0.700 | 0.605 | 0.295 | 0.307 | 0.010 |
+| ibm-granite/granite-3.3-8b-instruct | newsgroups | 20 | L0-bc | 0.667 | 0.683 | 0.639 | 0.317 | 0.290 | 0.003 |
+| ibm-granite/granite-3.3-8b-instruct | newsgroups | 20 | L0 | 0.690 | 0.690 | 0.565 | 0.268 | 0.180 | 0.183 |
+| ibm-granite/granite-3.3-8b-instruct | newsgroups | 20 | L1 | 0.690 | 0.690 | 0.467 | 0.091 | 0.183 | 0.190 |
+| ibm-granite/granite-3.3-8b-instruct | injection | 2 | raw | 0.633 | 0.515 | 0.638 | 0.296 | 0.100 | 0.000 |
+| ibm-granite/granite-3.3-8b-instruct | injection | 2 | L0-perm | 0.640 | 0.540 | 0.604 | 0.279 | 0.000 | 0.000 |
+| ibm-granite/granite-3.3-8b-instruct | injection | 2 | L0-perm+bc | 0.657 | 0.609 | 0.540 | 0.234 | 0.000 | 0.000 |
+| ibm-granite/granite-3.3-8b-instruct | injection | 2 | L0-perm+cf | 0.673 | 0.659 | 0.516 | 0.207 | 0.000 | 0.003 |
+| ibm-granite/granite-3.3-8b-instruct | injection | 2 | L0-cf | 0.647 | 0.622 | 0.555 | 0.250 | 0.143 | 0.000 |
+| ibm-granite/granite-3.3-8b-instruct | injection | 2 | L0-bc | 0.650 | 0.597 | 0.576 | 0.254 | 0.117 | 0.000 |
+| ibm-granite/granite-3.3-8b-instruct | injection | 2 | L0 | 0.657 | 0.609 | 0.540 | 0.234 | 0.000 | 0.000 |
+| ibm-granite/granite-3.3-8b-instruct | injection | 2 | L1 | 0.647 | 0.594 | 0.432 | 0.106 | 0.000 | 0.000 |
+| ibm-granite/granite-3.3-8b-instruct | banking20 | 20 | raw | 0.663 | 0.688 | 0.631 | 0.289 | 0.350 | 0.033 |
+| ibm-granite/granite-3.3-8b-instruct | banking20 | 20 | L0-perm | 0.810 | 0.819 | 0.336 | 0.145 | 0.143 | 0.270 |
+| ibm-granite/granite-3.3-8b-instruct | banking20 | 20 | L0-perm+bc | 0.810 | 0.821 | 0.319 | 0.135 | 0.117 | 0.430 |
+| ibm-granite/granite-3.3-8b-instruct | banking20 | 20 | L0-perm+cf | 0.793 | 0.803 | 0.342 | 0.143 | 0.130 | 0.243 |
+| ibm-granite/granite-3.3-8b-instruct | banking20 | 20 | L0-cf | 0.643 | 0.672 | 0.626 | 0.287 | 0.370 | 0.173 |
+| ibm-granite/granite-3.3-8b-instruct | banking20 | 20 | L0-bc | 0.673 | 0.700 | 0.595 | 0.272 | 0.327 | 0.110 |
+| ibm-granite/granite-3.3-8b-instruct | banking20 | 20 | L0 | 0.810 | 0.821 | 0.319 | 0.135 | 0.117 | 0.430 |
+| ibm-granite/granite-3.3-8b-instruct | banking20 | 20 | L1 | 0.810 | 0.821 | 0.281 | 0.047 | 0.117 | 0.527 |

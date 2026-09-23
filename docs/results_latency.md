@@ -4,7 +4,9 @@ Milliseconds per decision, one H100 NVL, bf16, K-way `choice`, batch prior (no e
 overhead is the K prefills). Every measurement uses states never seen before in the process, so a server-side
 prefix cache can only help between the K shifts of one state, which is the deployment case. `batch` is
 `decide_batch` over 32 states (throughput); `single` is `decide` on one state (latency). Regenerate with
-`python -m bench.latency`.
+`python -m bench.latency`. Source JSON: `bench/results_latency/2026-09-21/hf.Qwen__Qwen3-8B.json` (transformers),
+`bench/results_latency_vllm_cache_on/2026-09-21/` and `bench/results_latency_vllm_cache_off/2026-09-21/`
+(vLLM, prefix cache on / off).
 
 ## transformers backend, Qwen3-8B
 

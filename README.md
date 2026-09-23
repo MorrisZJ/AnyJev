@@ -1,13 +1,13 @@
 <div align="center">
 
-<img src="assets/banner.png" width="100%" alt="AnyJev — turn any LLM into a Jev-style decision model. Typed decisions, real probabilities, no training. Order-flip rate 0.230 to 0.073, calibration error 0.240 to 0.095, auto-decidable at 5% risk 7.7% to 52.0%.">
+<img src="assets/banner.png" width="100%" alt="AnyJev — turn any LLM into a Jev-style decision model. Typed decisions, real probabilities, no fine-tuning. Order-flip rate 0.230 to 0.073 with zero labels; calibration error 0.240 to 0.095 and auto-decidable at 5% risk 7.7% to 52.0% with 100 to 500 labels.">
 
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
 [![CI](https://github.com/nokia-applied-research/AnyJev/actions/workflows/ci.yml/badge.svg)](https://github.com/nokia-applied-research/AnyJev/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](LICENSE)
 
-**English** · [简体中文](README.zh-CN.md) · [Levels contract](docs/levels.md) · [Results](docs/results_bench.md) · [Roadmap](ROADMAP.md)
+**English** · [简体中文](README.zh-CN.md) · [🚀 Usage](#-usage) · [📊 Results](#-results) · [🧭 Roadmap](#-roadmap) · [📖 Levels contract](docs/levels.md)
 
 </div>
 
@@ -18,27 +18,22 @@
   <sub><sup>1</sup>&nbsp;Nokia, Sunnyvale, CA &nbsp;&nbsp;&nbsp;&nbsp; <sup>2</sup>&nbsp;Tencent Hunyuan</sub>
 </p>
 
----
+<p align="center">
+  <img src="assets/flip.gif" width="100%" alt="Reverse the option order: the raw logit readout flips its answer, AnyJev L0 gives the same answer both ways">
+  <br>
+  <sub>Qwen3-8B on a real BANKING77 item. Every number is a model output.</sub>
+</p>
 
-![Reverse the option order: raw logit readout flips its answer with 1.00 confidence, AnyJev L0 gives the same answer both ways](assets/flip.gif)
+> [!TIP]
+> **🆕 L2 has landed.** A closed-form head per question, solved on 100–300 labels in seconds, served from **one prompt stopped at two thirds of the model's depth**. It follows its question across rewordings without new labels. [Jump to it ↓](#-a-head-that-maintains-itself)
 
-<div align="center">
-<sub>Qwen3-8B, a real BANKING77 item, real outputs.</sub><br>
-<sub><b>Left:</b> raw next-token readout — reverse the options and the answer flips, at 1.00 confidence.</sub><br>
-<sub><b>Right:</b> AnyJev L0, zero labels — same answer both ways.</sub>
-</div>
+## ✨ What it does
 
----
-
-## Why not just read the logits?
-
-Give AnyJev a **state** and a set of **typed questions**; get back a decision and a probability per question, read straight off the model's next-token distribution — no generation, no parsing, no fine-tuning, on the model you already run.
-
-That much you can do yourself with `max_tokens=1` plus logprobs. The problem is what you get: a **ranking that moves when you reorder the options**, and a confidence number you **cannot threshold on**. Both are properties of the readout rather than of the model's knowledge, and both are fixable without a single label.
+Ask any open LLM a **typed question** and get back a **decision with a probability you can threshold**, read from one prefill of its next-token distribution. No generation, no parsing, no fine-tuning. Raw logits change their answer when you reorder the options, and their confidence cannot be trusted; AnyJev fixes the first with zero labels and the second with a few hundred.
 
 <div align="center">
 
-| | raw logits | **AnyJev L0** | **AnyJev L1** |
+| | ⚪&nbsp;raw&nbsp;logits<br><sub>one prompt</sub> | 🔵&nbsp;**AnyJev&nbsp;L0**<br><sub>zero labels</sub> | 🟢&nbsp;**AnyJev&nbsp;L1**<br><sub>+ temperature</sub> |
 |:--|:--:|:--:|:--:|
 | Labels required | none | **none** | 100–500 |
 | Answer flips when options are reversed | 0.230 | **0.073** | 0.077 |
@@ -52,15 +47,15 @@ That much you can do yourself with `max_tokens=1` plus logprobs. The problem is 
 
 The last row is the point. Accuracy moves by 6 points, but the share of traffic you can safely automate goes from **7.7% to 52.0%**, a 6.8× difference on this task (a point estimate at n=300; the interval is wide, see Limitations). With raw logits a "0.9" is not trustworthy enough to act on, so everything goes to a human. Once the probability means what it says, you can set a threshold.
 
-> [!NOTE]
-> Not affiliated with, endorsed by, or derived from TypeSafe AI or Jev. Every comparison here is measured and reproducible from `bench/`, except rows explicitly marked as published by their authors.
+## 🚀 Usage
 
-## Quickstart
+**📦 1. Install**
 
 ```bash
-pip install "anyjev[hf]"        # library + transformers backend
-pip install anyjev              # library only (numpy); bring your own backend
+pip install "anyjev[hf]"
 ```
+
+**💬 2. Ask typed questions.** L0 is on by default and needs no labels.
 
 ```python
 from anyjev import Decider, Question
@@ -68,25 +63,18 @@ from anyjev.backends.hf import HFBackend
 
 d = Decider(HFBackend("Qwen/Qwen3-8B"))
 
-route = Question.choice("Which handler should process this request?",
-                        ["billing", "technical", "sales", "other"], name="route")
-safe  = Question.noul("Is the proposed tool call destructive or irreversible?", name="safe")
-done  = Question.score("How complete is the task on a 0 to 1 scale?", bins=5, name="done")
+route = Question.choice("Which team should handle this?", ["billing", "technical", "sales", "other"], name="route")
+risky = Question.noul("Is this tool call destructive or irreversible?", name="risky")
+done  = Question.score("How complete is the task?", bins=5, name="done")
 
-state = {"conversation": [...], "proposed_tool_call": {...}}
-r = d.decide(state, [route, safe, done])
-
-r["route"].argmax          # "billing"
+r = d.decide({"conversation": [...], "tool_call": {...}}, [route, risky, done])
 r["route"].distribution    # {"billing": 0.81, "technical": 0.07, ...}
-r["safe"].p_true           # 0.12
+r["risky"].p_true          # 0.12
 r["done"].value            # 0.35
-r.level                    # "L0"  (debiased, not calibrated)
-
-art = d.calibrate(safe, calib_states, calib_labels)   # 100-500 examples -> L1 artifact
-r = d.decide(state, [safe], level="L1")
+r.level                    # "L0"
 ```
 
-**Images in the state.** Same questions, same levels, a vision-language backend (`pip install "anyjev[vlm]"`, transformers ≥ 4.57 for Qwen3-VL):
+**🖼️ Images in the state.** Same questions, same levels, a vision-language backend (`pip install "anyjev[vlm]"`, transformers ≥ 4.57 for Qwen3-VL):
 
 ```python
 from anyjev import Decider, Image, Question
@@ -108,134 +96,164 @@ r.level                    # "L0"
 
 `Image` takes a path, URL, bytes, or a PIL image, anywhere in the state. Position debiasing carries over unchanged; whether to use the content-free prior depends on the task — contract and caveats in [docs/multimodal.md](docs/multimodal.md).
 
-The benchmark is not in the wheel — it needs the datasets, the results directory, and the other projects' code, so it runs from a checkout:
+**🎯 3. Add labels when you have them.** A temperature is L1; a closed-form head is **L2**, the accurate one.
 
-```bash
-git clone https://github.com/nokia-applied-research/AnyJev && cd AnyJev
-pip install -e ".[hf,bench,dev]"
+```python
+d.calibrate(risky, states, labels)          # 100–500 labels → L1 (a temperature)
+d.fit_head(route, states, labels)           # 100–300 labels → L2, one forward + a closed-form solve, seconds
+d.save_artifacts("qwen3-8b.json")           # d.load_artifacts(...) next time; ~100 KB per head
+
+r = d.decide(state, [route], level="auto")  # L2 where a head routes, else L1, else L0
+r["route"].level                            # "L2"
 ```
 
-## How it works
+**🔁 4. Or let the loop feed it.** `d.observe(route, state, label)` stores labels as they arrive and solves the head by itself at 30, re-solving at 60, 120, …
 
-Three typed primitives: `choice` (up to 26 options), `noul` (Yes/No with a real `p_true`), and `score` (2–10 ordinal bins with an expected value). A backend does exactly one thing — return next-token log-probabilities — so adding one is a single file; transformers and vLLM ship today.
+**⚡ Serving.** The transformers backend (`anyjev.backends.hf`) serves every level today; serving through vLLM / SGLang is on the [roadmap](#-roadmap), not in this release. For many states and one question, `d.decide_batch(states, question)`.
 
-Everything above that backend is the two corrections that make the number usable. **Cyclic-shift marginalization** shows a K-option list in K rotations so every option sits at every position once, combined in log space. **Prior correction** estimates the model's label prior without labels and divides it out: a `noul` asking "is this email spam?" reads P(Yes) = 0.62, the same prompt with the body replaced by `N/A` reads P(Yes) = 0.70 — the model leans Yes regardless of content — and dividing by that prior gives 0.41, flipping the judgment.
+**🎬 Try it in one command.** `python -m demo.jev_mode --backend fake` runs the whole thing on a synthetic model in under a second, no download. `--lifecycle` plays the deployment loop; drop `--backend fake` to run a real Qwen3 with the shipped heads ([demo](demo/)).
 
-Full contract in [docs/levels.md](docs/levels.md).
+## 🧠 How it works
+
+<p align="center">
+  <img src="assets/how_it_works.png" width="100%" alt="How one decision is read: ask a typed question, read it over every cyclic shift of the options, divide out the label prior estimated without labels, and return a decision that carries its level">
+</p>
 
 | Level | Needs | Does | Does **not** |
 |---|---|---|---|
 | `raw` | nothing | restricted softmax over label tokens (what the clones do) | anything about bias or calibration |
-| `L0` | nothing | removes position bias and label-prior bias | make the model's uncertainty calibrated |
-| `L1` | 100 to 500 labels per question | temperature scaling on top of L0 | survive distribution shift beyond the calibration set |
+| `L0` | nothing | averages position bias out over the K rotations and divides out the label prior | make the model's uncertainty calibrated |
+| `L1` | 100–500 labels per question | temperature scaling on top of L0 | change the ranking |
+| **`L2`** | **100–300 labels per question, a local model** | **a closed-form head (shrunk LDA / ridge) on the hidden state at ~⅔ depth, one prompt per state** | **transfer to another question or model** |
 
-Every `Decision` carries its `level`, so downstream code can refuse to act on the wrong one.
+Every `Decision` carries its `level`, so downstream code can refuse to act on the wrong one. L0 costs K prefills for a K-option `choice` (about 0.25 s per decision at batch 32 on one H100, K = 20); **L2 costs less than one plain forward** — one prompt, stopped early: 0.68× on Qwen3-8B.
 
-**Cost.** L0 trades compute for stability: a `choice` with K options costs K prefills (2 for `noul`, 1 for `score`), all sharing the state prefix and all batchable, with nothing ever generated. On one H100 the transformers path at 20 permutations is about **0.25 s per decision at batch 32**. `max_permutations` caps K.
+## <a id="-a-head-that-maintains-itself"></a>🔁 A head that maintains itself
 
----
+L2 is not a training run. Labels buy a head in **one closed-form solve** (seconds on a CPU, no gradients, the model's weights untouched). After that only the head's feature mean and scale move, re-estimated from **unlabelled** traffic — so the head follows its question across rewordings and option orders by itself, and new labels are needed only for a new question.
 
-## Benchmark
+<p align="center">
+  <img src="assets/head_loop.png" width="100%" alt="A head that maintains itself: fit one closed-form head from labelled states, ship it as a small artifact, serve with the forward stopped at a fixed block, and when the question is reworded recentre the head's feature mean and scale on unlabelled requests; a reordered option list is remapped by option text and only a new option set goes back to labels.">
+</p>
 
-```bash
-python -m bench.run --model Qwen/Qwen3-8B --tasks newsgroups,injection,banking20 --n 300 --calib 200
+Reworded, the Qwen3-8B head as is drops from 0.77 to 0.65–0.70; **30 unlabelled requests** of the new wording bring it back to 0.74–0.75, against 0.77 for a fully relabelled refit ([JSON](bench/results_paraphrase/2026-09-22/)).
+
+**One decision at serving time.** A stored head answers from one truncated forward. Without one, the same call falls back to L1 or L0 exactly as before; the routing is in [docs/method_v3.md](docs/method_v3.md).
+
+<p align="center">
+  <img src="assets/route_tree.png" width="88%" alt="Which path a decision takes at serving time: route to a stored head by exact layout, by the same options under another wording, or by the same option set in another order; the two adapted routes update running feature statistics and use them once thirty requests have been seen; the head answers from one prompt with the forward stopped at the fixed block and returns a level L2 decision with diagnostics; with no head, a temperature artifact selects L1 and otherwise L0, both from K shifted prompts with a full forward and prior correction.">
+</p>
+
+**Deployment lifecycle: day 0 at L0, labels from the loop, heads in seconds**
+
+```mermaid
+flowchart LR
+    D0["day 0: define the questions,<br/>serve with level auto;<br/>every answer is L0, zero labels"] --> C["collect labels from the loop:<br/>review queue, outcomes, or the LLM<br/>being replaced; dec.observe fits at 30"]
+    C --> F["fit_head per question;<br/>export_artifacts to one JSON per model"]
+    F --> S["serve: L2 where a head routes,<br/>L1 or L0 elsewhere"]
+    S --> W{"what changed?"}
+    W -->|"wording or option order"| S
+    W -->|"new question or option set"| C
+    W -->|"new base model"| R["re-solve every head from<br/>the stored labelled states"]
+    R --> S
+
+    classDef shipped fill:#dcfce7,stroke:#0f9d76,color:#0f172a
+    classDef decision fill:#fef3c7,stroke:#d97706,color:#0f172a
+    class D0,C,F,S,R shipped
+    class W decision
 ```
 
-Results land in `bench/results/<date>/` as Markdown and JSON with hardware and library versions. Every table and figure below is regenerated from that JSON; **nothing is typed in by hand.**
+A shift in the *states* (not the wording) is invisible to the recentring, so a periodic spot check on a labelled slice stays in the recipe. Full method: [docs/method_v3.md](docs/method_v3.md).
+
+
+## 📊 Results
+
+<table>
+<tr>
+<td align="center" width="33%" valign="top">
+<h3>9 / 9</h3>
+<b>🔁 Order flips cut</b><br>
+<sub>every model × task row, at L0, zero labels</sub><br>
+<sub><a href="docs/results_bench.md">3 models × 3 tasks →</a></sub>
+</td>
+<td align="center" width="33%" valign="top">
+<h3>0.80</h3>
+<b>🧩 Typed-decisions accuracy</b><br>
+<sub>Qwen3-32B and 30B-A3B at L2, 300 labels per question; Jev 0.727 as published, fine-tuned Laya 0.768</sub><br>
+<sub><a href="docs/results_exit.md">5 models →</a></sub>
+</td>
+<td align="center" width="33%" valign="top">
+<h3>0.68×</h3>
+<b>⚡ Cost of one decision</b><br>
+<sub>of a single plain forward, Qwen3-8B at L2: one prompt, stopped at block 24 of 36</sub><br>
+<sub><a href="docs/results_latency.md">latency →</a></sub>
+</td>
+</tr>
+</table>
+
+**Jev mode**, on LocalLLaMA/typed-decisions (20 questions, 300 labels each, 2,000 held-out decisions):
+
+<div align="center">
+
+| model | L0, zero labels | **L2** | block | cost vs one forward |
+|:--|:--:|:--:|:--:|:--:|
+| Qwen3-1.7B | 0.494 | **0.730** | 18 / 28 | 0.70× |
+| Qwen3-4B | 0.564 | **0.786** | 24 / 36 | 0.69× |
+| Qwen3-8B | 0.647 | **0.771** | 24 / 36 | 0.68× |
+| Qwen3-30B-A3B | 0.630 | **0.799** | 40 / 48 | not measured |
+| Qwen3-32B | 0.700 | **0.798** | 52 / 64 | 0.84× |
+
+<sub>Pooled ECE at L2 is 0.03–0.05. Jev 0.727 and fine-tuned Laya 0.768 on the same set, as published by their authors. Every cell: <a href="docs/results_exit.md">docs/results_exit.md</a></sub>
+
+</div>
+
+A 1.7B at 64% of its depth reaches the number Jev publishes; a 4B ties the fine-tuned 421M Laya. **100 labels** already put the 8B head at 0.740 (20 labels: 0.654, 300: 0.772).
+
+<p align="center"><sub>More: <a href="docs/jev_mode.md">Jev mode in full</a> · <a href="demo/games/README.md">2048 and Minesweeper</a> · <a href="docs/results_maze.md">NanoJev maze</a> · <a href="docs/when_l0_helps.md">when L0 helps</a> · <a href="docs/results_small_models.md">small models</a> · <a href="docs/research_log.md">the research log, negative results included</a></sub></p>
+
+<details>
+<summary>Heads you can load today, and what a head costs</summary>
+
+`anyjev-heads/<model>.json` ships 23 heads per model (the 20 typed-decisions questions and three bench tasks) for Qwen3-1.7B / 4B / 8B / 30B-A3B / 32B, built and validated through the same `fit_head` → `decide_batch` path a user runs (`scripts/build_heads.py`). A head is a `[hidden, K]` matrix plus a bias, a standardisation vector and a temperature: ~100 KB, solved in 2–8 s on the 1.7B–8B.
+
+The big model's heads also distil into a small one without gradients: the 32B's heads labelling 1,200 generated cases per workflow lift the 1.7B from 0.730 to 0.760 (the 4B and 8B do not move). [docs/jev_mode.md](docs/jev_mode.md)
+
+</details>
+
+<details>
+<summary>All models and tasks in one figure</summary>
 
 ![Four panels across three open models and three tasks: order-flip rate, expected calibration error, accuracy, and coverage at 5% risk, comparing raw logit readout against AnyJev L0 and L1](assets/results.png)
 
-### Reorder the options and one in five answers changes
+</details>
 
-`flip` is the fraction of items whose answer changes when the option list is reversed (`choice`) or the Yes/No phrasing order is swapped (`noul`). Three open models, three tasks, 300 test items each.
+<sub>Every number is regenerated from committed JSON (`bash scripts/regen_docs.sh`); a second run from a clean checkout reproduced every zero-label number bit for bit. Not affiliated with TypeSafe AI or Jev; rows published by their authors were not rerun here.</sub>
 
-| model | task | K | raw flip | L0 flip | raw acc | L0 acc | raw ECE | L1 ECE |
-|---|---|---|---|---|---|---|---|---|
-| Qwen3-8B | banking20 | 20 | 0.230 | **0.073** | 0.747 | **0.803** | 0.240 | **0.095** |
-| Qwen3-8B | newsgroups | 20 | 0.233 | **0.177** | 0.637 | **0.660** | 0.334 | **0.138** |
-| Qwen3-8B | injection | 2 | 0.060 | **0.000** | 0.693 | **0.700** | 0.288 | **0.161** |
-| Qwen2.5-7B-Instruct | banking20 | 20 | 0.197 | **0.080** | 0.723 | **0.757** | 0.237 | **0.070** |
-| Qwen2.5-7B-Instruct | newsgroups | 20 | 0.237 | **0.127** | 0.663 | **0.710** | 0.273 | **0.096** |
-| Qwen2.5-7B-Instruct | injection | 2 | 0.070 | **0.000** | 0.737 | **0.790** | 0.188 | **0.049** |
-| Qwen3-30B-A3B-Instruct-2507 | banking20 | 20 | 0.143 | **0.097** | 0.730 | **0.770** | 0.249 | **0.086** |
-| Qwen3-30B-A3B-Instruct-2507 | newsgroups | 20 | 0.140 | **0.093** | 0.737 | **0.740** | 0.242 | **0.096** |
-| Qwen3-30B-A3B-Instruct-2507 | injection | 2 | 0.103 | **0.000** | 0.730 | **0.757** | 0.248 | **0.090** |
+## 🧭 Roadmap
 
-Every ablation row (permutation only, each prior alone, Brier, coverage at 5% risk): [docs/results_bench.md](docs/results_bench.md). One H100, bf16, transformers 4.55.4.
+- [x] `choice`, `noul` and `score` from one prefill, nothing generated
+- [x] L0 with zero labels; L1 artifacts as JSON; levels enforced with `require=`
+- [x] **L2**: a closed-form head per question, routing, label-free adaptation, `level="auto"`, `observe`
+- [x] Shipped heads for five Qwen3 models; a packaged demo (`python -m demo.jev_mode`)
+- [ ] **L2 on served engines** (vLLM / SGLang): the residual stream at one block, or a truncated checkpoint
+- [ ] **Agent-loop evaluation**: the same decisions inside a real agent, against the LLM they replace
+- [ ] Heads on the Hugging Face Hub, an interactive Space, a technical report
+- [ ] More models (Llama, Gemma, Mistral, DeepSeek), span readout beyond 26 options, conformal abstention
 
-### On Laya's own benchmark, zero-shot
+Dated plan and help-wanted files: [ROADMAP.md](ROADMAP.md).
 
-| system | acc | soft_acc | ece | brier_mean | score_mae |
-|---|---|---|---|---|---|
-| laya-multilingual (zero-shot), measured here | 0.340 | 0.325 | 0.287 | 0.269 | 0.688 |
-| laya (zero-shot), measured here | 0.359 | 0.331 | 0.177 | 0.227 | 0.694 |
-| Qwen2.5-7B-Instruct + raw logits (clone baseline) | 0.620 | 0.514 | 0.287 | 0.209 | 0.437 |
-| Qwen3-8B + raw logits (clone baseline) | 0.626 | 0.520 | 0.328 | 0.210 | 0.621 |
-| Qwen2.5-7B-Instruct + AnyJev L0, zero-shot | 0.628 | 0.512 | 0.234 | 0.188 | 0.439 |
-| Qwen2.5-7B-Instruct + AnyJev L1, temperature from 200 train cases | 0.628 | 0.461 | 0.038 | 0.148 | 0.425 |
-| Qwen3-8B + AnyJev L0, zero-shot | 0.647 | 0.530 | 0.290 | 0.198 | 0.591 |
-| Qwen3-8B + AnyJev L1, temperature from 200 train cases | 0.648 | 0.468 | 0.055 | 0.140 | 0.444 |
-| Qwen3-32B + raw logits (clone baseline) | 0.684 | 0.556 | 0.206 | 0.144 | 0.488 |
-| Qwen3-32B + AnyJev L1, temperature from 200 train cases | 0.699 | 0.508 | 0.036 | 0.119 | 0.416 |
-| Qwen3-32B + AnyJev L0, zero-shot | 0.700 | 0.555 | 0.149 | 0.129 | 0.449 |
-| Jev 1.13.0 (published by TypeSafe / Laya; not rerun) | 0.727 | 0.580 | 0.144 | 0.148 | 0.391 |
-| laya-typed-decisions (fine-tuned on this set's train split), measured here | 0.768 | 0.471 | 0.215 | 0.118 | 0.243 |
+## 🔍 Limitations
 
-All rows except Jev were measured here on the same 2,000 decisions; the fine-tuned Laya checkpoint reproduces its published 0.766. **Read it two ways.** On argmax accuracy the fine-tuned Laya wins, and a zero-training 32B open model lands 2.8 points behind Jev. On the probabilities — what a System One model is for — the fine-tuned Laya's ECE (0.215) is **six times** AnyJev L1's (0.036), though it stays narrowly ahead on Brier, 0.118 against 0.119. Temperature scaling trades soft accuracy for calibration, so the 7B and 8B L1 rows drop to about 0.45 there. Laya's zero-shot checkpoints, the ones you would use on a question they were not trained for, score 0.34 to 0.36 against a 0.32 random baseline.
+- **On typed-decisions, "accuracy" is agreement with a teacher LLM.** The gold is the mean of three samples of one model; a fresh sample of that teacher agrees with it 0.735 of the time.
+- **L2 is per question and per model.** Heads fit on other questions do not help a new one, and only Qwen3 heads ship. It also needs hidden states: transformers today; vLLM / SGLang are on the roadmap.
+- **Calibration cannot fix a model that cannot answer.** On maze edges and Minesweeper no readout beats the trivial baseline.
+- **L0 is not a free win everywhere.** The batch prior costs accuracy when one label dominates ([when L0 helps](docs/when_l0_helps.md)).
 
-Per-workflow and per-type breakdown: [docs/results_typed.md](docs/results_typed.md).
+<sub>Also: at most 26 options in the letter readout (a span readout is on the roadmap, not in the code); coverage at 5% risk is a high-variance estimate at n = 300; the headline tables are Qwen models; every decision here is scored in isolation, not inside an agent loop.</sub>
 
-### Inside NanoJev's maze harness
+## 🤝 Contributing and citation
 
-We reimplemented NanoJev's "Untuned Qwen3-0.6B" A/B readout and swapped only the Boolean engine inside their frozen scaled_maze pipeline. **Two things are true at once.** The untuned readout's score depends heavily on how you read it — the same Qwen3-0.6B goes from 13/15 mazes and 20,500 attempts under the A/B readout to 15/15 and 5,825 under AnyJev's raw Yes/No readout. And no readout, not even Qwen3-8B, beats always answering the majority label on "is one step north clear?" (edge accuracy 0.40 to 0.55 against a 0.54 to 0.61 majority). This is not the evaluation behind the 2/10 figure in their held-out gameplay table, which comes from a separate 274-case suite we did not run. We report it because it is the comparison NanoJev invites; we do not headline it.
-
-Full table and protocol: [docs/results_maze.md](docs/results_maze.md).
-
-### A closed-form head on the same hidden state (preview)
-
-The raw readout is itself a linear head: the `lm_head` rows of the label tokens, applied to the last-position hidden state. `anyjev.heads` fits a different matrix for one question on a small labelled set, in closed form (shrunk LDA, ridge, reduced-rank regression, or the difference of class means), with the layer, the regularisation and the temperature chosen by cross-validation on that set alone. No gradients, no weight updates, seconds on a CPU after the one prefill you already pay for.
-
-| typed-decisions, Qwen3-8B, 200 labels per question, 20 questions × 100 test decisions | acc | ECE | Brier |
-|---|---|---|---|
-| raw logits | 0.626 | 0.330 | 0.688 |
-| AnyJev L0 (permutation) | 0.635 | 0.320 | 0.669 |
-| AnyJev L1 (temperature) | 0.626 | 0.174 | 0.482 |
-| **closed-form head, chosen per question by cross-validation** | **0.771** | **0.120** | **0.339** |
-| laya-typed-decisions, fine-tuned on all 300 train cases per question | 0.768 | 0.215 | — |
-
-Per kind: `choice` 0.60 → 0.75, `noul` 0.71 → 0.85, `score` 0.59 → 0.73; 19 of 20 questions improve. On BANKING77 (K = 20, 200 labels) the ridge head reaches 0.843 against 0.800 for L0 and 0.747 raw, ECE 0.046. Two caveats, both measured. A head fit on one option order is not order-invariant (0.95 of answers flip under reversal; fit on shift-averaged features that drops to 0.11–0.19, at K prefills). And the labels have to come from the task: heads fit on the model's own answers gain nothing, and heads fit on its thinking-mode answers lose accuracy. One model and one seed so far. `python -m bench.heads_study`, `python -m bench.heads_table`; JSON in `bench/results_heads/`. Brier here is the multi-class sum, not the per-option mean of the table above.
-
-### Two games with a built-in oracle
-
-`python -m demo.games.twenty48` and `python -m demo.games.minesweeper` play the same seeds under raw, L0 and L1 and score every decision against an oracle (a depth-2 expectimax; the exact mine posterior). Qwen3-8B on 2048, five games with the board after each legal move shown: score 1,744 raw → 1,982 L0, flip 0.20 → 0.12, ECE 0.46 → 0.33 → 0.08 at L1; random 855, oracle 10,154. On Minesweeper no readout of an 8B or 32B model beats random (board cleared 0.71 against 0.68): the model cannot read the number constraints, and L1 only makes its P(safe) honest (ECE 0.41 → 0.08). Both run on a synthetic biased model without a GPU (`--backend fake`); see [demo/games/README.md](demo/games/README.md).
-
----
-
-## Reproducibility
-
-An independent rerun of every published cell (3 models × 3 tasks × 2 priors, the maze rows, the Laya rows) came back bit-identical on every zero-label number at the recorded settings, and found one design wart: L1 artifacts used a running prior, so they depended on what the decider had scored before. Fixed: an artifact now freezes the prior it was fit with, and every result JSON records batch size and dtype (bf16 logits move by up to 0.01 with the batch shape). Every table above was regenerated under the fixed code from committed JSON, `bash scripts/regen_docs.sh`.
-
----
-
-## Limitations
-
-We would rather you find these here than in production.
-
-- **L0 is not a free win on every task.** On Qwen3-8B's prompt-injection split, L0's coverage at 5% risk (0.160) lands *below* raw (0.297). The content-free prior swings hardest: +8 to +12 points on one `noul` task, −3 on ordinal scores, −9 on another model's `noul`. Measure on your task; the bench prints every ablation from the same forward passes, so it costs nothing extra.
-- **The batch prior needs a batch.** It activates only after `min_prior_n` (default 8) items of the same question, and assumes the batch's label marginal is not extreme. On questions whose true majority label exceeds about 65 percent it costs accuracy (−0.02 at the default strength 0.75, −0.04 at full strength, over 164 (model, question) points in [docs/when_l0_helps.md](docs/when_l0_helps.md)), and no label-free rule can tell that case from a biased model.
-- **Calibration cannot fix a model that cannot answer.** In the maze harness, no readout beats the majority-class baseline on edge perception. AnyJev makes uncertainty *legible*, not smaller.
-- **Coverage at 5% risk is a high-variance point estimate** at n = 300: flipping one item moves it by up to 0.013, and its deepest-admissible-prefix definition sits above a first-crossing one by 0.026 on average. Read the 7× as a direction, not a constant.
-- **26 options max** in the current letter readout; span readout lifts the cap.
-- **L1 does not survive distribution shift** beyond its calibration set, and it reshapes confidence without changing the ranking.
-- **One model family in the tables so far.** Everything above is Qwen; Llama and Gemma rows are on the roadmap.
-
-## Status
-
-**v0.0.2.** The library, both backends, and all three benches are real and measured. Actively developed — the plan with dates is in [ROADMAP.md](ROADMAP.md). **Next up:** closed-form heads across models and label counts, span readout beyond 26 options, conformal abstention, Llama and Gemma rows. **After that:** a Jev-compatible HTTP server, more backends. **Landed since v0.0.2:** multimodal state ([docs/multimodal.md](docs/multimodal.md)).
-
-Backends and bench providers are one file each and several are marked **help wanted** — see [CONTRIBUTING.md](CONTRIBUTING.md). What landed: [CHANGELOG.md](CHANGELOG.md). Who we build on: [CREDITS.md](CREDITS.md).
-
-## Citation
+Backends and bench providers are one file each; several are **help wanted** ([ROADMAP.md](ROADMAP.md), [CONTRIBUTING.md](CONTRIBUTING.md)). Changes: [CHANGELOG.md](CHANGELOG.md). Credits: [CREDITS.md](CREDITS.md).
 
 ```bibtex
 @software{anyjev2026,
@@ -246,6 +264,4 @@ Backends and bench providers are one file each and several are marked **help wan
 }
 ```
 
-## License
-
-Apache-2.0 — see [LICENSE](LICENSE). Datasets keep their own licenses, see [THIRD_PARTY.md](THIRD_PARTY.md).
+Apache-2.0, see [LICENSE](LICENSE). Datasets keep their own licenses, see [THIRD_PARTY.md](THIRD_PARTY.md).

@@ -24,6 +24,7 @@ on the calibration set alone; `LinearHead.probs` is the deployment call.
 """
 from __future__ import annotations
 
+import base64
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
@@ -132,18 +133,36 @@ class LinearHead:
     def probs(self, X: np.ndarray) -> np.ndarray:
         return _softmax(self.scores(X) / self.temperature)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self, compact: bool = True) -> Dict[str, Any]:
+        """JSON-serialisable head. `compact` (default) stores the arrays as base64 float32
+        (exact, about ten times smaller than number lists); `compact=False` writes plain lists.
+        `from_dict` reads both."""
+        enc = encode_array if compact else (lambda a: a.astype(np.float32).tolist())
         return {"method": f"head:{self.kind}", "layer": self.layer, "temperature": self.temperature,
                 "params": self.params, "n_calib": self.n_calib, "cv": self.cv,
-                "W": self.W.astype(np.float32).tolist(), "b": self.b.tolist(),
-                "mean": self.mean.astype(np.float32).tolist(), "scale": self.scale.astype(np.float32).tolist()}
+                "W": enc(self.W), "b": self.b.astype(np.float32).tolist(), "mean": enc(self.mean),
+                "scale": enc(self.scale)}
 
     @classmethod
     def from_dict(cls, d: Dict[str, Any]) -> "LinearHead":
-        return cls(kind=d["method"].split(":", 1)[1], layer=int(d["layer"]), W=np.asarray(d["W"], dtype=np.float64),
-                   b=np.asarray(d["b"], dtype=np.float64), mean=np.asarray(d["mean"], dtype=np.float64),
-                   scale=np.asarray(d["scale"], dtype=np.float64), temperature=float(d["temperature"]),
-                   params=dict(d.get("params", {})), n_calib=int(d.get("n_calib", 0)), cv=dict(d.get("cv", {})))
+        return cls(kind=d["method"].split(":", 1)[1], layer=int(d["layer"]), W=decode_array(d["W"]),
+                   b=decode_array(d["b"]), mean=decode_array(d["mean"]), scale=decode_array(d["scale"]),
+                   temperature=float(d["temperature"]), params=dict(d.get("params", {})),
+                   n_calib=int(d.get("n_calib", 0)), cv=dict(d.get("cv", {})))
+
+
+def encode_array(a: np.ndarray) -> Dict[str, Any]:
+    """{"dtype", "shape", "b64"}: float32 bytes, base64, row-major. Exact for float32 heads."""
+    a32 = np.ascontiguousarray(np.asarray(a, dtype=np.float32))
+    return {"dtype": "float32", "shape": list(a32.shape), "b64": base64.b64encode(a32.tobytes()).decode("ascii")}
+
+
+def decode_array(x: Any) -> np.ndarray:
+    """The inverse of `encode_array`; plain (nested) number lists are accepted as well."""
+    if isinstance(x, dict) and "b64" in x:
+        a = np.frombuffer(base64.b64decode(x["b64"]), dtype=np.dtype(x.get("dtype", "float32")))
+        return a.reshape(x["shape"]).astype(np.float64)
+    return np.asarray(x, dtype=np.float64)
 
 
 def _standardise(X: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:

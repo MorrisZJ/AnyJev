@@ -1,0 +1,59 @@
+{
+ "model": "Qwen/Qwen3-8B",
+ "block": 24,
+ "rows": {
+  "fit-id@canonical": {
+   "acc": 0.7685,
+   "ece": 0.04529564705507805,
+   "nll": 0.6438878761180676,
+   "n": 2000,
+   "flip_vs_canonical": 0.0
+  },
+  "fit-id@reversed": {
+   "acc": 0.672,
+   "ece": 0.12273501988745442,
+   "nll": 0.9558543538144942,
+   "n": 2000,
+   "flip_vs_canonical": 0.17550000000000002
+  },
+  "fit-id@reversed+tt": {
+   "acc": 0.729,
+   "ece": 0.06001309819773634,
+   "nll": 0.7308569120829925,
+   "n": 2000,
+   "flip_vs_canonical": 0.10200000000000001
+  },
+  "fit-rand@canonical": {
+   "acc": 0.771,
+   "ece": 0.03417399115943565,
+   "nll": 0.6371052185380051,
+   "n": 2000,
+   "flip_vs_canonical": 0.0
+  },
+  "fit-rand@reversed": {
+   "acc": 0.76,
+   "ece": 0.051231901872770394,
+   "nll": 0.669596446705711,
+   "n": 2000,
+   "flip_vs_canonical": 0.06949999999999999
+  },
+  "fit-rand@reversed+tt": {
+   "acc": 0.751,
+   "ece": 0.05564011638501688,
+   "nll": 0.6732336300821328,
+   "n": 2000,
+   "flip_vs_canonical": 0.091
+  }
+ },
+ "date": "2026-09-22T18:26:58.486275",
+ "env": {
+  "python": "3.12.8",
+  "date": "2026-09-22T18:26:58.486839",
+  "anyjev": "0.0.2",
+  "git_commit": null,
+  "torch": "2.5.1+cu124",
+  "transformers": "4.55.4",
+  "gpu": "NVIDIA H100 NVL",
+  "nvidia_smi": "NVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01\nNVIDIA H100 NVL, 570.211.01"
+ }
+}

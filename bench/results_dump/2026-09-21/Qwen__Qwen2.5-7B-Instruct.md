@@ -1,0 +1,26 @@
+| model | task | K | level | acc | macro_f1 | brier | ece | flip | cov@5% |
+|---|---|---|---|---|---|---|---|---|---|
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | raw | 0.663 | 0.673 | 0.622 | 0.274 | 0.237 | 0.050 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0-perm | 0.703 | 0.711 | 0.557 | 0.254 | 0.133 | 0.337 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0-perm+bc | 0.707 | 0.714 | 0.550 | 0.250 | 0.127 | 0.353 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0-perm+cf | 0.687 | 0.694 | 0.562 | 0.264 | 0.130 | 0.417 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0-cf | 0.650 | 0.651 | 0.617 | 0.282 | 0.327 | 0.010 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0-bc | 0.670 | 0.679 | 0.600 | 0.264 | 0.230 | 0.063 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L0 | 0.707 | 0.714 | 0.550 | 0.250 | 0.127 | 0.353 |
+| Qwen/Qwen2.5-7B-Instruct | newsgroups | 20 | L1 | 0.707 | 0.714 | 0.436 | 0.083 | 0.127 | 0.410 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | raw | 0.743 | 0.685 | 0.412 | 0.182 | 0.057 | 0.373 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0-perm | 0.720 | 0.645 | 0.450 | 0.208 | 0.000 | 0.373 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0-perm+bc | 0.807 | 0.778 | 0.293 | 0.103 | 0.000 | 0.390 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0-perm+cf | 0.850 | 0.841 | 0.214 | 0.057 | 0.000 | 0.563 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0-cf | 0.857 | 0.847 | 0.211 | 0.058 | 0.093 | 0.543 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0-bc | 0.827 | 0.804 | 0.278 | 0.097 | 0.050 | 0.417 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L0 | 0.807 | 0.778 | 0.293 | 0.103 | 0.000 | 0.390 |
+| Qwen/Qwen2.5-7B-Instruct | injection | 2 | L1 | 0.807 | 0.778 | 0.272 | 0.032 | 0.000 | 0.377 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | raw | 0.720 | 0.734 | 0.501 | 0.240 | 0.193 | 0.183 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0-perm | 0.750 | 0.768 | 0.445 | 0.216 | 0.070 | 0.150 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0-perm+bc | 0.767 | 0.781 | 0.421 | 0.197 | 0.067 | 0.173 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0-perm+cf | 0.753 | 0.772 | 0.441 | 0.207 | 0.083 | 0.070 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0-cf | 0.703 | 0.707 | 0.528 | 0.240 | 0.283 | 0.303 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0-bc | 0.737 | 0.751 | 0.478 | 0.225 | 0.150 | 0.187 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L0 | 0.767 | 0.781 | 0.421 | 0.197 | 0.067 | 0.173 |
+| Qwen/Qwen2.5-7B-Instruct | banking20 | 20 | L1 | 0.767 | 0.781 | 0.341 | 0.072 | 0.067 | 0.220 |
