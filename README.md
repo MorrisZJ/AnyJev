@@ -28,6 +28,9 @@
 <sub><b>Right:</b> AnyJev L0, zero labels — same answer both ways.</sub>
 </div>
 
+> [!TIP]
+> **To be continued.** L0 and L1 are shipped. Next up is **L2**: a closed-form head per question, served from one prompt, with routing, `level="auto"` and a serving guide. What is done and what comes next: [Roadmap](#roadmap-done-and-to-be-continued).
+
 ---
 
 ## Why not just read the logits?
@@ -135,6 +138,8 @@ Checked items are in `main` today; unchecked ones are what we are building next.
 - [ ] Multimodal state through vision-language backends.
 - [ ] Game replay GIFs (maze, then snake, then ViZDoom); status in [handoff/games/HANDOFF.md](handoff/games/HANDOFF.md).
 
+*To be continued…*
+
 ### Method: one decision *(to be continued)*
 
 A stored head answers from one forward pass; without one, the decision falls back to L1 or L0 exactly as today. Green boxes are in `main`, dashed boxes are to be continued.
@@ -163,6 +168,9 @@ flowchart TD
     class R,H1,H2,H3,U,F,D2 planned
 ```
 
+> [!NOTE]
+> **To be continued.** The dashed path is under construction. Until it lands, every decision takes the right-hand branch: L1 where a temperature artifact exists, L0 otherwise.
+
 ### Serving: deployment lifecycle *(to be continued)*
 
 Start at L0 with zero labels, let the loop produce labels, fit heads in seconds, and only re-solve when the base model changes. Green is in `main`, amber exists as a preview, dashed is to be continued.
@@ -186,6 +194,9 @@ flowchart LR
     class S0,FH preview
     class SV,W,RS planned
 ```
+
+> [!NOTE]
+> **To be continued.** Today you can serve at L0, collect labels, and fit L1 temperatures or offline heads. Serving those heads at L2, and re-solving them for a new base model, come next.
 
 ---
 

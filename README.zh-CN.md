@@ -28,6 +28,9 @@
 <sub><b>右：</b>AnyJev L0，零标签 —— 两种顺序同一个答案。</sub>
 </div>
 
+> [!TIP]
+> **未完待续。** L0 和 L1 已经可用。下一步是 **L2**：每个问题一个闭式 head，一个 prompt 作答，配上路由、`level="auto"` 和部署指南。已完成和接下来要做的见[路线图](#路线图已完成与未完待续)。
+
 ---
 
 ## 为什么不直接读 logits
@@ -135,6 +138,8 @@ pip install -e ".[hf,bench,dev]"
 - [ ] 通过视觉语言后端支持多模态 state。
 - [ ] 游戏回放动图（迷宫 → 贪吃蛇 → ViZDoom），进度见 [handoff/games/HANDOFF.md](handoff/games/HANDOFF.md)。
 
+*未完待续……*
+
 ### 方法：一次决策（未完待续）
 
 有存好的 head 就一次前向作答；没有的话，和现在一样回落到 L1 或 L0。绿色框已经在 `main` 里，虚线框未完待续。
@@ -163,6 +168,9 @@ flowchart TD
     class R,H1,H2,H3,U,F,D2 planned
 ```
 
+> [!NOTE]
+> **未完待续。** 虚线部分正在开发。上线之前，每个决策都走右边的分支：有温度 artifact 的用 L1，没有的用 L0。
+
 ### 部署：生命周期（未完待续）
 
 第 0 天零标签用 L0 上线，让业务闭环自己产生标签，几秒钟拟合 head；只有换基座模型时才需要重解。绿色已在 `main` 里，琥珀色是预览，虚线未完待续。
@@ -186,6 +194,9 @@ flowchart LR
     class S0,FH preview
     class SV,W,RS planned
 ```
+
+> [!NOTE]
+> **未完待续。** 现在已经可以用 L0 上线、收集标签、拟合 L1 温度或离线 head。把这些 head 以 L2 上线、换基座模型时重解 head，是接下来的工作。
 
 ---
 
