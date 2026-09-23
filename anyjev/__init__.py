@@ -16,4 +16,4 @@ try:  # single source of truth: the installed package metadata
 
     __version__ = _pkg_version("anyjev")
 except Exception:  # not installed (source checkout); keep in step with pyproject.toml
-    __version__ = "0.0.2"
+    __version__ = "0.1.0"

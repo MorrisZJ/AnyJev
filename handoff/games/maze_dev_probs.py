@@ -1,7 +1,10 @@
-import json, os, sys
+import json
+import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 from anyjev.backends.hf import HFBackend
-from bench.games.maze import Maze, DIRS
+from bench.games.maze import Maze
 from bench.run_maze import QUESTIONS, calibration_set, prepare
 
 model = sys.argv[1]
@@ -21,4 +24,5 @@ for s in seeds:
                 rec[lv].setdefault(f"{c[0]},{c[1]}", {})[name] = dec.p_true
     out["mazes"][s] = rec
     print("done", s, flush=True)
-json.dump(out, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"dev_probs.{model.split('/')[-1]}.json"), "w"))
+out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"dev_probs.{model.split('/')[-1]}.json")
+json.dump(out, open(out_path, "w"))

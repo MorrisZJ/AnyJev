@@ -237,8 +237,8 @@ gradient anywhere in the pipeline.
   and a 32B teacher's zero-label answers (entry 7: 300 teacher labels 0.688 < 100 gold labels 0.726,
   `bench/results_distill/2026-09-22/Qwen__Qwen3-8B.from.Qwen__Qwen3-32B.json`) both cap the student
   at the teacher's accuracy.
-- **Not for API or vLLM backends.** L2 reads hidden states, so it needs the local transformers
-  backend; the other backends stop at L1.
+- **Not for API-served backends.** L2 reads hidden states, so it needs the local transformers
+  backend; backends that expose only log-probabilities stop at L1.
 - **Not a cascade.** Confidence-gated early exit over heads at several depths was tried on the
   8B and the 32B and did not beat one fixed block: on the 8B the gate lands on the fixed block 22
   (0.769 at a mean of 21.5 blocks against 0.770 at block 22), on the 32B the best pooled rule is

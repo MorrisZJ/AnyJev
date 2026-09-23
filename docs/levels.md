@@ -126,7 +126,7 @@ time: `Decider.observe(question, state, label)` records them and solves the head
 observations round-trip through `export_artifacts` / `load_artifacts`. A model's set of heads ships as
 `anyjev-heads/<model>.json` with the arrays stored as base64 float32 (exact; 1.8-4.4 MB per model;
 plain number lists load too). It needs a backend
-that exposes hidden states (local transformers; vLLM and API backends stop at L1), at least
+that exposes hidden states (local transformers; backends that expose only log-probabilities stop at L1), at least
 max(8, 2K) labels and in practice 100-300. Heads with up to 8 options are fit on random listing
 orders, so their flip under reversal is 0.07; wider option lists keep
 the canonical order.

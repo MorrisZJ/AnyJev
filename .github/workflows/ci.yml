@@ -15,5 +15,5 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: pip install -e ".[dev]"
-      - run: ruff check anyjev bench tests
+      - run: ruff check anyjev bench demo handoff scripts space tests
       - run: pytest -q

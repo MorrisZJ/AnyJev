@@ -78,7 +78,7 @@ def checkout_info(nanojev_dir, episodes):
     """The NanoJev commit and the episodes file hash, so the comparison is pinned."""
     import hashlib
     import subprocess
-    info = {"nanojev_dir": os.path.abspath(nanojev_dir)}
+    info = {"nanojev_dir": os.path.basename(os.path.abspath(nanojev_dir))}
     try:
         info["nanojev_commit"] = subprocess.run(["git", "-C", nanojev_dir, "rev-parse", "HEAD"], capture_output=True,
                                                 text=True, timeout=10).stdout.strip() or None

@@ -38,8 +38,8 @@ at 0.68–0.84 of the batched wall clock of one plain forward of the same model 
   for noul), then "Answer with the letter only." The **answer position** is the last prompt token.
 - **Backend**: `HFBackend` (transformers) exposes next-token log-probabilities and, for L2, hidden
   states at chosen blocks with an early-stopping block loop (`hidden_states_to(max_layer=)`,
-  bit-exact against the plain forward in fp32, `scripts/exit_parity.py`). vLLM and API backends
-  expose only log-probabilities and therefore stop at L1.
+  bit-exact against the plain forward in fp32, `scripts/exit_parity.py`). Backends that expose only
+  log-probabilities (API-served models) stop at L1; a vLLM backend is on the roadmap.
 - **Levels** (`Decision.level`, enforceable with `require=`):
 
 | level | needs | what it does | what it does not do |
@@ -330,8 +330,8 @@ flowchart LR
    the 1.7B at 110 tokens, launch-bound; the 30B-A3B not measured in eager mode), one prompt per
    (state, question), no generation; Qwen3-4B at block 24: 5 ms per 110-token state batched, 30 ms per
    1000-token state, one H100 (`Qwen__Qwen3-4B.latency.json`). The model must be hosted with the
-   transformers backend (hidden states); vLLM/API deployments stop at L1 until the coupling on the
-   roadmap lands.
+   transformers backend (hidden states); API-served deployments stop at L1; vLLM / SGLang serving is on the
+   roadmap.
 6. Keep `require="L2"` on code paths where an L0 probability would be a bug; log the diagnostics;
    spot-check a held-out labelled slice periodically.
 

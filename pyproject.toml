@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "anyjev"
-version = "0.0.2"
-description = "Turn any LLM into a Jev-style decision model: typed decisions with calibrated probabilities, training-free by default. Not affiliated with TypeSafe AI."
+version = "0.1.0"
+description = "AnyJev: turn an open LLM into a Jev-style decision model: typed decisions with calibrated probabilities, training-free by default. Not affiliated with TypeSafe AI."
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
@@ -30,7 +30,7 @@ classifiers = [
 dependencies = ["numpy>=1.24"]
 
 [project.optional-dependencies]
-hf = ["torch>=2.3", "transformers>=4.45"]
+hf = ["torch>=2.3", "transformers>=4.53"]
 bench = ["datasets>=2.20", "scikit-learn>=1.4"]
 dev = ["pytest>=8", "ruff"]
 

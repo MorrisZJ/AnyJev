@@ -10,7 +10,7 @@ import json
 import os
 
 COLS = ["acc", "soft_acc", "ece", "brier_mean", "score_mae"]
-PUBLISHED = {"Jev 1.13.0 (published by TypeSafe / Laya; not rerun)":
+PUBLISHED = {"Jev 1.13.0 (0.727 as listed in Laya's BENCHMARKS.md; not measured here)":
              {"acc": 0.727, "soft_acc": 0.580, "ece": 0.144, "brier_mean": 0.148, "score_mae": 0.391}}
 
 

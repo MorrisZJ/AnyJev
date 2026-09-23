@@ -1,7 +1,7 @@
 """Render the headline results figure from committed bench JSON.
 
 Nothing here is typed in by hand: every number is read from
-bench/results_batchprior_v0/<date>/*.json, the same files bench.table reads.
+bench/results_v01/<date>/*.json (the latest dated run), the same files bench.table reads.
 
     python scripts/make_results_figure.py [results_dir] [-o assets/results.png]
 """
