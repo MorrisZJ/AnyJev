@@ -20,6 +20,15 @@ r["screen"].distribution
 r.level                      # "L0"
 ```
 
+| to | see |
+|---|---|
+| install | `pip install "anyjev[vlm]"` (transformers ≥ 4.57 for Qwen3-VL) |
+| put a picture in a state | [Putting an image in a state](#putting-an-image-in-a-state) |
+| pick a prior | [Which prior to use](#which-prior-to-use-measured-and-it-depends-on-the-task) |
+| fit L1 or an L2 head on pictures | [L2 on images](#l2-on-images) |
+| run the benchmarks and the tests | [Running the benchmarks and the tests](#running-the-benchmarks-and-the-tests) |
+| read the results, and where they are stored | [results_multimodal.md](results_multimodal.md#where-the-results-are) |
+
 ## Putting an image in a state
 
 `anyjev.Image` takes a path, a URL, a `data:` URI, raw bytes, or a PIL image.
@@ -172,6 +181,23 @@ two agree exactly; `tests/test_vlm_engine.py`). Two differences from text:
   the same picture sits in the labelled set and in the traffic (several questions about one
   image), split by picture before reading a score.
 
+```python
+from anyjev import Decider, Image, Question
+from anyjev.backends.hf_vlm import VLMBackend
+
+d = Decider(VLMBackend("Qwen/Qwen3-VL-4B-Instruct"))
+breed = Question.choice("Which breed is the pet in this photo?", breeds, name="breed")
+
+states = [Image(p) for p in labelled_paths]          # any state with pictures, as for L0
+d.calibrate(breed, states, labels)                   # L1: a temperature
+d.fit_head(breed, states, labels)                    # L2: one forward per state, then a closed-form solve
+d.save_artifacts("qwen3-vl-4b.json")                 # both, one file; d.load_artifacts(...) restores them
+
+r = d.decide(Image("new.jpg"), [breed], level="auto")   # L2 where a head exists, else L1, else L0
+r["breed"].level, r["breed"].diagnostics["blocks_executed"], r["breed"].diagnostics["early_stop"]
+```
+
+`labels` are option indices, 100–300 per question in practice (the `pets20` numbers use 200).
 Measured on `pets20` and `pope`, three models and three split seeds:
 [results_multimodal.md](results_multimodal.md#l2-on-images-a-closed-form-head-per-question).
 
@@ -184,3 +210,28 @@ several hundred tokens, and `VLMBackend(max_pixels=...)` caps it. Images are
 decoded once per distinct prompt, not once per permutation — the decider
 deduplicates on `(text, image keys)`, so the K rotations of one state reuse
 one decoded picture.
+
+## Running the benchmarks and the tests
+
+From a checkout with `pip install -e ".[vlm,bench,dev]"`; every command writes JSON under
+`bench/` and the tables in [results_multimodal.md](results_multimodal.md) are printed from it.
+
+```bash
+bash bench/run_mm.sh                         # raw / L0 / L1 on pets20, pope, ai2d; 3 models, one per GPU
+python -m bench.table bench/results_mm/<date>    # the full table of one results directory
+
+bash bench/run_mm_l2.sh                      # L0 / L1 / L2 on pets20 and pope; 3 models x seeds 0-2
+python -m bench.mm_l2_audit bench/results_mm_l2/<date>   # the L2 tables, paired intervals, leakage check
+
+GPUS="2 3" MODELS="4B" SEEDS="0" CKPT=/path/to/checkpoints bash bench/run_mm_l2.sh   # a subset, local weights
+```
+
+Both scripts take `GPUS`, `MODELS`, `CKPT` (a local checkpoint root instead of the hub) and
+`BS`; logs go to `bench/logs_mm/`. Image preprocessing is CPU bound, so the scripts cap
+`OMP_NUM_THREADS`.
+
+```bash
+pytest -q                                                    # unit tests, no GPU: the image path on a synthetic backend
+ANYJEV_VLM_MODEL=Qwen/Qwen3-VL-2B-Instruct pytest -m engine tests/test_vlm_engine.py   # a real model on a GPU
+python scripts/smoke_vlm.py Qwen/Qwen3-VL-2B-Instruct   # colour swatches and the batch-parity check
+```

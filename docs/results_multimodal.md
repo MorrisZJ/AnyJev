@@ -4,7 +4,8 @@ Three image tasks, three Qwen3-VL sizes, 300 test items and 200 calibration
 items each, seed 0, one H100 NVL per model, bf16. Every number below is
 generated from the JSON under `bench/results_mm/`, `bench/results_mm_cf/` and
 `bench/results_mcq/`, all produced by one command, `bash bench/run_mm.sh`
-(transformers ≥ 4.57 for Qwen3-VL); nothing is typed in by hand. They are
+(transformers ≥ 4.57 for Qwen3-VL), and the L2 section from `bench/results_mm_l2/`
+(`bash bench/run_mm_l2.sh`); nothing is typed in by hand. They are
 measured on the same code as the text tables: L1 freezes the prior it was fit
 with, the batch prior is applied at strength 0.75, content-free probes get
 their own forward call, and the L1 flip compares two independently calibrated
@@ -19,6 +20,23 @@ prior is an ablation row from the same forward passes.
 | `banking20` | `pets20` — Oxford-IIIT Pet, 20 breeds | one question, one fixed 20-option label set |
 | `injection` | `pope` — is this object in the image? | one `noul` over the whole set |
 | — | `ai2d` — science diagrams | every item carries its own 4 options (`bench/run_mcq.py`) |
+
+## Where the results are
+
+| directory | what is in it | produced by | shown in |
+|---|---|---|---|
+| `bench/results_mm/2026-09-22/` | `pets20` and `pope`, raw / L0 / L1 and every prior ablation, one `<model>.json` + `.md` per model | `bash bench/run_mm.sh` (`bench.run`) | headline, full tables |
+| `bench/results_mm_cf/2026-09-22/` | `pope` with the content-free prior as L0 | `bash bench/run_mm.sh` | the content-free prior |
+| `bench/results_mcq/2026-09-22/` | `ai2d`, every item its own 4-way question | `bash bench/run_mm.sh` (`bench.run_mcq`) | headline, full tables |
+| `bench/results_mm_l2/2026-09-23/` | L0, L1 and L2 from one run per model and split seed (0, 1, 2) | `bash bench/run_mm_l2.sh` (`bench.mm_l2_study`) | L2 on images |
+
+The first three hold one JSON per model with the settings, the environment and every metric;
+`python -m bench.table <dir>` prints its full table. The L2 directory holds two files per model
+and seed: `<model>.seed<k>.json` (settings, environment, the metrics of L0 / L1 / L2 per task,
+the chosen block and head, fit and decision time) and `<model>.seed<k>.items.json` (per test
+item: label, the L0 / L1 / L2 probabilities to six decimals, and whether its picture or its
+whole state also sits in the calibration split); `python -m bench.mm_l2_audit <dir>` prints
+the L2 tables below from both.
 
 ## Headline: raw → L0 → L1, library default
 
