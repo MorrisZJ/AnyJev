@@ -136,7 +136,6 @@ pip install -e ".[hf,bench,dev]"
 - [ ] 表格里加入 Llama 和 Gemma。
 - [ ] Jev 兼容的 HTTP 服务端；SGLang、llama.cpp、MLX、Ollama 后端（**欢迎贡献**）。
 - [ ] 通过视觉语言后端支持多模态 state。
-- [ ] 游戏回放动图（迷宫 → 贪吃蛇 → ViZDoom），进度见 [handoff/games/HANDOFF.md](handoff/games/HANDOFF.md)。
 
 *未完待续……*
 

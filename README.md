@@ -136,7 +136,6 @@ Checked items are in `main` today; unchecked ones are what we are building next.
 - [ ] Llama and Gemma rows in the tables.
 - [ ] A Jev-compatible HTTP server; SGLang, llama.cpp, MLX and Ollama backends (**help wanted**).
 - [ ] Multimodal state through vision-language backends.
-- [ ] Game replay GIFs (maze, then snake, then ViZDoom); status in [handoff/games/HANDOFF.md](handoff/games/HANDOFF.md).
 
 *To be continued…*
 
