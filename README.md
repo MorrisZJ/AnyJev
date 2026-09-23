@@ -110,25 +110,9 @@ Every `Decision` carries its `level`, so downstream code can refuse to act on th
 
 L2 is not a training run. Labels buy a head in **one closed-form solve** (seconds on a CPU, no gradients, the model's weights untouched). After that only the head's feature mean and scale move, re-estimated from **unlabelled** traffic — so the head follows its question across rewordings and option orders by itself, and new labels are needed only for a new question.
 
-```mermaid
-flowchart LR
-    L["labelled states<br/>100 to 300 per question"] --> F["fit_head: one forward,<br/>closed-form solve, seconds on a CPU"]
-    F --> H[("head: W, b, mu, sigma, T<br/>one per model and question")]
-    H --> S["serve at L2: one prompt per state,<br/>forward stopped at the fixed block"]
-    S --> T{"the question arrives changed"}
-    T -->|"same options, reworded"| R["route to the head;<br/>recentre mu, sigma on ~30 unlabelled requests"]
-    T -->|"same options, other order"| O["route to the head;<br/>remap the probabilities by option text"]
-    T -->|"new option set"| L
-    R --> S
-    O --> S
-
-    classDef shipped fill:#dcfce7,stroke:#0f9d76,color:#0f172a
-    classDef data fill:#e0f2fe,stroke:#0284c7,color:#0f172a
-    classDef decision fill:#fef3c7,stroke:#d97706,color:#0f172a
-    class L,F,S,R,O shipped
-    class H data
-    class T decision
-```
+<p align="center">
+  <img src="assets/head_loop.png" width="100%" alt="A head that maintains itself: fit one closed-form head from labelled states, ship it as a small artifact, serve with the forward stopped at a fixed block, and when the question is reworded recentre the head's feature mean and scale on unlabelled requests; a reordered option list is remapped by option text and only a new option set goes back to labels.">
+</p>
 
 Reworded, the Qwen3-8B head as is drops from 0.77 to 0.65–0.70; **30 unlabelled requests** of the new wording bring it back to 0.74–0.75, against 0.77 for a fully relabelled refit ([JSON](bench/results_paraphrase/2026-09-22/)).
 

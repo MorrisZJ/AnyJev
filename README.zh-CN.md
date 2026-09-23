@@ -110,25 +110,9 @@ r["route"].level                            # "L2"
 
 L2 不是一次训练。标签换来的是**一次闭式求解**（CPU 上几秒钟，没有梯度，模型权重一个字节都不动）。之后变的只有 head 的特征均值和尺度，而且是从**无标签**流量里重估出来的——所以问法或选项顺序变了，head 自己跟得上；只有出现新问题时才需要新标签。
 
-```mermaid
-flowchart LR
-    L["labelled states<br/>100 to 300 per question"] --> F["fit_head: one forward,<br/>closed-form solve, seconds on a CPU"]
-    F --> H[("head: W, b, mu, sigma, T<br/>one per model and question")]
-    H --> S["serve at L2: one prompt per state,<br/>forward stopped at the fixed block"]
-    S --> T{"the question arrives changed"}
-    T -->|"same options, reworded"| R["route to the head;<br/>recentre mu, sigma on ~30 unlabelled requests"]
-    T -->|"same options, other order"| O["route to the head;<br/>remap the probabilities by option text"]
-    T -->|"new option set"| L
-    R --> S
-    O --> S
-
-    classDef shipped fill:#dcfce7,stroke:#0f9d76,color:#0f172a
-    classDef data fill:#e0f2fe,stroke:#0284c7,color:#0f172a
-    classDef decision fill:#fef3c7,stroke:#d97706,color:#0f172a
-    class L,F,S,R,O shipped
-    class H data
-    class T decision
-```
+<p align="center">
+  <img src="assets/head_loop.png" width="100%" alt="一个会自我维护的 head：用有标签的 state 做一次闭式求解，作为小 artifact 发布，服务时前向在固定 block 停下；问题换了措辞就在无标签请求上重估特征均值和尺度，选项换了顺序按选项文本重映射，只有新的选项集合才需要回到标签。">
+</p>
 
 换个问法之后，Qwen3-8B 的 head 直接拿去用会从 0.77 掉到 0.65–0.70；用新问法下的 **30 条无标签请求**重估一下均值和尺度就回到 0.74–0.75，而重新标注再拟合是 0.77（[JSON](bench/results_paraphrase/2026-09-22/)）。
 
