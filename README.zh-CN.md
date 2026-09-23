@@ -213,6 +213,7 @@ flowchart LR
 - [x] 零标签的 L0；L1 artifact 存成 JSON；`require=` 强制档位
 - [x] **L2**：每题一个闭式 head，路由、无标签自适应、`level="auto"`、`observe`
 - [x] 五个 Qwen3 模型的随包 head；打包好的 demo（`python -m demo.jev_mode`）
+- [ ] 🚧 **速度优化**（进行中）：让每个决策更快
 - [ ] **在推理引擎上跑 L2**（vLLM / SGLang）：取某一层的残差流，或导出截断后的 checkpoint
 - [ ] **真实 agent 循环里的评测**：同样的决策放进 agent 里，和它要替换掉的那个 LLM 对比
 - [ ] head 上 Hugging Face Hub、一个可交互的 Space、一份技术报告

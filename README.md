@@ -213,6 +213,7 @@ The big model's heads also distil into a small one without gradients: the 32B's 
 - [x] L0 with zero labels; L1 artifacts as JSON; levels enforced with `require=`
 - [x] **L2**: a closed-form head per question, routing, label-free adaptation, `level="auto"`, `observe`
 - [x] Shipped heads for five Qwen3 models; a packaged demo (`python -m demo.jev_mode`)
+- [ ] 🚧 **Speed optimization** *(ongoing)*: making every decision cheaper
 - [ ] **L2 on served engines** (vLLM / SGLang): the residual stream at one block, or a truncated checkpoint
 - [ ] **Agent-loop evaluation**: the same decisions inside a real agent, against the LLM they replace
 - [ ] Heads on the Hugging Face Hub, an interactive Space, a technical report
