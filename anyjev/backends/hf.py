@@ -1,6 +1,7 @@
 """transformers backend: single forward per prompt batch, logits at the last position."""
 from __future__ import annotations
 
+import inspect
 from typing import Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
@@ -24,8 +25,14 @@ class HFBackend:
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
         torch_dtype = getattr(torch, dtype) if dtype != "auto" else "auto"
+        # transformers 5 renamed `torch_dtype` to `dtype`. `from_pretrained` takes **kwargs, so
+        # its signature cannot be asked the way `create_causal_mask`'s can; the version is the
+        # only honest test here.
+        import transformers as _tf
+
+        dtype_kw = "dtype" if int(_tf.__version__.split(".")[0]) >= 5 else "torch_dtype"
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_name, torch_dtype=torch_dtype, device_map=device,
+            model_name, device_map=device, **{dtype_kw: torch_dtype},
             trust_remote_code=trust_remote_code, revision=revision)
         self.model.eval()
         self.n_layers = int(getattr(self.model.config, "num_hidden_layers", 0))
@@ -223,8 +230,15 @@ class HFBackend:
         embeds = inner.embed_tokens(ids)
         cache = DynamicCache()
         cache_position = torch.arange(0, embeds.shape[1], device=embeds.device)
-        kw = dict(config=self.model.config, input_embeds=embeds, attention_mask=mask,
-                  cache_position=cache_position, past_key_values=cache, position_ids=pos)
+        # transformers 5 renamed `input_embeds` to `inputs_embeds` and dropped `cache_position`
+        # from the mask builders, so the call is assembled from the signature rather than
+        # written against one release. Reported by @efronh in issue #4.
+        accepted = set(inspect.signature(create_causal_mask).parameters)
+        kw = {"config": self.model.config, "attention_mask": mask,
+              "past_key_values": cache, "position_ids": pos}
+        kw["inputs_embeds" if "inputs_embeds" in accepted else "input_embeds"] = embeds
+        if "cache_position" in accepted:
+            kw["cache_position"] = cache_position
         masks = {"full_attention": create_causal_mask(**kw)}
         types = {getattr(layer, "attention_type", "full_attention") for layer in inner.layers}
         if "sliding_attention" in types:

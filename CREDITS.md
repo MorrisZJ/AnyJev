@@ -10,6 +10,14 @@ AnyJev stands on other people's work. Attribution lives here, not in identifiers
 - **LocalLLaMA/typed-decisions** (Apache-2.0) — the 400-case, 2,000-decision workflow set with teacher soft labels.
 - The open readout clones that documented the problem first: SemIf, LitJev, the OpenJev servers, poorjev, open-llm-classifier. Their READMEs said the probabilities were not calibrated and the order mattered; this repo measures it.
 
+## Reported and contributed
+
+People outside the project whose reports and patches changed the code. Issue numbers are in the
+CHANGELOG next to what they fixed.
+
+- **[@efronh](https://github.com/efronh)** — found that L2 was broken on transformers 5 and
+  identified the renamed `create_causal_mask` argument in the report (#4).
+
 ## Methods implemented
 
 - Contextual calibration: Zhao et al., "Calibrate Before Use", ICML 2021, arXiv:2102.09690
