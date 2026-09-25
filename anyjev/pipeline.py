@@ -11,18 +11,23 @@ or gain is visible rather than asserted.
     Qwen2.5-7B-Instruct      28/28      0.830  0.041   9.2 ms  9.6 ms
     Qwen2.5-7B-Instruct      18/28      0.850  0.038   7.6 ms  7.2 ms
 
-Two knobs are on by default because measuring them is what this release is about:
+The depth knob is on by default because measuring it is what this release is about:
 
 **Depth.** A decision does not need the whole model: a closed-form head is flat from about two
 thirds of the depth, and the blocks above that convert the answer into token space rather than
 deciding anything. `anyjev.truncate` writes those blocks away into an ordinary smaller
 checkpoint, so vLLM, transformers, a quantiser and a GGUF converter all take it unchanged. On
-banking20 with Qwen2.5-7B at 18 of 28 blocks it is 1.2x faster **and two points more accurate**,
-because a middle block is a better feature space for a linear head than the final one.
+banking20 with Qwen2.5-7B at 18 of 28 blocks it is 1.2x-1.4x faster **and two points more
+accurate** (0.850 against 0.830, reproduced independently), because a middle block is a better
+feature space for a linear head than the final one.
 
-**Prefix caching.** AnyJev's shape is one state and several questions, so the state's keys and
-values are computed once and every later question reads them. On the same setup that is 1.5x on
-the multi-question workload and, as it should be, nothing at all on the one-question workload.
+**Prefix caching, or rather its absence on this path.** AnyJev's shape is one state and several
+questions, which is exactly what a prefix cache is for -- but on vLLM 0.7.0 the embed server this
+script uses does not reuse the cache at all (an identical 1.6k-4k-token prompt sent again costs
+1.01x-1.06x less, against 1.9x-2.4x on a generate server). So the flag is off by default here,
+the multi-question column measures the honest cost, and the saving is real only on the
+raw / L0 / L1 path through a generate server. A reproduction check caught the earlier claim of
+1.5x on this path; it was a single-pass timing that did not survive repetition.
 
 The `agent` column is the multi-question shape; `single` is one question per state. Both are
 measured against a server this script started, so the numbers are the ones your deployment
@@ -160,7 +165,8 @@ def main(argv=None):
     ap.add_argument("--calib", type=int, default=300)
     ap.add_argument("--port", type=int, default=8100)
     ap.add_argument("--gpu-fraction", type=float, default=0.85)
-    ap.add_argument("--no-prefix-caching", action="store_true")
+    ap.add_argument("--prefix-caching", action="store_true",
+                    help="pass --enable-prefix-caching to vLLM; inert on the embed path in 0.7.0")
     ap.add_argument("--quantization", default=None, help="e.g. fp8; costs accuracy, see the docs")
     ap.add_argument("--keep-truncated", default="", help="where to keep truncated checkpoints")
     ap.add_argument("--agent-questions", type=int, default=4)
@@ -180,7 +186,9 @@ def main(argv=None):
     total = int(AutoConfig.from_pretrained(args.model).num_hidden_layers)
     depths = [int(x) for x in args.depths.split(",") if x]
     if not depths:
-        depths = [total] if args.only_full else [total, max(1, round(total * 2 / 3))]
+        # floor, not round: the numbers this release reports were measured at 18 of 28 blocks,
+        # and round(28 * 2 / 3) is 19, which a reproduction check rightly flagged as a mismatch
+        depths = [total] if args.only_full else [total, max(1, int(total * 2 / 3))]
     extra_q = [Question.choice(t, o, name=n) for n, t, o in (
         ("urgency", "How urgent is this message?", ["can wait", "this week", "today", "now"]),
         ("sentiment", "What is the tone?", ["calm", "annoyed", "angry"]),
@@ -189,6 +197,9 @@ def main(argv=None):
     )][:args.agent_questions]
 
     keep = args.keep_truncated or tempfile.mkdtemp(prefix="anyjev-trunc-")
+    # the full-depth pass never truncates, so nothing else would create this directory before
+    # the server's log file is opened inside it (a reproduction check hit exactly that)
+    os.makedirs(keep, exist_ok=True)
     rows: List[Dict[str, Any]] = []
     try:
         for blocks in depths:
@@ -201,14 +212,14 @@ def main(argv=None):
                 label = f"{blocks}/{total}"
             print(f"\n[anyjev] serving {label} ...", flush=True)
             with Served(served_model, port=args.port, gpu_fraction=args.gpu_fraction,
-                        prefix_caching=not args.no_prefix_caching,
+                        prefix_caching=args.prefix_caching,
                         quantization=args.quantization,
                         log=os.path.join(keep, f"vllm-b{blocks}.log")) as srv:
                 r = measure(srv.url, args.model, q, [s for s, _ in calib], [y for _, y in calib],
                             [s for s, _ in test], [y for _, y in test], extra_q,
                             repeats=args.repeats)
             r.update({"model": args.model, "blocks": blocks, "total_blocks": total,
-                      "depth": label, "prefix_caching": not args.no_prefix_caching,
+                      "depth": label, "prefix_caching": args.prefix_caching,
                       "quantization": args.quantization})
             rows.append(r)
             print(f"[anyjev] {label}: accuracy {r['accuracy']:.3f}  ECE {r['ece']:.3f}  "

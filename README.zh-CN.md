@@ -38,10 +38,10 @@
 pip install "anyjev[hf]"
 
 # 1. 只保留决策用得上的那些层，通常三分之二左右
-python -m anyjev.truncate Qwen/Qwen2.5-7B-Instruct 19 ./qwen-b19
+python -m anyjev.truncate Qwen/Qwen2.5-7B-Instruct 18 ./qwen-b18
 
 # 2. 起服务。L2 读的是隐状态，所以让 pooler 原样把它交出来
-vllm serve ./qwen-b19 --task embed --enable-prefix-caching \
+vllm serve ./qwen-b18 --task embed \
   --override-pooler-config '{"pooling_type":"LAST","normalize":false,"softmax":false}'
 ```
 
@@ -49,7 +49,7 @@ vllm serve ./qwen-b19 --task embed --enable-prefix-caching \
 from anyjev import Decider, Question
 from anyjev.backends.vllm import VLLMBackend
 
-d = Decider(VLLMBackend("http://localhost:8000", "./qwen-b19"), level="L2")
+d = Decider(VLLMBackend("http://localhost:8000", "./qwen-b18"), level="L2")
 route = Question.choice("这条工单该由哪个团队处理？",
                         ["账单", "技术", "销售", "其他"], name="route")
 
@@ -67,7 +67,7 @@ python -m anyjev.pipeline Qwen/Qwen2.5-7B-Instruct --labels-from banking20
 
 它会截断模型、起服务、用你的标签拟合 head、在留出状态上测准确率 / ECE / 每次决策的毫秒数，然后关掉服务，再用全深度跑一遍作对照。计时取 `--repeats` 次的中位数，并把这几次的离散度打在旁边——因为在一台有其他负载的机器上，**单次计时能把同一个配置报成比基线又快又慢**。
 
-> **砍深度通常是净赚，不是取舍。** Qwen2.5-7B 从 28 层砍到 19 层，准确率**略升**、校准变好，而且更快：对一个线性 head 来说，中间层是比最后一层更好的特征空间——最后那几层忙的是把答案变成 token。`--quantization fp8` 可以用，但不推荐：它买到单问题延迟，代价是准确率。
+> **砍深度通常是净赚，不是取舍。** Qwen2.5-7B 从 28 层砍到 18 层，准确率**略升**、校准变好，而且更快：对一个线性 head 来说，中间层是比最后一层更好的特征空间——最后那几层忙的是把答案变成 token。`--quantization fp8` 可以用，但不推荐：它买到单问题延迟，代价是准确率。
 
 ## ✨ 它是什么
 

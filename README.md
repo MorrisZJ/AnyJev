@@ -39,10 +39,10 @@ Three commands take a model off the Hub and put a calibrated decision endpoint i
 pip install "anyjev[hf]"
 
 # 1. keep the blocks a decision needs — usually about two thirds
-python -m anyjev.truncate Qwen/Qwen2.5-7B-Instruct 19 ./qwen-b19
+python -m anyjev.truncate Qwen/Qwen2.5-7B-Instruct 18 ./qwen-b18
 
 # 2. serve it. L2 reads a hidden state, so the pooler hands one back untouched
-vllm serve ./qwen-b19 --task embed --enable-prefix-caching \
+vllm serve ./qwen-b18 --task embed \
   --override-pooler-config '{"pooling_type":"LAST","normalize":false,"softmax":false}'
 ```
 
@@ -50,7 +50,7 @@ vllm serve ./qwen-b19 --task embed --enable-prefix-caching \
 from anyjev import Decider, Question
 from anyjev.backends.vllm import VLLMBackend
 
-d = Decider(VLLMBackend("http://localhost:8000", "./qwen-b19"), level="L2")
+d = Decider(VLLMBackend("http://localhost:8000", "./qwen-b18"), level="L2")
 route = Question.choice("Which team should handle this?",
                         ["billing", "technical", "sales", "other"], name="route")
 
@@ -75,7 +75,7 @@ against. Timings are a median over `--repeats` passes with the spread printed ne
 because on a shared machine a single pass can report the same configuration as both faster and
 slower than the baseline.
 
-> **Depth is usually a gain, not a trade.** Cutting Qwen2.5-7B from 28 blocks to 19 left accuracy
+> **Depth is usually a gain, not a trade.** Cutting Qwen2.5-7B from 28 blocks to 18 left accuracy
 > slightly *higher* and calibration better, and was faster: a middle block is a better feature
 > space for a linear head than the last one, where the remaining blocks are busy turning the
 > answer into tokens. `--quantization fp8` is available and not recommended — it buys
