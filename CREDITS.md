@@ -17,6 +17,9 @@ CHANGELOG next to what they fixed.
 
 - **[@efronh](https://github.com/efronh)** — found that L2 was broken on transformers 5 and
   identified the renamed `create_causal_mask` argument in the report (#4).
+- **[@lws2004](https://github.com/lws2004)** — found that the `hf` extra could not build a backend
+  at all, traced it to `device_map` and the undeclared `accelerate`, and supplied the change that
+  fixes that, the Apple Silicon segfault and the `.model` assumption together (#5).
 
 ## Methods implemented
 

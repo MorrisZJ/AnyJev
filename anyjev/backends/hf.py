@@ -9,7 +9,10 @@ import numpy as np
 
 class HFBackend:
     def __init__(self, model_name: str, device: str = "cuda", dtype: str = "bfloat16",
-                 batch_size: int = 16, trust_remote_code: bool = False, revision: Optional[str] = None):
+                 batch_size: int = 16, trust_remote_code: bool = False, revision: Optional[str] = None,
+                 **model_kwargs):
+        """`model_kwargs` go to `from_pretrained` unchanged. Pass `device_map=` there to shard a
+        model across devices; `device` alone is a placement and does not need one."""
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -31,10 +34,23 @@ class HFBackend:
         import transformers as _tf
 
         dtype_kw = "dtype" if int(_tf.__version__.split(".")[0]) >= 5 else "torch_dtype"
+        # One device is a placement, not a sharding plan, so loading and then moving is enough.
+        # Passing `device_map` makes transformers require `accelerate`, which the `hf` extra does
+        # not install, so the backend could not be built on a clean machine for any device -- and
+        # on Apple Silicon the device_map materialisation path segfaults outright. Both reported
+        # by @lws2004 in issue #5. Real sharding stays available as `device_map=` in model_kwargs,
+        # and when it is given the placement is left to transformers.
+        kw = dict(model_kwargs)
+        kw.setdefault(dtype_kw, torch_dtype)
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_name, device_map=device, **{dtype_kw: torch_dtype},
-            trust_remote_code=trust_remote_code, revision=revision)
+            model_name, trust_remote_code=trust_remote_code, revision=revision, **kw)
+        if "device_map" not in kw:
+            self.model = self.model.to(device)
         self.model.eval()
+        # The backbone is `.model` on Llama and Qwen but `.transformer` on GPT-2, and transformers
+        # records which under `base_model_prefix`. Assuming the name raised AttributeError out of
+        # `score_shared` on every other family (issue #5 again).
+        self.backbone = getattr(self.model, getattr(self.model, "base_model_prefix", "model"), self.model)
         self.n_layers = int(getattr(self.model.config, "num_hidden_layers", 0))
         self.hidden_size = int(getattr(self.model.config, "hidden_size", 0))
 
@@ -67,8 +83,11 @@ class HFBackend:
             return cache
         from transformers import DynamicCache  # legacy tuple route for older versions
 
+        # GPT-2 and friends hand back the legacy tuple itself rather than a Cache object, so
+        # there is nothing to convert first (found while testing issue #5's GPT-2 report).
+        pairs = cache if isinstance(cache, (tuple, list)) else cache.to_legacy_cache()
         legacy = tuple((k.repeat_interleave(repeats, 0), v.repeat_interleave(repeats, 0))
-                       for k, v in cache.to_legacy_cache())
+                       for k, v in pairs)
         return DynamicCache.from_legacy_cache(legacy)
 
     def score_shared(self, groups: Sequence[Tuple[str, Sequence[str]]],
@@ -120,8 +139,8 @@ class HFBackend:
                 p_input, p_mask = p_input.to(device), p_mask.to(device)
                 p_pos = (p_mask.cumsum(-1) - 1).clamp(min=0)
                 with torch.no_grad():
-                    p_out = self.model.model(input_ids=p_input, attention_mask=p_mask,
-                                             position_ids=p_pos, use_cache=True)
+                    p_out = self.backbone(input_ids=p_input, attention_mask=p_mask,
+                                          position_ids=p_pos, use_cache=True)
                 cache = self._repeat_cache(p_out.past_key_values, K)
                 Ls = max(len(s_ids) for _, _, s_list in chunk for s_ids in s_list)
                 s_input = torch.full((b * K, Ls), pad, dtype=torch.long)
@@ -137,8 +156,8 @@ class HFBackend:
                 full_mask = torch.cat([p_mask.repeat_interleave(K, 0), s_mask], dim=1)
                 s_pos = p_pos[:, -1].repeat_interleave(K)[:, None] + 1 + torch.arange(Ls, device=device)[None, :]
                 with torch.no_grad():
-                    s_out = self.model.model(input_ids=s_input, attention_mask=full_mask, position_ids=s_pos,
-                                             past_key_values=cache, use_cache=True)
+                    s_out = self.backbone(input_ids=s_input, attention_mask=full_mask,
+                                          position_ids=s_pos, past_key_values=cache, use_cache=True)
                     hidden = s_out.last_hidden_state[torch.arange(b * K, device=device), last]
                     lp = torch.log_softmax(self._project(hidden), dim=-1)
                 for r, (gi, _, s_list) in enumerate(chunk):
@@ -218,9 +237,10 @@ class HFBackend:
         architectures whose forward differs (the caller falls back to output_hidden_states)."""
         import torch
 
-        inner = getattr(self.model, "model", None)
+        inner = self.backbone
         if inner is None or not hasattr(inner, "layers") or not hasattr(inner, "embed_tokens"):
-            raise NotImplementedError("no .model.layers / .model.embed_tokens on this architecture")
+            raise NotImplementedError(
+                f"no .layers / .embed_tokens on {type(inner).__name__}; this architecture has no block loop")
         try:
             from transformers import DynamicCache
             from transformers.masking_utils import create_causal_mask
@@ -256,7 +276,7 @@ class HFBackend:
     def _run_layers(self, ctx, start: int, stop: int, capture=None):
         """Run blocks start..stop-1 (0-based) on ctx["hidden"], updating ctx["cache"]. `capture(i, h)`
         receives each block's output (1-based block index, matching the hidden-state tuple)."""
-        inner = self.model.model
+        inner = self.backbone
         h = ctx["hidden"]
         for i in range(start, stop):
             layer = inner.layers[i]
@@ -298,7 +318,7 @@ class HFBackend:
             pos_feats = np.zeros((n, p_max, len(layers), H), dtype=np.float16)
         lens = np.zeros((n, len(layers), len(lens_ids)), dtype=np.float32) if lens_ids is not None else None
         lens_t = torch.as_tensor(list(lens_ids), device=self.model.device) if lens_ids is not None else None
-        inner = self.model.model
+        inner = self.backbone
         for start in range(0, n, self.batch_size):
             idx = order[start:start + self.batch_size]
             enc = self.tokenizer([prompts[i] for i in idx], return_tensors="pt", padding=True, add_special_tokens=False)
