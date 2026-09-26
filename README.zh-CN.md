@@ -1,13 +1,13 @@
 <div align="center">
 
-<img src="assets/banner.png" width="100%" alt="AnyJev —— 把任意 LLM 变成 Jev 风格的决策模型。类型化的决策、真实的概率、不需要微调。零标签下选项顺序翻转率 0.230 降到 0.073；100–500 条标签下校准误差 0.240 降到 0.095、5% 风险下可自动决策比例 7.7% 升到 52.0%。">
+<img src="https://raw.githubusercontent.com/nokia-applied-research/AnyJev/main/assets/banner.png" width="100%" alt="AnyJev —— 把任意 LLM 变成 Jev 风格的决策模型。类型化的决策、真实的概率、不需要微调。零标签下选项顺序翻转率 0.230 降到 0.073；100–500 条标签下校准误差 0.240 降到 0.095、5% 风险下可自动决策比例 7.7% 升到 52.0%。">
 
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
 [![CI](https://github.com/nokia-applied-research/AnyJev/actions/workflows/ci.yml/badge.svg)](https://github.com/nokia-applied-research/AnyJev/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](LICENSE)
 
-[English](README.md) · **简体中文** · [⚡ 跑起来](#-跑起来) · [📊 结果](#-有标签之后l2) · [🧭 路线图](#-路线图) · [📖 档位约定](docs/levels.md)
+[English](https://github.com/nokia-applied-research/AnyJev/blob/main/README.md) · **简体中文** · [⚡ 跑起来](#-跑起来) · [📊 结果](#-有标签之后l2) · [🧭 路线图](#-路线图) · [📖 档位约定](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/levels.md)
 
 </div>
 
@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/flip.gif" width="100%" alt="把选项顺序倒过来：直接读 logits 会翻转答案，AnyJev L0 两种顺序给出同一个答案">
+  <img src="https://raw.githubusercontent.com/nokia-applied-research/AnyJev/main/assets/flip.gif" width="100%" alt="把选项顺序倒过来：直接读 logits 会翻转答案，AnyJev L0 两种顺序给出同一个答案">
   <br>
   <sub>Qwen3-8B，一条真实的 BANKING77 样本。图中每个数字都是模型的真实输出。</sub>
 </p>
@@ -111,12 +111,12 @@ python -m anyjev.pipeline Qwen/Qwen2.5-7B-Instruct --labels-from banking20
 
 一个 1.7B 用 64% 的深度就达到了 Jev 公布的数字；一个 4B 追平了微调过的 421M Laya。**100 条标签**就能把 8B 的 head 推到 0.740。五个 Qwen3 模型的 head 随包发布在 `anyjev-heads/`，每个约 100 KB。
 
-**head 会自己维护自己。**解出来之后只有它的特征均值和方差在动，而且是从**无标签**的流量里重估的，所以问法换了、选项顺序换了它都能自己跟上——换一种问法会让 Qwen3-8B 的 head 从 0.77 掉到 0.65–0.70，而 **30 条无标签请求**就能把它拉回 0.74–0.75，对照全部重新标注重拟合的 0.77。只有遇到新问题才需要新标签。[路由是怎么走的 →](docs/method_v3.md)
+**head 会自己维护自己。**解出来之后只有它的特征均值和方差在动，而且是从**无标签**的流量里重估的，所以问法换了、选项顺序换了它都能自己跟上——换一种问法会让 Qwen3-8B 的 head 从 0.77 掉到 0.65–0.70，而 **30 条无标签请求**就能把它拉回 0.74–0.75，对照全部重新标注重拟合的 0.77。只有遇到新问题才需要新标签。[路由是怎么走的 →](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/method_v3.md)
 
 ## 🧠 四个档位
 
 <p align="center">
-  <img src="assets/how_it_works.png" width="100%" alt="一个决策是怎么读出来的：问一个类型化的问题，在选项的每一种循环移位上各读一次，除掉一个不用标签就能估出的标签先验，返回一个带档位的决策">
+  <img src="https://raw.githubusercontent.com/nokia-applied-research/AnyJev/main/assets/how_it_works.png" width="100%" alt="一个决策是怎么读出来的：问一个类型化的问题，在选项的每一种循环移位上各读一次，除掉一个不用标签就能估出的标签先验，返回一个带档位的决策">
 </p>
 
 | 档位 | 需要 | 做了什么 | **不**做什么 |
@@ -128,7 +128,7 @@ python -m anyjev.pipeline Qwen/Qwen2.5-7B-Instruct --labels-from banking20
 
 每个 `Decision` 都带着自己的 `level`，`require="L1"` 能让下游代码拒绝在更弱的档位上行动。对 K 个选项的 choice，L0 要付 K 次 prefill；**L2 比一次普通前向还便宜**。
 
-`d.observe(q, state, label)` 会在标签到达时收集它们，攒到 30 条自己解出 head，之后在 60、120 条时重解——所以第 0 天什么都没有时跑 L0，等循环喂够了 L2 自己就来了。[完整约定 →](docs/levels.md) · [方法 →](docs/method_v3.md)
+`d.observe(q, state, label)` 会在标签到达时收集它们，攒到 30 条自己解出 head，之后在 60、120 条时重解——所以第 0 天什么都没有时跑 L0，等循环喂够了 L2 自己就来了。[完整约定 →](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/levels.md) · [方法 →](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/method_v3.md)
 
 **手边没有 GPU？** `python -m demo.jev_mode --backend fake` 在一个合成模型上一秒内跑完整套流程。
 
@@ -155,20 +155,20 @@ python -m anyjev.pipeline Qwen/Qwen2.5-7B-Instruct --labels-from banking20
 - [ ] head 上 Hugging Face Hub、一个可交互的 Space、一份技术报告
 - [ ] 更多模型（Llama、Gemma、Mistral、DeepSeek）、超过 26 个选项的 span 读法、conformal 弃答
 
-带日期的计划和"help wanted"清单：[ROADMAP.md](ROADMAP.md)。
+带日期的计划和"help wanted"清单：[ROADMAP.md](https://github.com/nokia-applied-research/AnyJev/blob/main/ROADMAP.md)。
 
 ## 🔍 局限
 
 - **在 typed-decisions 上，"准确率"衡量的是与一个教师 LLM 的一致性。** gold 是同一个模型三次采样的均值；该教师的一次新采样与它只有 0.735 的一致率。
 - **L2 是按问题、按模型的。** 在别的问题上拟合的 head 对新问题没有帮助，而且目前只发布了 Qwen3 的 head。它需要 hidden state——transformers 和 vLLM 的 embed 服务都能提供，其他引擎还不行。
 - **校准救不了答不出来的模型。** 在迷宫边和扫雷上，没有任何读法能赢过平凡基线。
-- **L0 并非处处白赚。** 当某一个标签占绝对多数时，batch prior 会损失准确率（见 [L0 什么时候有用](docs/when_l0_helps.md)）。
+- **L0 并非处处白赚。** 当某一个标签占绝对多数时，batch prior 会损失准确率（见 [L0 什么时候有用](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/when_l0_helps.md)）。
 
 <sub>此外：字母读法最多 26 个选项（span 读法在路线图上，代码里还没有）；5% 风险下的覆盖率在 n=300 时方差很大；头部表格都是 Qwen 模型；这里每条决策都是孤立评测的，不是在 agent 循环里。</sub>
 
 ## 🤝 参与和引用
 
-后端和 bench provider 都是一个文件一个，其中几个标了 **help wanted**（[ROADMAP.md](ROADMAP.md)、[CONTRIBUTING.md](CONTRIBUTING.md)）。变更记录：[CHANGELOG.md](CHANGELOG.md)。致谢：[CREDITS.md](CREDITS.md)。
+后端和 bench provider 都是一个文件一个，其中几个标了 **help wanted**（[ROADMAP.md](https://github.com/nokia-applied-research/AnyJev/blob/main/ROADMAP.md)、[CONTRIBUTING.md](https://github.com/nokia-applied-research/AnyJev/blob/main/CONTRIBUTING.md)）。变更记录：[CHANGELOG.md](https://github.com/nokia-applied-research/AnyJev/blob/main/CHANGELOG.md)。致谢：[CREDITS.md](https://github.com/nokia-applied-research/AnyJev/blob/main/CREDITS.md)。
 
 ```bibtex
 @software{anyjev2026,
@@ -179,4 +179,4 @@ python -m anyjev.pipeline Qwen/Qwen2.5-7B-Instruct --labels-from banking20
 }
 ```
 
-Apache-2.0，见 [LICENSE](LICENSE)。数据集各自保留其许可证，见 [THIRD_PARTY.md](THIRD_PARTY.md)。
+Apache-2.0，见 [LICENSE](https://github.com/nokia-applied-research/AnyJev/blob/main/LICENSE)。数据集各自保留其许可证，见 [THIRD_PARTY.md](https://github.com/nokia-applied-research/AnyJev/blob/main/THIRD_PARTY.md)。

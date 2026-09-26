@@ -1,13 +1,13 @@
 <div align="center">
 
-<img src="assets/banner.png" width="100%" alt="AnyJev — turn any LLM into a Jev-style decision model. Typed decisions, real probabilities, no fine-tuning. Order-flip rate 0.230 to 0.073 with zero labels; calibration error 0.240 to 0.095 and auto-decidable at 5% risk 7.7% to 52.0% with 100 to 500 labels.">
+<img src="https://raw.githubusercontent.com/nokia-applied-research/AnyJev/main/assets/banner.png" width="100%" alt="AnyJev — turn any LLM into a Jev-style decision model. Typed decisions, real probabilities, no fine-tuning. Order-flip rate 0.230 to 0.073 with zero labels; calibration error 0.240 to 0.095 and auto-decidable at 5% risk 7.7% to 52.0% with 100 to 500 labels.">
 
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
 [![CI](https://github.com/nokia-applied-research/AnyJev/actions/workflows/ci.yml/badge.svg)](https://github.com/nokia-applied-research/AnyJev/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](LICENSE)
 
-**English** · [简体中文](README.zh-CN.md) · [⚡ Serve it](#-serve-it) · [📊 Results](#-with-labels-l2) · [🧭 Roadmap](#-roadmap) · [📖 Levels](docs/levels.md)
+**English** · [简体中文](https://github.com/nokia-applied-research/AnyJev/blob/main/README.zh-CN.md) · [⚡ Serve it](#-serve-it) · [📊 Results](#-with-labels-l2) · [🧭 Roadmap](#-roadmap) · [📖 Levels](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/levels.md)
 
 </div>
 
@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/flip.gif" width="100%" alt="Reverse the option order: the raw logit readout flips its answer, AnyJev L0 gives the same answer both ways">
+  <img src="https://raw.githubusercontent.com/nokia-applied-research/AnyJev/main/assets/flip.gif" width="100%" alt="Reverse the option order: the raw logit readout flips its answer, AnyJev L0 gives the same answer both ways">
   <br>
   <sub>Qwen3-8B on a real BANKING77 item. Every number is a model output.</sub>
 </p>
@@ -130,18 +130,18 @@ weights untouched — and read from one prompt stopped partway down.
 
 A 1.7B at 64% of its depth reaches the number Jev publishes; a 4B ties the fine-tuned 421M Laya.
 **100 labels** already put the 8B head at 0.740. Heads for five Qwen3 models ship in
-`anyjev-heads/`, ~100 KB each.
+`anyjev-heads/`, 23 heads per model in one 1.8–4.4 MB file.
 
 **A head maintains itself.** Only its feature mean and scale move afterwards, re-estimated from
 **unlabelled** traffic, so it follows its question across rewordings and option orders on its own
 — a reworded question drops the Qwen3-8B head from 0.77 to 0.65–0.70 and **30 unlabelled
 requests** bring it back to 0.74–0.75, against 0.77 for a full relabelled refit. New labels are
-needed only for a new question. [How the routing works →](docs/method_v3.md)
+needed only for a new question. [How the routing works →](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/method_v3.md)
 
 ## 🧠 The levels
 
 <p align="center">
-  <img src="assets/how_it_works.png" width="100%" alt="How one decision is read: ask a typed question, read it over every cyclic shift of the options, divide out the label prior estimated without labels, and return a decision that carries its level">
+  <img src="https://raw.githubusercontent.com/nokia-applied-research/AnyJev/main/assets/how_it_works.png" width="100%" alt="How one decision is read: ask a typed question, read it over every cyclic shift of the options, divide out the label prior estimated without labels, and return a decision that carries its level">
 </p>
 
 | Level | Needs | Does | Does **not** |
@@ -156,7 +156,7 @@ weaker one. L0 costs K prefills for a K-option choice; **L2 costs less than one 
 
 `d.observe(q, state, label)` collects labels as they arrive and solves the head by itself at 30,
 re-solving at 60, 120, … so day 0 runs at L0 with nothing and L2 arrives when the loop has fed it.
-[The contract in full →](docs/levels.md) · [the method →](docs/method_v3.md)
+[The contract in full →](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/levels.md) · [the method →](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/method_v3.md)
 
 **No GPU handy?** `python -m demo.jev_mode --backend fake` runs the whole thing on a synthetic
 model in under a second.
@@ -185,20 +185,20 @@ AI or Jev; rows published by their authors were not rerun here.</sub>
 - [ ] Heads on the Hugging Face Hub, an interactive Space, a technical report
 - [ ] More models (Llama, Gemma, Mistral, DeepSeek), span readout beyond 26 options, conformal abstention
 
-Dated plan and help-wanted files: [ROADMAP.md](ROADMAP.md).
+Dated plan and help-wanted files: [ROADMAP.md](https://github.com/nokia-applied-research/AnyJev/blob/main/ROADMAP.md).
 
 ## 🔍 Limitations
 
 - **On typed-decisions, "accuracy" is agreement with a teacher LLM.** The gold is the mean of three samples of one model; a fresh sample of that teacher agrees with it 0.735 of the time.
 - **L2 is per question and per model.** Heads fit on other questions do not help a new one, and only Qwen3 heads ship. It needs hidden states, which transformers and a vLLM embed server both provide; other engines do not yet.
 - **Calibration cannot fix a model that cannot answer.** On maze edges and Minesweeper no readout beats the trivial baseline.
-- **L0 is not a free win everywhere.** The batch prior costs accuracy when one label dominates ([when L0 helps](docs/when_l0_helps.md)).
+- **L0 is not a free win everywhere.** The batch prior costs accuracy when one label dominates ([when L0 helps](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/when_l0_helps.md)).
 
 <sub>Also: at most 26 options in the letter readout (a span readout is on the roadmap, not in the code); coverage at 5% risk is a high-variance estimate at n = 300; the headline tables are Qwen models; every decision here is scored in isolation, not inside an agent loop.</sub>
 
 ## 🤝 Contributing and citation
 
-Backends and bench providers are one file each; several are **help wanted** ([ROADMAP.md](ROADMAP.md), [CONTRIBUTING.md](CONTRIBUTING.md)). Changes: [CHANGELOG.md](CHANGELOG.md). Credits: [CREDITS.md](CREDITS.md).
+Backends and bench providers are one file each; several are **help wanted** ([ROADMAP.md](https://github.com/nokia-applied-research/AnyJev/blob/main/ROADMAP.md), [CONTRIBUTING.md](https://github.com/nokia-applied-research/AnyJev/blob/main/CONTRIBUTING.md)). Changes: [CHANGELOG.md](https://github.com/nokia-applied-research/AnyJev/blob/main/CHANGELOG.md). Credits: [CREDITS.md](https://github.com/nokia-applied-research/AnyJev/blob/main/CREDITS.md).
 
 ```bibtex
 @software{anyjev2026,
@@ -209,4 +209,4 @@ Backends and bench providers are one file each; several are **help wanted** ([RO
 }
 ```
 
-Apache-2.0, see [LICENSE](LICENSE). Datasets keep their own licenses, see [THIRD_PARTY.md](THIRD_PARTY.md).
+Apache-2.0, see [LICENSE](https://github.com/nokia-applied-research/AnyJev/blob/main/LICENSE). Datasets keep their own licenses, see [THIRD_PARTY.md](https://github.com/nokia-applied-research/AnyJev/blob/main/THIRD_PARTY.md).

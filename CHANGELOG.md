@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-09-26)
 
 Version 3 of the method: a closed-form head at a fixed depth, routing, label-free adaptation, a packaged demo, and a tree that
 carries only the shipped code and the result JSON a doc cites (`docs/migration_v3.md` lists everything removed).
