@@ -5,7 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/anyjev?color=3b82f6)](https://pypi.org/project/anyjev/)
 [![Python](https://img.shields.io/pypi/pyversions/anyjev)](https://pypi.org/project/anyjev/)
 [![CI](https://github.com/nokia-applied-research/AnyJev/actions/workflows/ci.yml/badge.svg)](https://github.com/nokia-applied-research/AnyJev/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)](https://github.com/nokia-applied-research/AnyJev/blob/main/LICENSE)
 
 [English](https://github.com/nokia-applied-research/AnyJev/blob/main/README.md) · **简体中文** · [⚡ 跑起来](#-跑起来) · [📊 结果](#-有标签之后l2) · [🧭 路线图](#-路线图) · [📖 档位约定](https://github.com/nokia-applied-research/AnyJev/blob/main/docs/levels.md)
 
